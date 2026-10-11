@@ -1,0 +1,242 @@
+[
+  {
+    "task_id": "bench_01",
+    "prompt": "What is the capital of France?",
+    "ground_truth_snippet": "Paris",
+    "expected_tier": "easy",
+    "min_capability": 0.35,
+    "category": "factual"
+  },
+  {
+    "task_id": "bench_02",
+    "prompt": "What is 15 multiplied by 4?",
+    "ground_truth_snippet": "60",
+    "expected_tier": "easy",
+    "min_capability": 0.35,
+    "category": "arithmetic"
+  },
+  {
+    "task_id": "bench_03",
+    "prompt": "Translate 'Hello, how are you?' to Spanish.",
+    "ground_truth_snippet": "Hola, \u00bfc\u00f3mo est\u00e1s?",
+    "expected_tier": "easy",
+    "min_capability": 0.35,
+    "category": "translation"
+  },
+  {
+    "task_id": "bench_04",
+    "prompt": "What is the chemical symbol for water?",
+    "ground_truth_snippet": "H2O",
+    "expected_tier": "easy",
+    "min_capability": 0.35,
+    "category": "science"
+  },
+  {
+    "task_id": "bench_05",
+    "prompt": "What is the boiling point of water in Celsius?",
+    "ground_truth_snippet": "100",
+    "expected_tier": "easy",
+    "min_capability": 0.35,
+    "category": "science"
+  },
+  {
+    "task_id": "bench_06",
+    "prompt": "Who wrote Romeo and Juliet?",
+    "ground_truth_snippet": "William Shakespeare",
+    "expected_tier": "easy",
+    "min_capability": 0.35,
+    "category": "literature"
+  },
+  {
+    "task_id": "bench_07",
+    "prompt": "How many days are in a leap year?",
+    "ground_truth_snippet": "366",
+    "expected_tier": "easy",
+    "min_capability": 0.35,
+    "category": "factual"
+  },
+  {
+    "task_id": "bench_08",
+    "prompt": "What is the opposite of 'generous'?",
+    "ground_truth_snippet": "stingy",
+    "expected_tier": "easy",
+    "min_capability": 0.35,
+    "category": "vocabulary"
+  },
+  {
+    "task_id": "bench_09",
+    "prompt": "What planet is known as the Red Planet?",
+    "ground_truth_snippet": "Mars",
+    "expected_tier": "easy",
+    "min_capability": 0.35,
+    "category": "astronomy"
+  },
+  {
+    "task_id": "bench_10",
+    "prompt": "Convert 1 kilometer to meters.",
+    "ground_truth_snippet": "1000",
+    "expected_tier": "easy",
+    "min_capability": 0.35,
+    "category": "conversion"
+  },
+  {
+    "task_id": "bench_11",
+    "prompt": "Write a Python function to check if a string is a palindrome.",
+    "ground_truth_snippet": "def is_palindrome(s): return s == s[::-1]",
+    "expected_tier": "medium",
+    "min_capability": 0.65,
+    "category": "code"
+  },
+  {
+    "task_id": "bench_12",
+    "prompt": "Summarize the main benefit of database indexing in 2 sentences.",
+    "ground_truth_snippet": "speed up search queries",
+    "expected_tier": "medium",
+    "min_capability": 0.65,
+    "category": "tech"
+  },
+  {
+    "task_id": "bench_13",
+    "prompt": "Explain the difference between TCP and UDP.",
+    "ground_truth_snippet": "TCP is connection-oriented and reliable, UDP is connectionless and faster",
+    "expected_tier": "medium",
+    "min_capability": 0.65,
+    "category": "networking"
+  },
+  {
+    "task_id": "bench_14",
+    "prompt": "Write an SQL query to select all users older than 25.",
+    "ground_truth_snippet": "SELECT * FROM users WHERE age > 25",
+    "expected_tier": "medium",
+    "min_capability": 0.65,
+    "category": "sql"
+  },
+  {
+    "task_id": "bench_15",
+    "prompt": "Write a Python function to reverse a list in-place.",
+    "ground_truth_snippet": "def reverse_list(lst): lst.reverse()",
+    "expected_tier": "medium",
+    "min_capability": 0.65,
+    "category": "code"
+  },
+  {
+    "task_id": "bench_16",
+    "prompt": "Explain what an API rate limiter does.",
+    "ground_truth_snippet": "restricts the number of requests a client can make in a given timeframe",
+    "expected_tier": "medium",
+    "min_capability": 0.65,
+    "category": "architecture"
+  },
+  {
+    "task_id": "bench_17",
+    "prompt": "Write a regex to match an email address.",
+    "ground_truth_snippet": "^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\\.[a-zA-Z0-9-.]+$",
+    "expected_tier": "medium",
+    "min_capability": 0.65,
+    "category": "regex"
+  },
+  {
+    "task_id": "bench_18",
+    "prompt": "Explain the difference between symmetric and asymmetric encryption.",
+    "ground_truth_snippet": "symmetric uses one shared key, asymmetric uses public-private key pair",
+    "expected_tier": "medium",
+    "min_capability": 0.65,
+    "category": "security"
+  },
+  {
+    "task_id": "bench_19",
+    "prompt": "What is a race condition in multi-threaded programming?",
+    "ground_truth_snippet": "concurrent access to shared resource without proper synchronization",
+    "expected_tier": "medium",
+    "min_capability": 0.65,
+    "category": "concurrency"
+  },
+  {
+    "task_id": "bench_20",
+    "prompt": "Implement binary search in Python.",
+    "ground_truth_snippet": "def binary_search(arr, target):",
+    "expected_tier": "medium",
+    "min_capability": 0.65,
+    "category": "algorithms"
+  },
+  {
+    "task_id": "bench_21",
+    "prompt": "Prove that the square root of 2 is irrational step by step.",
+    "ground_truth_snippet": "Assume p/q is irreducible; 2q^2 = p^2; contradiction.",
+    "expected_tier": "hard",
+    "min_capability": 0.85,
+    "category": "math_proof"
+  },
+  {
+    "task_id": "bench_22",
+    "prompt": "Derive the time complexity of QuickSort average vs worst case with recurrence relations.",
+    "ground_truth_snippet": "Average O(N log N) via balanced partition expectation; worst case O(N^2) on sorted input",
+    "expected_tier": "hard",
+    "min_capability": 0.85,
+    "category": "theory"
+  },
+  {
+    "task_id": "bench_23",
+    "prompt": "Explain how the Raft consensus protocol handles leader network partitions.",
+    "ground_truth_snippet": "Term numbers prevent partitioned leader from committing; majority quorum required",
+    "expected_tier": "hard",
+    "min_capability": 0.85,
+    "category": "distributed_systems"
+  },
+  {
+    "task_id": "bench_24",
+    "prompt": "Analyze Byzantine Fault Tolerance and prove minimum nodes 3f+1 required for f faulty nodes.",
+    "ground_truth_snippet": "If n <= 3f, a partitioned system cannot distinguish faulty nodes from delayed honest nodes",
+    "expected_tier": "hard",
+    "min_capability": 0.85,
+    "category": "distributed_systems"
+  },
+  {
+    "task_id": "bench_25",
+    "prompt": "Derive the gradient of Softmax cross-entropy loss function step by step.",
+    "ground_truth_snippet": "dL/dz_i = p_i - y_i",
+    "expected_tier": "hard",
+    "min_capability": 0.85,
+    "category": "machine_learning"
+  },
+  {
+    "task_id": "bench_26",
+    "prompt": "Explain zero-knowledge SNARKs and how the Schwartz-Zippel lemma is utilized.",
+    "ground_truth_snippet": "Polynomial identity verification over finite fields with negligible collision probability",
+    "expected_tier": "hard",
+    "min_capability": 0.85,
+    "category": "cryptography"
+  },
+  {
+    "task_id": "bench_27",
+    "prompt": "Design a distributed multi-datacenter transactional database ensuring strict serializability.",
+    "ground_truth_snippet": "Spanner TrueTime API or Paxos-replicated state machines with 2PC",
+    "expected_tier": "hard",
+    "min_capability": 0.85,
+    "category": "system_design"
+  },
+  {
+    "task_id": "bench_28",
+    "prompt": "Analyze the security flaws of ECB mode encryption in AES and explain CBC IV nonce requirements.",
+    "ground_truth_snippet": "ECB preserves plaintext patterns; CBC requires unpredictable IV to prevent chosen-plaintext attack",
+    "expected_tier": "hard",
+    "min_capability": 0.85,
+    "category": "cryptography"
+  },
+  {
+    "task_id": "bench_29",
+    "prompt": "Formulate the Bellman Optimality Equation for Markov Decision Processes step by step.",
+    "ground_truth_snippet": "V*(s) = max_a [R(s,a) + gamma * sum_s' P(s'|s,a) V*(s')]",
+    "expected_tier": "hard",
+    "min_capability": 0.85,
+    "category": "reinforcement_learning"
+  },
+  {
+    "task_id": "bench_30",
+    "prompt": "Explain cache-coherence protocols and the MESI state transition diagram under concurrent bus writes.",
+    "ground_truth_snippet": "Modified, Exclusive, Shared, Invalid; write invalidate broadcast forces transition to Invalid",
+    "expected_tier": "hard",
+    "min_capability": 0.85,
+    "category": "computer_architecture"
+  }
+]

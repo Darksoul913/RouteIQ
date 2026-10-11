@@ -1,0 +1,2102 @@
+[
+  {
+    "id": "prompt_001",
+    "domain": "factual_qa",
+    "tier": "easy",
+    "prompt": "What is the capital of France?",
+    "tokens_est": 15
+  },
+  {
+    "id": "prompt_002",
+    "domain": "factual_qa",
+    "tier": "easy",
+    "prompt": "What is the capital of Japan?",
+    "tokens_est": 15
+  },
+  {
+    "id": "prompt_003",
+    "domain": "factual_qa",
+    "tier": "easy",
+    "prompt": "What is the capital of Canada?",
+    "tokens_est": 15
+  },
+  {
+    "id": "prompt_004",
+    "domain": "factual_qa",
+    "tier": "easy",
+    "prompt": "What is the capital of Australia?",
+    "tokens_est": 15
+  },
+  {
+    "id": "prompt_005",
+    "domain": "factual_qa",
+    "tier": "easy",
+    "prompt": "What is the capital of Brazil?",
+    "tokens_est": 15
+  },
+  {
+    "id": "prompt_006",
+    "domain": "factual_qa",
+    "tier": "easy",
+    "prompt": "Who invented the steam engine and in what year?",
+    "tokens_est": 18
+  },
+  {
+    "id": "prompt_007",
+    "domain": "factual_qa",
+    "tier": "easy",
+    "prompt": "Who invented the telephone and in what year?",
+    "tokens_est": 16
+  },
+  {
+    "id": "prompt_008",
+    "domain": "factual_qa",
+    "tier": "easy",
+    "prompt": "Who invented the lightbulb and in what year?",
+    "tokens_est": 16
+  },
+  {
+    "id": "prompt_009",
+    "domain": "factual_qa",
+    "tier": "easy",
+    "prompt": "Who invented the printing press and in what year?",
+    "tokens_est": 18
+  },
+  {
+    "id": "prompt_010",
+    "domain": "factual_qa",
+    "tier": "easy",
+    "prompt": "Who invented the airplane and in what year?",
+    "tokens_est": 16
+  },
+  {
+    "id": "prompt_011",
+    "domain": "factual_qa",
+    "tier": "easy",
+    "prompt": "What is the chemical symbol for Gold?",
+    "tokens_est": 15
+  },
+  {
+    "id": "prompt_012",
+    "domain": "factual_qa",
+    "tier": "easy",
+    "prompt": "What is the chemical symbol for Helium?",
+    "tokens_est": 15
+  },
+  {
+    "id": "prompt_013",
+    "domain": "factual_qa",
+    "tier": "easy",
+    "prompt": "What is the chemical symbol for Silver?",
+    "tokens_est": 15
+  },
+  {
+    "id": "prompt_014",
+    "domain": "factual_qa",
+    "tier": "easy",
+    "prompt": "What is the chemical symbol for Carbon?",
+    "tokens_est": 15
+  },
+  {
+    "id": "prompt_015",
+    "domain": "factual_qa",
+    "tier": "easy",
+    "prompt": "What is the chemical symbol for Oxygen?",
+    "tokens_est": 15
+  },
+  {
+    "id": "prompt_016",
+    "domain": "factual_qa",
+    "tier": "easy",
+    "prompt": "How many continents are there on Earth?",
+    "tokens_est": 15
+  },
+  {
+    "id": "prompt_017",
+    "domain": "factual_qa",
+    "tier": "easy",
+    "prompt": "How many continents are there on Earth? Be as detailed as possible.",
+    "tokens_est": 24
+  },
+  {
+    "id": "prompt_018",
+    "domain": "factual_qa",
+    "tier": "easy",
+    "prompt": "How many continents are there on Earth? Explain clearly.",
+    "tokens_est": 18
+  },
+  {
+    "id": "prompt_019",
+    "domain": "factual_qa",
+    "tier": "easy",
+    "prompt": "Quick question: How many continents are there on Earth?",
+    "tokens_est": 18
+  },
+  {
+    "id": "prompt_020",
+    "domain": "factual_qa",
+    "tier": "easy",
+    "prompt": "How many continents are there on Earth? Be as detailed as possible.",
+    "tokens_est": 24
+  },
+  {
+    "id": "prompt_021",
+    "domain": "factual_qa",
+    "tier": "easy",
+    "prompt": "What is the speed of light in meters per second?",
+    "tokens_est": 20
+  },
+  {
+    "id": "prompt_022",
+    "domain": "factual_qa",
+    "tier": "easy",
+    "prompt": "What is the speed of light in meters per second? Note any relevant assumptions.",
+    "tokens_est": 28
+  },
+  {
+    "id": "prompt_023",
+    "domain": "factual_qa",
+    "tier": "easy",
+    "prompt": "What is the speed of light in meters per second? Note any relevant assumptions.",
+    "tokens_est": 28
+  },
+  {
+    "id": "prompt_024",
+    "domain": "factual_qa",
+    "tier": "easy",
+    "prompt": "Please provide an answer to: What is the speed of light in meters per second?",
+    "tokens_est": 30
+  },
+  {
+    "id": "prompt_025",
+    "domain": "factual_qa",
+    "tier": "easy",
+    "prompt": "What is the speed of light in meters per second? Explain clearly.",
+    "tokens_est": 24
+  },
+  {
+    "id": "prompt_026",
+    "domain": "factual_qa",
+    "tier": "easy",
+    "prompt": "Who wrote Hamlet?",
+    "tokens_est": 15
+  },
+  {
+    "id": "prompt_027",
+    "domain": "factual_qa",
+    "tier": "easy",
+    "prompt": "Who wrote 1984?",
+    "tokens_est": 15
+  },
+  {
+    "id": "prompt_028",
+    "domain": "factual_qa",
+    "tier": "easy",
+    "prompt": "Who wrote Pride and Prejudice?",
+    "tokens_est": 15
+  },
+  {
+    "id": "prompt_029",
+    "domain": "factual_qa",
+    "tier": "easy",
+    "prompt": "Who wrote The Great Gatsby?",
+    "tokens_est": 15
+  },
+  {
+    "id": "prompt_030",
+    "domain": "factual_qa",
+    "tier": "easy",
+    "prompt": "Who wrote Don Quixote?",
+    "tokens_est": 15
+  },
+  {
+    "id": "prompt_031",
+    "domain": "factual_qa",
+    "tier": "easy",
+    "prompt": "When did the Battle of Waterloo take place?",
+    "tokens_est": 16
+  },
+  {
+    "id": "prompt_032",
+    "domain": "factual_qa",
+    "tier": "easy",
+    "prompt": "When did the Moon Landing take place?",
+    "tokens_est": 15
+  },
+  {
+    "id": "prompt_033",
+    "domain": "factual_qa",
+    "tier": "easy",
+    "prompt": "When did the Fall of the Berlin Wall take place?",
+    "tokens_est": 20
+  },
+  {
+    "id": "prompt_034",
+    "domain": "factual_qa",
+    "tier": "easy",
+    "prompt": "When did the Signing of Magna Carta take place?",
+    "tokens_est": 18
+  },
+  {
+    "id": "prompt_035",
+    "domain": "factual_qa",
+    "tier": "easy",
+    "prompt": "When did the French Revolution take place?",
+    "tokens_est": 15
+  },
+  {
+    "id": "prompt_036",
+    "domain": "factual_qa",
+    "tier": "easy",
+    "prompt": "What is the primary function of the liver in human biology?",
+    "tokens_est": 22
+  },
+  {
+    "id": "prompt_037",
+    "domain": "factual_qa",
+    "tier": "easy",
+    "prompt": "What is the primary function of the kidney in human biology?",
+    "tokens_est": 22
+  },
+  {
+    "id": "prompt_038",
+    "domain": "factual_qa",
+    "tier": "easy",
+    "prompt": "What is the primary function of the heart in human biology?",
+    "tokens_est": 22
+  },
+  {
+    "id": "prompt_039",
+    "domain": "factual_qa",
+    "tier": "easy",
+    "prompt": "What is the primary function of the lungs in human biology?",
+    "tokens_est": 22
+  },
+  {
+    "id": "prompt_040",
+    "domain": "factual_qa",
+    "tier": "easy",
+    "prompt": "What is the primary function of the pancreas in human biology?",
+    "tokens_est": 22
+  },
+  {
+    "id": "prompt_041",
+    "domain": "factual_qa",
+    "tier": "easy",
+    "prompt": "What is the largest ocean on Earth?",
+    "tokens_est": 15
+  },
+  {
+    "id": "prompt_042",
+    "domain": "factual_qa",
+    "tier": "easy",
+    "prompt": "What is the largest ocean on Earth? Note any relevant assumptions.",
+    "tokens_est": 22
+  },
+  {
+    "id": "prompt_043",
+    "domain": "factual_qa",
+    "tier": "easy",
+    "prompt": "Quick question: What is the largest ocean on Earth?",
+    "tokens_est": 18
+  },
+  {
+    "id": "prompt_044",
+    "domain": "factual_qa",
+    "tier": "easy",
+    "prompt": "What is the largest ocean on Earth? Note any relevant assumptions.",
+    "tokens_est": 22
+  },
+  {
+    "id": "prompt_045",
+    "domain": "factual_qa",
+    "tier": "easy",
+    "prompt": "Quick question: What is the largest ocean on Earth?",
+    "tokens_est": 18
+  },
+  {
+    "id": "prompt_046",
+    "domain": "factual_qa",
+    "tier": "easy",
+    "prompt": "State the boiling point of water in Celsius.",
+    "tokens_est": 16
+  },
+  {
+    "id": "prompt_047",
+    "domain": "factual_qa",
+    "tier": "easy",
+    "prompt": "State the boiling point of water in Celsius. Explain clearly.",
+    "tokens_est": 20
+  },
+  {
+    "id": "prompt_048",
+    "domain": "factual_qa",
+    "tier": "easy",
+    "prompt": "Please provide an answer to: State the boiling point of water in Celsius.",
+    "tokens_est": 26
+  },
+  {
+    "id": "prompt_049",
+    "domain": "factual_qa",
+    "tier": "easy",
+    "prompt": "Quick question: State the boiling point of water in Celsius.",
+    "tokens_est": 20
+  },
+  {
+    "id": "prompt_050",
+    "domain": "factual_qa",
+    "tier": "easy",
+    "prompt": "State the boiling point of water in Celsius. Explain clearly.",
+    "tokens_est": 20
+  },
+  {
+    "id": "prompt_051",
+    "domain": "translation_creative",
+    "tier": "easy",
+    "prompt": "Translate this greeting to Spanish: 'Good morning, how can I help you today?'",
+    "tokens_est": 26
+  },
+  {
+    "id": "prompt_052",
+    "domain": "translation_creative",
+    "tier": "easy",
+    "prompt": "Translate this greeting to Spanish: 'Where is the nearest train station?'",
+    "tokens_est": 22
+  },
+  {
+    "id": "prompt_053",
+    "domain": "translation_creative",
+    "tier": "easy",
+    "prompt": "Translate this greeting to Spanish: 'Thank you very much for your kind support.'",
+    "tokens_est": 26
+  },
+  {
+    "id": "prompt_054",
+    "domain": "translation_creative",
+    "tier": "easy",
+    "prompt": "Translate this greeting to Spanish: 'Could you please send me the invoice?'",
+    "tokens_est": 24
+  },
+  {
+    "id": "prompt_055",
+    "domain": "translation_creative",
+    "tier": "easy",
+    "prompt": "Translate this greeting to Spanish: 'I hope you have a wonderful weekend.'",
+    "tokens_est": 24
+  },
+  {
+    "id": "prompt_056",
+    "domain": "translation_creative",
+    "tier": "easy",
+    "prompt": "Write a 4-line rhyming poem about a rainy afternoon.",
+    "tokens_est": 18
+  },
+  {
+    "id": "prompt_057",
+    "domain": "translation_creative",
+    "tier": "easy",
+    "prompt": "Write a 4-line rhyming poem about autumn leaves falling.",
+    "tokens_est": 18
+  },
+  {
+    "id": "prompt_058",
+    "domain": "translation_creative",
+    "tier": "easy",
+    "prompt": "Write a 4-line rhyming poem about the ocean at night.",
+    "tokens_est": 20
+  },
+  {
+    "id": "prompt_059",
+    "domain": "translation_creative",
+    "tier": "easy",
+    "prompt": "Write a 4-line rhyming poem about a peaceful sunrise.",
+    "tokens_est": 18
+  },
+  {
+    "id": "prompt_060",
+    "domain": "translation_creative",
+    "tier": "easy",
+    "prompt": "Write a 4-line rhyming poem about mountain peaks in winter.",
+    "tokens_est": 20
+  },
+  {
+    "id": "prompt_061",
+    "domain": "translation_creative",
+    "tier": "easy",
+    "prompt": "Translate the following sentence into German: 'Good morning, how can I help you today?'",
+    "tokens_est": 28
+  },
+  {
+    "id": "prompt_062",
+    "domain": "translation_creative",
+    "tier": "easy",
+    "prompt": "Translate the following sentence into German: 'Where is the nearest train station?'",
+    "tokens_est": 24
+  },
+  {
+    "id": "prompt_063",
+    "domain": "translation_creative",
+    "tier": "easy",
+    "prompt": "Translate the following sentence into German: 'Thank you very much for your kind support.'",
+    "tokens_est": 28
+  },
+  {
+    "id": "prompt_064",
+    "domain": "translation_creative",
+    "tier": "easy",
+    "prompt": "Translate the following sentence into German: 'Could you please send me the invoice?'",
+    "tokens_est": 26
+  },
+  {
+    "id": "prompt_065",
+    "domain": "translation_creative",
+    "tier": "easy",
+    "prompt": "Translate the following sentence into German: 'I hope you have a wonderful weekend.'",
+    "tokens_est": 26
+  },
+  {
+    "id": "prompt_066",
+    "domain": "translation_creative",
+    "tier": "easy",
+    "prompt": "Generate 3 creative slogans for a new eco-friendly coffee shop.",
+    "tokens_est": 20
+  },
+  {
+    "id": "prompt_067",
+    "domain": "translation_creative",
+    "tier": "easy",
+    "prompt": "Generate 3 creative slogans for a new cloud security startup.",
+    "tokens_est": 20
+  },
+  {
+    "id": "prompt_068",
+    "domain": "translation_creative",
+    "tier": "easy",
+    "prompt": "Generate 3 creative slogans for a new handcrafted bakery.",
+    "tokens_est": 18
+  },
+  {
+    "id": "prompt_069",
+    "domain": "translation_creative",
+    "tier": "easy",
+    "prompt": "Generate 3 creative slogans for a new mobile game studio.",
+    "tokens_est": 20
+  },
+  {
+    "id": "prompt_070",
+    "domain": "translation_creative",
+    "tier": "easy",
+    "prompt": "Generate 3 creative slogans for a new sustainable fashion brand.",
+    "tokens_est": 20
+  },
+  {
+    "id": "prompt_071",
+    "domain": "translation_creative",
+    "tier": "easy",
+    "prompt": "Translate the word 'friendship' into French, Italian, and German.",
+    "tokens_est": 18
+  },
+  {
+    "id": "prompt_072",
+    "domain": "translation_creative",
+    "tier": "easy",
+    "prompt": "Translate the word 'courage' into French, Italian, and German.",
+    "tokens_est": 18
+  },
+  {
+    "id": "prompt_073",
+    "domain": "translation_creative",
+    "tier": "easy",
+    "prompt": "Translate the word 'harmony' into French, Italian, and German.",
+    "tokens_est": 18
+  },
+  {
+    "id": "prompt_074",
+    "domain": "translation_creative",
+    "tier": "easy",
+    "prompt": "Translate the word 'curiosity' into French, Italian, and German.",
+    "tokens_est": 18
+  },
+  {
+    "id": "prompt_075",
+    "domain": "translation_creative",
+    "tier": "easy",
+    "prompt": "Translate the word 'resilience' into French, Italian, and German.",
+    "tokens_est": 18
+  },
+  {
+    "id": "prompt_076",
+    "domain": "translation_creative",
+    "tier": "easy",
+    "prompt": "Write a polite thank-you email for a job interview.",
+    "tokens_est": 18
+  },
+  {
+    "id": "prompt_077",
+    "domain": "translation_creative",
+    "tier": "easy",
+    "prompt": "Write a polite thank-you email for a client dinner.",
+    "tokens_est": 18
+  },
+  {
+    "id": "prompt_078",
+    "domain": "translation_creative",
+    "tier": "easy",
+    "prompt": "Write a polite thank-you email for a mentorship session.",
+    "tokens_est": 18
+  },
+  {
+    "id": "prompt_079",
+    "domain": "translation_creative",
+    "tier": "easy",
+    "prompt": "Write a polite thank-you email for a webinar invitation.",
+    "tokens_est": 18
+  },
+  {
+    "id": "prompt_080",
+    "domain": "translation_creative",
+    "tier": "easy",
+    "prompt": "Write a polite thank-you email for a project milestone delivery.",
+    "tokens_est": 20
+  },
+  {
+    "id": "prompt_081",
+    "domain": "translation_creative",
+    "tier": "easy",
+    "prompt": "Suggest 5 catchy names for a podcast about space exploration.",
+    "tokens_est": 20
+  },
+  {
+    "id": "prompt_082",
+    "domain": "translation_creative",
+    "tier": "easy",
+    "prompt": "Suggest 5 catchy names for a podcast about personal finance.",
+    "tokens_est": 20
+  },
+  {
+    "id": "prompt_083",
+    "domain": "translation_creative",
+    "tier": "easy",
+    "prompt": "Suggest 5 catchy names for a podcast about ancient history.",
+    "tokens_est": 20
+  },
+  {
+    "id": "prompt_084",
+    "domain": "translation_creative",
+    "tier": "easy",
+    "prompt": "Suggest 5 catchy names for a podcast about gardening tips.",
+    "tokens_est": 20
+  },
+  {
+    "id": "prompt_085",
+    "domain": "translation_creative",
+    "tier": "easy",
+    "prompt": "Suggest 5 catchy names for a podcast about modern architecture.",
+    "tokens_est": 20
+  },
+  {
+    "id": "prompt_086",
+    "domain": "translation_creative",
+    "tier": "easy",
+    "prompt": "Translate this short note to Japanese: 'Good morning, how can I help you today?'",
+    "tokens_est": 28
+  },
+  {
+    "id": "prompt_087",
+    "domain": "translation_creative",
+    "tier": "easy",
+    "prompt": "Translate this short note to Japanese: 'Where is the nearest train station?'",
+    "tokens_est": 24
+  },
+  {
+    "id": "prompt_088",
+    "domain": "translation_creative",
+    "tier": "easy",
+    "prompt": "Translate this short note to Japanese: 'Thank you very much for your kind support.'",
+    "tokens_est": 28
+  },
+  {
+    "id": "prompt_089",
+    "domain": "translation_creative",
+    "tier": "easy",
+    "prompt": "Translate this short note to Japanese: 'Could you please send me the invoice?'",
+    "tokens_est": 26
+  },
+  {
+    "id": "prompt_090",
+    "domain": "translation_creative",
+    "tier": "easy",
+    "prompt": "Translate this short note to Japanese: 'I hope you have a wonderful weekend.'",
+    "tokens_est": 26
+  },
+  {
+    "id": "prompt_091",
+    "domain": "translation_creative",
+    "tier": "easy",
+    "prompt": "Draft a short birthday wish for a close colleague.",
+    "tokens_est": 18
+  },
+  {
+    "id": "prompt_092",
+    "domain": "translation_creative",
+    "tier": "easy",
+    "prompt": "Draft a short birthday wish for a childhood friend.",
+    "tokens_est": 18
+  },
+  {
+    "id": "prompt_093",
+    "domain": "translation_creative",
+    "tier": "easy",
+    "prompt": "Draft a short birthday wish for a grandmother.",
+    "tokens_est": 16
+  },
+  {
+    "id": "prompt_094",
+    "domain": "translation_creative",
+    "tier": "easy",
+    "prompt": "Draft a short birthday wish for a favorite teacher.",
+    "tokens_est": 18
+  },
+  {
+    "id": "prompt_095",
+    "domain": "translation_creative",
+    "tier": "easy",
+    "prompt": "Draft a short birthday wish for a team lead.",
+    "tokens_est": 18
+  },
+  {
+    "id": "prompt_096",
+    "domain": "translation_creative",
+    "tier": "easy",
+    "prompt": "Rephrase this headline in a punchy, click-friendly style: 'Scientists discover new exoplanet'",
+    "tokens_est": 24
+  },
+  {
+    "id": "prompt_097",
+    "domain": "translation_creative",
+    "tier": "easy",
+    "prompt": "Rephrase this headline in a punchy, click-friendly style: 'Local team wins regional championship'",
+    "tokens_est": 26
+  },
+  {
+    "id": "prompt_098",
+    "domain": "translation_creative",
+    "tier": "easy",
+    "prompt": "Rephrase this headline in a punchy, click-friendly style: 'Electric cars reach new milestone'",
+    "tokens_est": 26
+  },
+  {
+    "id": "prompt_099",
+    "domain": "translation_creative",
+    "tier": "easy",
+    "prompt": "Rephrase this headline in a punchy, click-friendly style: 'New renewable energy initiative launched'",
+    "tokens_est": 26
+  },
+  {
+    "id": "prompt_100",
+    "domain": "translation_creative",
+    "tier": "easy",
+    "prompt": "Rephrase this headline in a punchy, click-friendly style: 'City opens expanded public library'",
+    "tokens_est": 26
+  },
+  {
+    "id": "prompt_101",
+    "domain": "summarization",
+    "tier": "medium",
+    "prompt": "Summarize the following executive memo in 3 concise bullet points:\nProject Titan Phase 2 delivered a 32% reduction in memory footprint across all edge microservices. The migration from Redis cache to embedded LMDB eliminated network serialization latency. Lead engineer Alice verified zero regression on the smoke test suite. Deployment is scheduled for Tuesday at 02:00 UTC under maintenance window.",
+    "tokens_est": 118
+  },
+  {
+    "id": "prompt_102",
+    "domain": "summarization",
+    "tier": "medium",
+    "prompt": "Summarize the following executive memo in 3 concise bullet points:\nQ3 Revenue reached $42.5M, representing a 14% year-over-year growth, driven primarily by enterprise tier adoption. Operating expenses grew by 6% due to research and development investments in localized AI gateway capabilities. Operating margin expanded to 23.4% compared to 19.8% in Q2.",
+    "tokens_est": 102
+  },
+  {
+    "id": "prompt_103",
+    "domain": "summarization",
+    "tier": "medium",
+    "prompt": "Summarize the following executive memo in 3 concise bullet points:\nStandup Notes: Dave completed the circuit breaker state machine with half-open probe testing. Sarah will finalize database migration scripts for SHA-256 hash chaining by 3 PM. Marcus identified high latency spikes in third-party API and agreed to implement fallback retries with backoff.",
+    "tokens_est": 104
+  },
+  {
+    "id": "prompt_104",
+    "domain": "summarization",
+    "tier": "medium",
+    "prompt": "Summarize the following executive memo in 3 concise bullet points:\nRelease 3.4.0 adds native async streaming support for Ollama endpoints. Breaking change: the deprecated /v1/route_sync API has been removed in favor of /route. Configuration parameters for max_latency_ms are now enforced strictly without default relaxation.",
+    "tokens_est": 88
+  },
+  {
+    "id": "prompt_105",
+    "domain": "summarization",
+    "tier": "medium",
+    "prompt": "Summarize the following executive memo in 3 concise bullet points:\nThe laptop exceeded expectations regarding build quality and battery life, easily lasting 14 hours on continuous coding sessions. However, the trackpad feels slightly stiff and the fan kicks in loudly during heavy Docker builds. Overall 4 out of 5 stars.",
+    "tokens_est": 100
+  },
+  {
+    "id": "prompt_106",
+    "domain": "summarization",
+    "tier": "medium",
+    "prompt": "Provide a one-paragraph summary of the following quarterly earnings report:\nProject Titan Phase 2 delivered a 32% reduction in memory footprint across all edge microservices. The migration from Redis cache to embedded LMDB eliminated network serialization latency. Lead engineer Alice verified zero regression on the smoke test suite. Deployment is scheduled for Tuesday at 02:00 UTC under maintenance window.",
+    "tokens_est": 118
+  },
+  {
+    "id": "prompt_107",
+    "domain": "summarization",
+    "tier": "medium",
+    "prompt": "Provide a one-paragraph summary of the following quarterly earnings report:\nQ3 Revenue reached $42.5M, representing a 14% year-over-year growth, driven primarily by enterprise tier adoption. Operating expenses grew by 6% due to research and development investments in localized AI gateway capabilities. Operating margin expanded to 23.4% compared to 19.8% in Q2.",
+    "tokens_est": 102
+  },
+  {
+    "id": "prompt_108",
+    "domain": "summarization",
+    "tier": "medium",
+    "prompt": "Provide a one-paragraph summary of the following quarterly earnings report:\nStandup Notes: Dave completed the circuit breaker state machine with half-open probe testing. Sarah will finalize database migration scripts for SHA-256 hash chaining by 3 PM. Marcus identified high latency spikes in third-party API and agreed to implement fallback retries with backoff.",
+    "tokens_est": 104
+  },
+  {
+    "id": "prompt_109",
+    "domain": "summarization",
+    "tier": "medium",
+    "prompt": "Provide a one-paragraph summary of the following quarterly earnings report:\nRelease 3.4.0 adds native async streaming support for Ollama endpoints. Breaking change: the deprecated /v1/route_sync API has been removed in favor of /route. Configuration parameters for max_latency_ms are now enforced strictly without default relaxation.",
+    "tokens_est": 88
+  },
+  {
+    "id": "prompt_110",
+    "domain": "summarization",
+    "tier": "medium",
+    "prompt": "Provide a one-paragraph summary of the following quarterly earnings report:\nThe laptop exceeded expectations regarding build quality and battery life, easily lasting 14 hours on continuous coding sessions. However, the trackpad feels slightly stiff and the fan kicks in loudly during heavy Docker builds. Overall 4 out of 5 stars.",
+    "tokens_est": 100
+  },
+  {
+    "id": "prompt_111",
+    "domain": "summarization",
+    "tier": "medium",
+    "prompt": "Extract the key action items and owners from this meeting transcript:\nProject Titan Phase 2 delivered a 32% reduction in memory footprint across all edge microservices. The migration from Redis cache to embedded LMDB eliminated network serialization latency. Lead engineer Alice verified zero regression on the smoke test suite. Deployment is scheduled for Tuesday at 02:00 UTC under maintenance window.",
+    "tokens_est": 120
+  },
+  {
+    "id": "prompt_112",
+    "domain": "summarization",
+    "tier": "medium",
+    "prompt": "Extract the key action items and owners from this meeting transcript:\nQ3 Revenue reached $42.5M, representing a 14% year-over-year growth, driven primarily by enterprise tier adoption. Operating expenses grew by 6% due to research and development investments in localized AI gateway capabilities. Operating margin expanded to 23.4% compared to 19.8% in Q2.",
+    "tokens_est": 104
+  },
+  {
+    "id": "prompt_113",
+    "domain": "summarization",
+    "tier": "medium",
+    "prompt": "Extract the key action items and owners from this meeting transcript:\nStandup Notes: Dave completed the circuit breaker state machine with half-open probe testing. Sarah will finalize database migration scripts for SHA-256 hash chaining by 3 PM. Marcus identified high latency spikes in third-party API and agreed to implement fallback retries with backoff.",
+    "tokens_est": 106
+  },
+  {
+    "id": "prompt_114",
+    "domain": "summarization",
+    "tier": "medium",
+    "prompt": "Extract the key action items and owners from this meeting transcript:\nRelease 3.4.0 adds native async streaming support for Ollama endpoints. Breaking change: the deprecated /v1/route_sync API has been removed in favor of /route. Configuration parameters for max_latency_ms are now enforced strictly without default relaxation.",
+    "tokens_est": 90
+  },
+  {
+    "id": "prompt_115",
+    "domain": "summarization",
+    "tier": "medium",
+    "prompt": "Extract the key action items and owners from this meeting transcript:\nThe laptop exceeded expectations regarding build quality and battery life, easily lasting 14 hours on continuous coding sessions. However, the trackpad feels slightly stiff and the fan kicks in loudly during heavy Docker builds. Overall 4 out of 5 stars.",
+    "tokens_est": 102
+  },
+  {
+    "id": "prompt_116",
+    "domain": "summarization",
+    "tier": "medium",
+    "prompt": "Summarize the following product release notes highlighting breaking changes:\nProject Titan Phase 2 delivered a 32% reduction in memory footprint across all edge microservices. The migration from Redis cache to embedded LMDB eliminated network serialization latency. Lead engineer Alice verified zero regression on the smoke test suite. Deployment is scheduled for Tuesday at 02:00 UTC under maintenance window.",
+    "tokens_est": 116
+  },
+  {
+    "id": "prompt_117",
+    "domain": "summarization",
+    "tier": "medium",
+    "prompt": "Summarize the following product release notes highlighting breaking changes:\nQ3 Revenue reached $42.5M, representing a 14% year-over-year growth, driven primarily by enterprise tier adoption. Operating expenses grew by 6% due to research and development investments in localized AI gateway capabilities. Operating margin expanded to 23.4% compared to 19.8% in Q2.",
+    "tokens_est": 100
+  },
+  {
+    "id": "prompt_118",
+    "domain": "summarization",
+    "tier": "medium",
+    "prompt": "Summarize the following product release notes highlighting breaking changes:\nStandup Notes: Dave completed the circuit breaker state machine with half-open probe testing. Sarah will finalize database migration scripts for SHA-256 hash chaining by 3 PM. Marcus identified high latency spikes in third-party API and agreed to implement fallback retries with backoff.",
+    "tokens_est": 102
+  },
+  {
+    "id": "prompt_119",
+    "domain": "summarization",
+    "tier": "medium",
+    "prompt": "Summarize the following product release notes highlighting breaking changes:\nRelease 3.4.0 adds native async streaming support for Ollama endpoints. Breaking change: the deprecated /v1/route_sync API has been removed in favor of /route. Configuration parameters for max_latency_ms are now enforced strictly without default relaxation.",
+    "tokens_est": 86
+  },
+  {
+    "id": "prompt_120",
+    "domain": "summarization",
+    "tier": "medium",
+    "prompt": "Summarize the following product release notes highlighting breaking changes:\nThe laptop exceeded expectations regarding build quality and battery life, easily lasting 14 hours on continuous coding sessions. However, the trackpad feels slightly stiff and the fan kicks in loudly during heavy Docker builds. Overall 4 out of 5 stars.",
+    "tokens_est": 98
+  },
+  {
+    "id": "prompt_121",
+    "domain": "summarization",
+    "tier": "medium",
+    "prompt": "Condense the following user review into pros, cons, and sentiment rating:\nProject Titan Phase 2 delivered a 32% reduction in memory footprint across all edge microservices. The migration from Redis cache to embedded LMDB eliminated network serialization latency. Lead engineer Alice verified zero regression on the smoke test suite. Deployment is scheduled for Tuesday at 02:00 UTC under maintenance window.",
+    "tokens_est": 120
+  },
+  {
+    "id": "prompt_122",
+    "domain": "summarization",
+    "tier": "medium",
+    "prompt": "Condense the following user review into pros, cons, and sentiment rating:\nQ3 Revenue reached $42.5M, representing a 14% year-over-year growth, driven primarily by enterprise tier adoption. Operating expenses grew by 6% due to research and development investments in localized AI gateway capabilities. Operating margin expanded to 23.4% compared to 19.8% in Q2.",
+    "tokens_est": 104
+  },
+  {
+    "id": "prompt_123",
+    "domain": "summarization",
+    "tier": "medium",
+    "prompt": "Condense the following user review into pros, cons, and sentiment rating:\nStandup Notes: Dave completed the circuit breaker state machine with half-open probe testing. Sarah will finalize database migration scripts for SHA-256 hash chaining by 3 PM. Marcus identified high latency spikes in third-party API and agreed to implement fallback retries with backoff.",
+    "tokens_est": 106
+  },
+  {
+    "id": "prompt_124",
+    "domain": "summarization",
+    "tier": "medium",
+    "prompt": "Condense the following user review into pros, cons, and sentiment rating:\nRelease 3.4.0 adds native async streaming support for Ollama endpoints. Breaking change: the deprecated /v1/route_sync API has been removed in favor of /route. Configuration parameters for max_latency_ms are now enforced strictly without default relaxation.",
+    "tokens_est": 90
+  },
+  {
+    "id": "prompt_125",
+    "domain": "summarization",
+    "tier": "medium",
+    "prompt": "Condense the following user review into pros, cons, and sentiment rating:\nThe laptop exceeded expectations regarding build quality and battery life, easily lasting 14 hours on continuous coding sessions. However, the trackpad feels slightly stiff and the fan kicks in loudly during heavy Docker builds. Overall 4 out of 5 stars.",
+    "tokens_est": 102
+  },
+  {
+    "id": "prompt_126",
+    "domain": "summarization",
+    "tier": "medium",
+    "prompt": "Summarize the following executive memo in 3 concise bullet points:\nProject Titan Phase 2 delivered a 32% reduction in memory footprint across all edge microservices. The migration from Redis cache to embedded LMDB eliminated network serialization latency. Lead engineer Alice verified zero regression on the smoke test suite. Deployment is scheduled for Tuesday at 02:00 UTC under maintenance window. Explain clearly.",
+    "tokens_est": 122
+  },
+  {
+    "id": "prompt_127",
+    "domain": "summarization",
+    "tier": "medium",
+    "prompt": "Please provide an answer to: Summarize the following executive memo in 3 concise bullet points:\nQ3 Revenue reached $42.5M, representing a 14% year-over-year growth, driven primarily by enterprise tier adoption. Operating expenses grew by 6% due to research and development investments in localized AI gateway capabilities. Operating margin expanded to 23.4% compared to 19.8% in Q2.",
+    "tokens_est": 112
+  },
+  {
+    "id": "prompt_128",
+    "domain": "summarization",
+    "tier": "medium",
+    "prompt": "Summarize the following executive memo in 3 concise bullet points:\nStandup Notes: Dave completed the circuit breaker state machine with half-open probe testing. Sarah will finalize database migration scripts for SHA-256 hash chaining by 3 PM. Marcus identified high latency spikes in third-party API and agreed to implement fallback retries with backoff. Be as detailed as possible.",
+    "tokens_est": 114
+  },
+  {
+    "id": "prompt_129",
+    "domain": "summarization",
+    "tier": "medium",
+    "prompt": "Summarize the following executive memo in 3 concise bullet points:\nRelease 3.4.0 adds native async streaming support for Ollama endpoints. Breaking change: the deprecated /v1/route_sync API has been removed in favor of /route. Configuration parameters for max_latency_ms are now enforced strictly without default relaxation. Be as detailed as possible.",
+    "tokens_est": 98
+  },
+  {
+    "id": "prompt_130",
+    "domain": "summarization",
+    "tier": "medium",
+    "prompt": "Summarize the following executive memo in 3 concise bullet points:\nThe laptop exceeded expectations regarding build quality and battery life, easily lasting 14 hours on continuous coding sessions. However, the trackpad feels slightly stiff and the fan kicks in loudly during heavy Docker builds. Overall 4 out of 5 stars. Be as detailed as possible.",
+    "tokens_est": 110
+  },
+  {
+    "id": "prompt_131",
+    "domain": "summarization",
+    "tier": "medium",
+    "prompt": "Provide a one-paragraph summary of the following quarterly earnings report:\nProject Titan Phase 2 delivered a 32% reduction in memory footprint across all edge microservices. The migration from Redis cache to embedded LMDB eliminated network serialization latency. Lead engineer Alice verified zero regression on the smoke test suite. Deployment is scheduled for Tuesday at 02:00 UTC under maintenance window. Be as detailed as possible.",
+    "tokens_est": 128
+  },
+  {
+    "id": "prompt_132",
+    "domain": "summarization",
+    "tier": "medium",
+    "prompt": "Quick question: Provide a one-paragraph summary of the following quarterly earnings report:\nQ3 Revenue reached $42.5M, representing a 14% year-over-year growth, driven primarily by enterprise tier adoption. Operating expenses grew by 6% due to research and development investments in localized AI gateway capabilities. Operating margin expanded to 23.4% compared to 19.8% in Q2.",
+    "tokens_est": 106
+  },
+  {
+    "id": "prompt_133",
+    "domain": "summarization",
+    "tier": "medium",
+    "prompt": "Provide a one-paragraph summary of the following quarterly earnings report:\nStandup Notes: Dave completed the circuit breaker state machine with half-open probe testing. Sarah will finalize database migration scripts for SHA-256 hash chaining by 3 PM. Marcus identified high latency spikes in third-party API and agreed to implement fallback retries with backoff. Be as detailed as possible.",
+    "tokens_est": 114
+  },
+  {
+    "id": "prompt_134",
+    "domain": "summarization",
+    "tier": "medium",
+    "prompt": "Provide a one-paragraph summary of the following quarterly earnings report:\nRelease 3.4.0 adds native async streaming support for Ollama endpoints. Breaking change: the deprecated /v1/route_sync API has been removed in favor of /route. Configuration parameters for max_latency_ms are now enforced strictly without default relaxation. Explain clearly.",
+    "tokens_est": 92
+  },
+  {
+    "id": "prompt_135",
+    "domain": "summarization",
+    "tier": "medium",
+    "prompt": "Quick question: Provide a one-paragraph summary of the following quarterly earnings report:\nThe laptop exceeded expectations regarding build quality and battery life, easily lasting 14 hours on continuous coding sessions. However, the trackpad feels slightly stiff and the fan kicks in loudly during heavy Docker builds. Overall 4 out of 5 stars.",
+    "tokens_est": 104
+  },
+  {
+    "id": "prompt_136",
+    "domain": "summarization",
+    "tier": "medium",
+    "prompt": "Extract the key action items and owners from this meeting transcript:\nProject Titan Phase 2 delivered a 32% reduction in memory footprint across all edge microservices. The migration from Redis cache to embedded LMDB eliminated network serialization latency. Lead engineer Alice verified zero regression on the smoke test suite. Deployment is scheduled for Tuesday at 02:00 UTC under maintenance window. Be as detailed as possible.",
+    "tokens_est": 130
+  },
+  {
+    "id": "prompt_137",
+    "domain": "summarization",
+    "tier": "medium",
+    "prompt": "Extract the key action items and owners from this meeting transcript:\nQ3 Revenue reached $42.5M, representing a 14% year-over-year growth, driven primarily by enterprise tier adoption. Operating expenses grew by 6% due to research and development investments in localized AI gateway capabilities. Operating margin expanded to 23.4% compared to 19.8% in Q2. Be as detailed as possible.",
+    "tokens_est": 114
+  },
+  {
+    "id": "prompt_138",
+    "domain": "summarization",
+    "tier": "medium",
+    "prompt": "Quick question: Extract the key action items and owners from this meeting transcript:\nStandup Notes: Dave completed the circuit breaker state machine with half-open probe testing. Sarah will finalize database migration scripts for SHA-256 hash chaining by 3 PM. Marcus identified high latency spikes in third-party API and agreed to implement fallback retries with backoff.",
+    "tokens_est": 110
+  },
+  {
+    "id": "prompt_139",
+    "domain": "summarization",
+    "tier": "medium",
+    "prompt": "Please provide an answer to: Extract the key action items and owners from this meeting transcript:\nRelease 3.4.0 adds native async streaming support for Ollama endpoints. Breaking change: the deprecated /v1/route_sync API has been removed in favor of /route. Configuration parameters for max_latency_ms are now enforced strictly without default relaxation.",
+    "tokens_est": 100
+  },
+  {
+    "id": "prompt_140",
+    "domain": "summarization",
+    "tier": "medium",
+    "prompt": "Extract the key action items and owners from this meeting transcript:\nThe laptop exceeded expectations regarding build quality and battery life, easily lasting 14 hours on continuous coding sessions. However, the trackpad feels slightly stiff and the fan kicks in loudly during heavy Docker builds. Overall 4 out of 5 stars. Explain clearly.",
+    "tokens_est": 106
+  },
+  {
+    "id": "prompt_141",
+    "domain": "summarization",
+    "tier": "medium",
+    "prompt": "Summarize the following product release notes highlighting breaking changes:\nProject Titan Phase 2 delivered a 32% reduction in memory footprint across all edge microservices. The migration from Redis cache to embedded LMDB eliminated network serialization latency. Lead engineer Alice verified zero regression on the smoke test suite. Deployment is scheduled for Tuesday at 02:00 UTC under maintenance window. Be as detailed as possible.",
+    "tokens_est": 126
+  },
+  {
+    "id": "prompt_142",
+    "domain": "summarization",
+    "tier": "medium",
+    "prompt": "Please provide an answer to: Summarize the following product release notes highlighting breaking changes:\nQ3 Revenue reached $42.5M, representing a 14% year-over-year growth, driven primarily by enterprise tier adoption. Operating expenses grew by 6% due to research and development investments in localized AI gateway capabilities. Operating margin expanded to 23.4% compared to 19.8% in Q2.",
+    "tokens_est": 110
+  },
+  {
+    "id": "prompt_143",
+    "domain": "summarization",
+    "tier": "medium",
+    "prompt": "Quick question: Summarize the following product release notes highlighting breaking changes:\nStandup Notes: Dave completed the circuit breaker state machine with half-open probe testing. Sarah will finalize database migration scripts for SHA-256 hash chaining by 3 PM. Marcus identified high latency spikes in third-party API and agreed to implement fallback retries with backoff.",
+    "tokens_est": 106
+  },
+  {
+    "id": "prompt_144",
+    "domain": "summarization",
+    "tier": "medium",
+    "prompt": "Summarize the following product release notes highlighting breaking changes:\nRelease 3.4.0 adds native async streaming support for Ollama endpoints. Breaking change: the deprecated /v1/route_sync API has been removed in favor of /route. Configuration parameters for max_latency_ms are now enforced strictly without default relaxation. Be as detailed as possible.",
+    "tokens_est": 96
+  },
+  {
+    "id": "prompt_145",
+    "domain": "summarization",
+    "tier": "medium",
+    "prompt": "Summarize the following product release notes highlighting breaking changes:\nThe laptop exceeded expectations regarding build quality and battery life, easily lasting 14 hours on continuous coding sessions. However, the trackpad feels slightly stiff and the fan kicks in loudly during heavy Docker builds. Overall 4 out of 5 stars. Explain clearly.",
+    "tokens_est": 102
+  },
+  {
+    "id": "prompt_146",
+    "domain": "summarization",
+    "tier": "medium",
+    "prompt": "Condense the following user review into pros, cons, and sentiment rating:\nProject Titan Phase 2 delivered a 32% reduction in memory footprint across all edge microservices. The migration from Redis cache to embedded LMDB eliminated network serialization latency. Lead engineer Alice verified zero regression on the smoke test suite. Deployment is scheduled for Tuesday at 02:00 UTC under maintenance window. Be as detailed as possible.",
+    "tokens_est": 130
+  },
+  {
+    "id": "prompt_147",
+    "domain": "summarization",
+    "tier": "medium",
+    "prompt": "Condense the following user review into pros, cons, and sentiment rating:\nQ3 Revenue reached $42.5M, representing a 14% year-over-year growth, driven primarily by enterprise tier adoption. Operating expenses grew by 6% due to research and development investments in localized AI gateway capabilities. Operating margin expanded to 23.4% compared to 19.8% in Q2. Be as detailed as possible.",
+    "tokens_est": 114
+  },
+  {
+    "id": "prompt_148",
+    "domain": "summarization",
+    "tier": "medium",
+    "prompt": "Condense the following user review into pros, cons, and sentiment rating:\nStandup Notes: Dave completed the circuit breaker state machine with half-open probe testing. Sarah will finalize database migration scripts for SHA-256 hash chaining by 3 PM. Marcus identified high latency spikes in third-party API and agreed to implement fallback retries with backoff. Note any relevant assumptions.",
+    "tokens_est": 114
+  },
+  {
+    "id": "prompt_149",
+    "domain": "summarization",
+    "tier": "medium",
+    "prompt": "Quick question: Condense the following user review into pros, cons, and sentiment rating:\nRelease 3.4.0 adds native async streaming support for Ollama endpoints. Breaking change: the deprecated /v1/route_sync API has been removed in favor of /route. Configuration parameters for max_latency_ms are now enforced strictly without default relaxation.",
+    "tokens_est": 94
+  },
+  {
+    "id": "prompt_150",
+    "domain": "summarization",
+    "tier": "medium",
+    "prompt": "Condense the following user review into pros, cons, and sentiment rating:\nThe laptop exceeded expectations regarding build quality and battery life, easily lasting 14 hours on continuous coding sessions. However, the trackpad feels slightly stiff and the fan kicks in loudly during heavy Docker builds. Overall 4 out of 5 stars. Be as detailed as possible.",
+    "tokens_est": 112
+  },
+  {
+    "id": "prompt_151",
+    "domain": "code_generation",
+    "tier": "medium",
+    "prompt": "Write a Python function to compute the Levenshtein distance between two strings using standard library only.",
+    "tokens_est": 32
+  },
+  {
+    "id": "prompt_152",
+    "domain": "code_generation",
+    "tier": "medium",
+    "prompt": "Write a Python function to validate if an IP address string is a valid IPv4 or IPv6 using standard library only.",
+    "tokens_est": 42
+  },
+  {
+    "id": "prompt_153",
+    "domain": "code_generation",
+    "tier": "medium",
+    "prompt": "Write a Python function to parse and safely validate semantic version strings (e.g., '1.2.3-alpha') using standard library only.",
+    "tokens_est": 36
+  },
+  {
+    "id": "prompt_154",
+    "domain": "code_generation",
+    "tier": "medium",
+    "prompt": "Write a Python function to merge overlapping intervals from a list of tuple ranges using standard library only.",
+    "tokens_est": 36
+  },
+  {
+    "id": "prompt_155",
+    "domain": "code_generation",
+    "tier": "medium",
+    "prompt": "Write a Python function to invert a binary tree represented as nested dictionaries using standard library only.",
+    "tokens_est": 34
+  },
+  {
+    "id": "prompt_156",
+    "domain": "code_generation",
+    "tier": "medium",
+    "prompt": "Implement a TypeScript function that compute the Levenshtein distance between two strings.",
+    "tokens_est": 24
+  },
+  {
+    "id": "prompt_157",
+    "domain": "code_generation",
+    "tier": "medium",
+    "prompt": "Implement a TypeScript function that validate if an IP address string is a valid IPv4 or IPv6.",
+    "tokens_est": 34
+  },
+  {
+    "id": "prompt_158",
+    "domain": "code_generation",
+    "tier": "medium",
+    "prompt": "Implement a TypeScript function that parse and safely validate semantic version strings (e.g., '1.2.3-alpha').",
+    "tokens_est": 28
+  },
+  {
+    "id": "prompt_159",
+    "domain": "code_generation",
+    "tier": "medium",
+    "prompt": "Implement a TypeScript function that merge overlapping intervals from a list of tuple ranges.",
+    "tokens_est": 28
+  },
+  {
+    "id": "prompt_160",
+    "domain": "code_generation",
+    "tier": "medium",
+    "prompt": "Implement a TypeScript function that invert a binary tree represented as nested dictionaries.",
+    "tokens_est": 26
+  },
+  {
+    "id": "prompt_161",
+    "domain": "code_generation",
+    "tier": "medium",
+    "prompt": "Write an SQL query to find the top 5 highest paying customers from orders table joining users.",
+    "tokens_est": 34
+  },
+  {
+    "id": "prompt_162",
+    "domain": "code_generation",
+    "tier": "medium",
+    "prompt": "Write an SQL query to calculate rolling 7-day average revenue per store.",
+    "tokens_est": 24
+  },
+  {
+    "id": "prompt_163",
+    "domain": "code_generation",
+    "tier": "medium",
+    "prompt": "Write an SQL query to detect duplicate user records based on normalized phone numbers.",
+    "tokens_est": 28
+  },
+  {
+    "id": "prompt_164",
+    "domain": "code_generation",
+    "tier": "medium",
+    "prompt": "Write an SQL query to find active subscriptions that have not logged in for 90 days.",
+    "tokens_est": 32
+  },
+  {
+    "id": "prompt_165",
+    "domain": "code_generation",
+    "tier": "medium",
+    "prompt": "Write an SQL query to compute cohort retention rate across 12 monthly cohorts.",
+    "tokens_est": 26
+  },
+  {
+    "id": "prompt_166",
+    "domain": "code_generation",
+    "tier": "medium",
+    "prompt": "Create a Python class implementing Circuit Breaker pattern for HTTP client calls.",
+    "tokens_est": 24
+  },
+  {
+    "id": "prompt_167",
+    "domain": "code_generation",
+    "tier": "medium",
+    "prompt": "Create a Python class implementing Observer pattern for telemetry metrics emission.",
+    "tokens_est": 22
+  },
+  {
+    "id": "prompt_168",
+    "domain": "code_generation",
+    "tier": "medium",
+    "prompt": "Create a Python class implementing Factory pattern for instantiating LLM client adapters.",
+    "tokens_est": 24
+  },
+  {
+    "id": "prompt_169",
+    "domain": "code_generation",
+    "tier": "medium",
+    "prompt": "Create a Python class implementing Rate Limiter token bucket for API gateway request throttling.",
+    "tokens_est": 28
+  },
+  {
+    "id": "prompt_170",
+    "domain": "code_generation",
+    "tier": "medium",
+    "prompt": "Create a Python class implementing Strategy pattern for routing requests based on latency or cost.",
+    "tokens_est": 30
+  },
+  {
+    "id": "prompt_171",
+    "domain": "code_generation",
+    "tier": "medium",
+    "prompt": "Write a Bash script to archive log files older than 30 days into gzip files.",
+    "tokens_est": 30
+  },
+  {
+    "id": "prompt_172",
+    "domain": "code_generation",
+    "tier": "medium",
+    "prompt": "Write a Bash script to monitor disk usage and send webhook alert if > 85%.",
+    "tokens_est": 30
+  },
+  {
+    "id": "prompt_173",
+    "domain": "code_generation",
+    "tier": "medium",
+    "prompt": "Write a Bash script to gracefully reload a systemd service upon config change.",
+    "tokens_est": 26
+  },
+  {
+    "id": "prompt_174",
+    "domain": "code_generation",
+    "tier": "medium",
+    "prompt": "Write a Bash script to rotate application secrets safely across environment files.",
+    "tokens_est": 24
+  },
+  {
+    "id": "prompt_175",
+    "domain": "code_generation",
+    "tier": "medium",
+    "prompt": "Write a Bash script to verify SHA256 checksums of all files in a directory.",
+    "tokens_est": 28
+  },
+  {
+    "id": "prompt_176",
+    "domain": "code_generation",
+    "tier": "medium",
+    "prompt": "Implement a binary search function in Python with error handling for edge cases.",
+    "tokens_est": 26
+  },
+  {
+    "id": "prompt_177",
+    "domain": "code_generation",
+    "tier": "medium",
+    "prompt": "Implement a binary search function in Python with error handling for edge cases. Be as detailed as possible.",
+    "tokens_est": 36
+  },
+  {
+    "id": "prompt_178",
+    "domain": "code_generation",
+    "tier": "medium",
+    "prompt": "Please provide an answer to: Implement a binary search function in Python with error handling for edge cases.",
+    "tokens_est": 36
+  },
+  {
+    "id": "prompt_179",
+    "domain": "code_generation",
+    "tier": "medium",
+    "prompt": "Please provide an answer to: Implement a binary search function in Python with error handling for edge cases.",
+    "tokens_est": 36
+  },
+  {
+    "id": "prompt_180",
+    "domain": "code_generation",
+    "tier": "medium",
+    "prompt": "Implement a binary search function in Python with error handling for edge cases. Be as detailed as possible.",
+    "tokens_est": 36
+  },
+  {
+    "id": "prompt_181",
+    "domain": "code_generation",
+    "tier": "medium",
+    "prompt": "Write a FastAPI route handler in Python that accepts a JSON payload with user_id and email and returns JSON.",
+    "tokens_est": 38
+  },
+  {
+    "id": "prompt_182",
+    "domain": "code_generation",
+    "tier": "medium",
+    "prompt": "Write a FastAPI route handler in Python that accepts a prompt routing request with latency constraints and returns JSON.",
+    "tokens_est": 38
+  },
+  {
+    "id": "prompt_183",
+    "domain": "code_generation",
+    "tier": "medium",
+    "prompt": "Write a FastAPI route handler in Python that accepts a batch inference payload and returns JSON.",
+    "tokens_est": 32
+  },
+  {
+    "id": "prompt_184",
+    "domain": "code_generation",
+    "tier": "medium",
+    "prompt": "Write a FastAPI route handler in Python that accepts a payment callback event and returns JSON.",
+    "tokens_est": 32
+  },
+  {
+    "id": "prompt_185",
+    "domain": "code_generation",
+    "tier": "medium",
+    "prompt": "Write a FastAPI route handler in Python that accepts a model audit report query and returns JSON.",
+    "tokens_est": 34
+  },
+  {
+    "id": "prompt_186",
+    "domain": "code_generation",
+    "tier": "medium",
+    "prompt": "Write a Python function to compute the Levenshtein distance between two strings using standard library only. Be as detailed as possible.",
+    "tokens_est": 42
+  },
+  {
+    "id": "prompt_187",
+    "domain": "code_generation",
+    "tier": "medium",
+    "prompt": "Write a Python function to validate if an IP address string is a valid IPv4 or IPv6 using standard library only. Be as detailed as possible.",
+    "tokens_est": 52
+  },
+  {
+    "id": "prompt_188",
+    "domain": "code_generation",
+    "tier": "medium",
+    "prompt": "Write a Python function to parse and safely validate semantic version strings (e.g., '1.2.3-alpha') using standard library only. Be as detailed as possible.",
+    "tokens_est": 46
+  },
+  {
+    "id": "prompt_189",
+    "domain": "code_generation",
+    "tier": "medium",
+    "prompt": "Write a Python function to merge overlapping intervals from a list of tuple ranges using standard library only. Note any relevant assumptions.",
+    "tokens_est": 44
+  },
+  {
+    "id": "prompt_190",
+    "domain": "code_generation",
+    "tier": "medium",
+    "prompt": "Quick question: Write a Python function to invert a binary tree represented as nested dictionaries using standard library only.",
+    "tokens_est": 38
+  },
+  {
+    "id": "prompt_191",
+    "domain": "code_generation",
+    "tier": "medium",
+    "prompt": "Please provide an answer to: Implement a TypeScript function that compute the Levenshtein distance between two strings.",
+    "tokens_est": 34
+  },
+  {
+    "id": "prompt_192",
+    "domain": "code_generation",
+    "tier": "medium",
+    "prompt": "Quick question: Implement a TypeScript function that validate if an IP address string is a valid IPv4 or IPv6.",
+    "tokens_est": 38
+  },
+  {
+    "id": "prompt_193",
+    "domain": "code_generation",
+    "tier": "medium",
+    "prompt": "Quick question: Implement a TypeScript function that parse and safely validate semantic version strings (e.g., '1.2.3-alpha').",
+    "tokens_est": 32
+  },
+  {
+    "id": "prompt_194",
+    "domain": "code_generation",
+    "tier": "medium",
+    "prompt": "Quick question: Implement a TypeScript function that merge overlapping intervals from a list of tuple ranges.",
+    "tokens_est": 32
+  },
+  {
+    "id": "prompt_195",
+    "domain": "code_generation",
+    "tier": "medium",
+    "prompt": "Quick question: Implement a TypeScript function that invert a binary tree represented as nested dictionaries.",
+    "tokens_est": 30
+  },
+  {
+    "id": "prompt_196",
+    "domain": "code_generation",
+    "tier": "medium",
+    "prompt": "Quick question: Write an SQL query to find the top 5 highest paying customers from orders table joining users.",
+    "tokens_est": 38
+  },
+  {
+    "id": "prompt_197",
+    "domain": "code_generation",
+    "tier": "medium",
+    "prompt": "Write an SQL query to calculate rolling 7-day average revenue per store. Note any relevant assumptions.",
+    "tokens_est": 32
+  },
+  {
+    "id": "prompt_198",
+    "domain": "code_generation",
+    "tier": "medium",
+    "prompt": "Write an SQL query to detect duplicate user records based on normalized phone numbers. Be as detailed as possible.",
+    "tokens_est": 38
+  },
+  {
+    "id": "prompt_199",
+    "domain": "code_generation",
+    "tier": "medium",
+    "prompt": "Write an SQL query to find active subscriptions that have not logged in for 90 days. Note any relevant assumptions.",
+    "tokens_est": 40
+  },
+  {
+    "id": "prompt_200",
+    "domain": "code_generation",
+    "tier": "medium",
+    "prompt": "Write an SQL query to compute cohort retention rate across 12 monthly cohorts. Be as detailed as possible.",
+    "tokens_est": 36
+  },
+  {
+    "id": "prompt_201",
+    "domain": "multistep_reasoning",
+    "tier": "hard",
+    "prompt": "Solve step by step: A train leaves Station A traveling at 60 mph. 45 minutes later, an express train leaves Station A at 85 mph on a parallel track. At what distance from Station A does the express train catch up?",
+    "tokens_est": 82
+  },
+  {
+    "id": "prompt_202",
+    "domain": "multistep_reasoning",
+    "tier": "hard",
+    "prompt": "Please provide an answer to: Solve step by step: A train leaves Station A traveling at 60 mph. 45 minutes later, an express train leaves Station A at 85 mph on a parallel track. At what distance from Station A does the express train catch up?",
+    "tokens_est": 92
+  },
+  {
+    "id": "prompt_203",
+    "domain": "multistep_reasoning",
+    "tier": "hard",
+    "prompt": "Solve step by step: A train leaves Station A traveling at 60 mph. 45 minutes later, an express train leaves Station A at 85 mph on a parallel track. At what distance from Station A does the express train catch up? Explain clearly.",
+    "tokens_est": 86
+  },
+  {
+    "id": "prompt_204",
+    "domain": "multistep_reasoning",
+    "tier": "hard",
+    "prompt": "Solve step by step: A train leaves Station A traveling at 60 mph. 45 minutes later, an express train leaves Station A at 85 mph on a parallel track. At what distance from Station A does the express train catch up? Explain clearly.",
+    "tokens_est": 86
+  },
+  {
+    "id": "prompt_205",
+    "domain": "multistep_reasoning",
+    "tier": "hard",
+    "prompt": "Solve step by step: A train leaves Station A traveling at 60 mph. 45 minutes later, an express train leaves Station A at 85 mph on a parallel track. At what distance from Station A does the express train catch up? Explain clearly.",
+    "tokens_est": 86
+  },
+  {
+    "id": "prompt_206",
+    "domain": "multistep_reasoning",
+    "tier": "hard",
+    "prompt": "Analyze the game theory implications of a Cournot duopoly where Firm 1 has marginal cost c1 and Firm 2 has marginal cost c2. Derive the Nash equilibrium quantities and explain how cost asymmetry impacts market share.",
+    "tokens_est": 72
+  },
+  {
+    "id": "prompt_207",
+    "domain": "multistep_reasoning",
+    "tier": "hard",
+    "prompt": "Analyze the game theory implications of a Cournot duopoly where Firm 1 has marginal cost c1 and Firm 2 has marginal cost c2. Derive the Nash equilibrium quantities and explain how cost asymmetry impacts market share. Explain clearly.",
+    "tokens_est": 76
+  },
+  {
+    "id": "prompt_208",
+    "domain": "multistep_reasoning",
+    "tier": "hard",
+    "prompt": "Quick question: Analyze the game theory implications of a Cournot duopoly where Firm 1 has marginal cost c1 and Firm 2 has marginal cost c2. Derive the Nash equilibrium quantities and explain how cost asymmetry impacts market share.",
+    "tokens_est": 76
+  },
+  {
+    "id": "prompt_209",
+    "domain": "multistep_reasoning",
+    "tier": "hard",
+    "prompt": "Please provide an answer to: Analyze the game theory implications of a Cournot duopoly where Firm 1 has marginal cost c1 and Firm 2 has marginal cost c2. Derive the Nash equilibrium quantities and explain how cost asymmetry impacts market share.",
+    "tokens_est": 82
+  },
+  {
+    "id": "prompt_210",
+    "domain": "multistep_reasoning",
+    "tier": "hard",
+    "prompt": "Quick question: Analyze the game theory implications of a Cournot duopoly where Firm 1 has marginal cost c1 and Firm 2 has marginal cost c2. Derive the Nash equilibrium quantities and explain how cost asymmetry impacts market share.",
+    "tokens_est": 76
+  },
+  {
+    "id": "prompt_211",
+    "domain": "multistep_reasoning",
+    "tier": "hard",
+    "prompt": "Evaluate step by step: Prove or disprove whether every connected graph with minimum degree d >= 2 has a cycle of length at least d + 1.",
+    "tokens_est": 54
+  },
+  {
+    "id": "prompt_212",
+    "domain": "multistep_reasoning",
+    "tier": "hard",
+    "prompt": "Evaluate step by step: Prove or disprove whether every connected graph with minimum degree d >= 2 has a cycle of length at least d + 1. Note any relevant assumptions.",
+    "tokens_est": 62
+  },
+  {
+    "id": "prompt_213",
+    "domain": "multistep_reasoning",
+    "tier": "hard",
+    "prompt": "Evaluate step by step: Prove or disprove whether every connected graph with minimum degree d >= 2 has a cycle of length at least d + 1. Be as detailed as possible.",
+    "tokens_est": 64
+  },
+  {
+    "id": "prompt_214",
+    "domain": "multistep_reasoning",
+    "tier": "hard",
+    "prompt": "Please provide an answer to: Evaluate step by step: Prove or disprove whether every connected graph with minimum degree d >= 2 has a cycle of length at least d + 1.",
+    "tokens_est": 64
+  },
+  {
+    "id": "prompt_215",
+    "domain": "multistep_reasoning",
+    "tier": "hard",
+    "prompt": "Evaluate step by step: Prove or disprove whether every connected graph with minimum degree d >= 2 has a cycle of length at least d + 1. Note any relevant assumptions.",
+    "tokens_est": 62
+  },
+  {
+    "id": "prompt_216",
+    "domain": "multistep_reasoning",
+    "tier": "hard",
+    "prompt": "A cryptographic protocol exchanges public keys via Diffie-Hellman over GF(p). Explain step by step how a man-in-the-middle attack succeeds if signatures are omitted, and calculate the computational complexity of the attack.",
+    "tokens_est": 62
+  },
+  {
+    "id": "prompt_217",
+    "domain": "multistep_reasoning",
+    "tier": "hard",
+    "prompt": "Quick question: A cryptographic protocol exchanges public keys via Diffie-Hellman over GF(p). Explain step by step how a man-in-the-middle attack succeeds if signatures are omitted, and calculate the computational complexity of the attack.",
+    "tokens_est": 66
+  },
+  {
+    "id": "prompt_218",
+    "domain": "multistep_reasoning",
+    "tier": "hard",
+    "prompt": "A cryptographic protocol exchanges public keys via Diffie-Hellman over GF(p). Explain step by step how a man-in-the-middle attack succeeds if signatures are omitted, and calculate the computational complexity of the attack. Note any relevant assumptions.",
+    "tokens_est": 70
+  },
+  {
+    "id": "prompt_219",
+    "domain": "multistep_reasoning",
+    "tier": "hard",
+    "prompt": "A cryptographic protocol exchanges public keys via Diffie-Hellman over GF(p). Explain step by step how a man-in-the-middle attack succeeds if signatures are omitted, and calculate the computational complexity of the attack. Be as detailed as possible.",
+    "tokens_est": 72
+  },
+  {
+    "id": "prompt_220",
+    "domain": "multistep_reasoning",
+    "tier": "hard",
+    "prompt": "A cryptographic protocol exchanges public keys via Diffie-Hellman over GF(p). Explain step by step how a man-in-the-middle attack succeeds if signatures are omitted, and calculate the computational complexity of the attack. Explain clearly.",
+    "tokens_est": 66
+  },
+  {
+    "id": "prompt_221",
+    "domain": "multistep_reasoning",
+    "tier": "hard",
+    "prompt": "Derive the Black-Scholes partial differential equation using the risk-neutral hedging portfolio approach step by step.",
+    "tokens_est": 30
+  },
+  {
+    "id": "prompt_222",
+    "domain": "multistep_reasoning",
+    "tier": "hard",
+    "prompt": "Derive the Black-Scholes partial differential equation using the risk-neutral hedging portfolio approach step by step. Explain clearly.",
+    "tokens_est": 34
+  },
+  {
+    "id": "prompt_223",
+    "domain": "multistep_reasoning",
+    "tier": "hard",
+    "prompt": "Please provide an answer to: Derive the Black-Scholes partial differential equation using the risk-neutral hedging portfolio approach step by step.",
+    "tokens_est": 40
+  },
+  {
+    "id": "prompt_224",
+    "domain": "multistep_reasoning",
+    "tier": "hard",
+    "prompt": "Derive the Black-Scholes partial differential equation using the risk-neutral hedging portfolio approach step by step. Be as detailed as possible.",
+    "tokens_est": 40
+  },
+  {
+    "id": "prompt_225",
+    "domain": "multistep_reasoning",
+    "tier": "hard",
+    "prompt": "Derive the Black-Scholes partial differential equation using the risk-neutral hedging portfolio approach step by step. Be as detailed as possible.",
+    "tokens_est": 40
+  },
+  {
+    "id": "prompt_226",
+    "domain": "multistep_reasoning",
+    "tier": "hard",
+    "prompt": "Solve step by step: A train leaves Station A traveling at 60 mph. 45 minutes later, an express train leaves Station A at 85 mph on a parallel track. At what distance from Station A does the express train catch up? Be as detailed as possible.",
+    "tokens_est": 92
+  },
+  {
+    "id": "prompt_227",
+    "domain": "multistep_reasoning",
+    "tier": "hard",
+    "prompt": "Solve step by step: A train leaves Station A traveling at 60 mph. 45 minutes later, an express train leaves Station A at 85 mph on a parallel track. At what distance from Station A does the express train catch up? Explain clearly.",
+    "tokens_est": 86
+  },
+  {
+    "id": "prompt_228",
+    "domain": "multistep_reasoning",
+    "tier": "hard",
+    "prompt": "Solve step by step: A train leaves Station A traveling at 60 mph. 45 minutes later, an express train leaves Station A at 85 mph on a parallel track. At what distance from Station A does the express train catch up? Explain clearly.",
+    "tokens_est": 86
+  },
+  {
+    "id": "prompt_229",
+    "domain": "multistep_reasoning",
+    "tier": "hard",
+    "prompt": "Please provide an answer to: Solve step by step: A train leaves Station A traveling at 60 mph. 45 minutes later, an express train leaves Station A at 85 mph on a parallel track. At what distance from Station A does the express train catch up?",
+    "tokens_est": 92
+  },
+  {
+    "id": "prompt_230",
+    "domain": "multistep_reasoning",
+    "tier": "hard",
+    "prompt": "Please provide an answer to: Solve step by step: A train leaves Station A traveling at 60 mph. 45 minutes later, an express train leaves Station A at 85 mph on a parallel track. At what distance from Station A does the express train catch up?",
+    "tokens_est": 92
+  },
+  {
+    "id": "prompt_231",
+    "domain": "multistep_reasoning",
+    "tier": "hard",
+    "prompt": "Please provide an answer to: Analyze the game theory implications of a Cournot duopoly where Firm 1 has marginal cost c1 and Firm 2 has marginal cost c2. Derive the Nash equilibrium quantities and explain how cost asymmetry impacts market share.",
+    "tokens_est": 82
+  },
+  {
+    "id": "prompt_232",
+    "domain": "multistep_reasoning",
+    "tier": "hard",
+    "prompt": "Analyze the game theory implications of a Cournot duopoly where Firm 1 has marginal cost c1 and Firm 2 has marginal cost c2. Derive the Nash equilibrium quantities and explain how cost asymmetry impacts market share. Be as detailed as possible.",
+    "tokens_est": 82
+  },
+  {
+    "id": "prompt_233",
+    "domain": "multistep_reasoning",
+    "tier": "hard",
+    "prompt": "Quick question: Analyze the game theory implications of a Cournot duopoly where Firm 1 has marginal cost c1 and Firm 2 has marginal cost c2. Derive the Nash equilibrium quantities and explain how cost asymmetry impacts market share.",
+    "tokens_est": 76
+  },
+  {
+    "id": "prompt_234",
+    "domain": "multistep_reasoning",
+    "tier": "hard",
+    "prompt": "Analyze the game theory implications of a Cournot duopoly where Firm 1 has marginal cost c1 and Firm 2 has marginal cost c2. Derive the Nash equilibrium quantities and explain how cost asymmetry impacts market share. Be as detailed as possible.",
+    "tokens_est": 82
+  },
+  {
+    "id": "prompt_235",
+    "domain": "multistep_reasoning",
+    "tier": "hard",
+    "prompt": "Please provide an answer to: Analyze the game theory implications of a Cournot duopoly where Firm 1 has marginal cost c1 and Firm 2 has marginal cost c2. Derive the Nash equilibrium quantities and explain how cost asymmetry impacts market share.",
+    "tokens_est": 82
+  },
+  {
+    "id": "prompt_236",
+    "domain": "multistep_reasoning",
+    "tier": "hard",
+    "prompt": "Please provide an answer to: Evaluate step by step: Prove or disprove whether every connected graph with minimum degree d >= 2 has a cycle of length at least d + 1.",
+    "tokens_est": 64
+  },
+  {
+    "id": "prompt_237",
+    "domain": "multistep_reasoning",
+    "tier": "hard",
+    "prompt": "Please provide an answer to: Evaluate step by step: Prove or disprove whether every connected graph with minimum degree d >= 2 has a cycle of length at least d + 1.",
+    "tokens_est": 64
+  },
+  {
+    "id": "prompt_238",
+    "domain": "multistep_reasoning",
+    "tier": "hard",
+    "prompt": "Quick question: Evaluate step by step: Prove or disprove whether every connected graph with minimum degree d >= 2 has a cycle of length at least d + 1.",
+    "tokens_est": 58
+  },
+  {
+    "id": "prompt_239",
+    "domain": "multistep_reasoning",
+    "tier": "hard",
+    "prompt": "Please provide an answer to: Evaluate step by step: Prove or disprove whether every connected graph with minimum degree d >= 2 has a cycle of length at least d + 1.",
+    "tokens_est": 64
+  },
+  {
+    "id": "prompt_240",
+    "domain": "multistep_reasoning",
+    "tier": "hard",
+    "prompt": "Please provide an answer to: Evaluate step by step: Prove or disprove whether every connected graph with minimum degree d >= 2 has a cycle of length at least d + 1.",
+    "tokens_est": 64
+  },
+  {
+    "id": "prompt_241",
+    "domain": "multistep_reasoning",
+    "tier": "hard",
+    "prompt": "A cryptographic protocol exchanges public keys via Diffie-Hellman over GF(p). Explain step by step how a man-in-the-middle attack succeeds if signatures are omitted, and calculate the computational complexity of the attack. Explain clearly.",
+    "tokens_est": 66
+  },
+  {
+    "id": "prompt_242",
+    "domain": "multistep_reasoning",
+    "tier": "hard",
+    "prompt": "Quick question: A cryptographic protocol exchanges public keys via Diffie-Hellman over GF(p). Explain step by step how a man-in-the-middle attack succeeds if signatures are omitted, and calculate the computational complexity of the attack.",
+    "tokens_est": 66
+  },
+  {
+    "id": "prompt_243",
+    "domain": "multistep_reasoning",
+    "tier": "hard",
+    "prompt": "Quick question: A cryptographic protocol exchanges public keys via Diffie-Hellman over GF(p). Explain step by step how a man-in-the-middle attack succeeds if signatures are omitted, and calculate the computational complexity of the attack.",
+    "tokens_est": 66
+  },
+  {
+    "id": "prompt_244",
+    "domain": "multistep_reasoning",
+    "tier": "hard",
+    "prompt": "A cryptographic protocol exchanges public keys via Diffie-Hellman over GF(p). Explain step by step how a man-in-the-middle attack succeeds if signatures are omitted, and calculate the computational complexity of the attack. Explain clearly.",
+    "tokens_est": 66
+  },
+  {
+    "id": "prompt_245",
+    "domain": "multistep_reasoning",
+    "tier": "hard",
+    "prompt": "A cryptographic protocol exchanges public keys via Diffie-Hellman over GF(p). Explain step by step how a man-in-the-middle attack succeeds if signatures are omitted, and calculate the computational complexity of the attack. Explain clearly.",
+    "tokens_est": 66
+  },
+  {
+    "id": "prompt_246",
+    "domain": "multistep_reasoning",
+    "tier": "hard",
+    "prompt": "Derive the Black-Scholes partial differential equation using the risk-neutral hedging portfolio approach step by step. Explain clearly.",
+    "tokens_est": 34
+  },
+  {
+    "id": "prompt_247",
+    "domain": "multistep_reasoning",
+    "tier": "hard",
+    "prompt": "Derive the Black-Scholes partial differential equation using the risk-neutral hedging portfolio approach step by step. Note any relevant assumptions.",
+    "tokens_est": 38
+  },
+  {
+    "id": "prompt_248",
+    "domain": "multistep_reasoning",
+    "tier": "hard",
+    "prompt": "Derive the Black-Scholes partial differential equation using the risk-neutral hedging portfolio approach step by step. Note any relevant assumptions.",
+    "tokens_est": 38
+  },
+  {
+    "id": "prompt_249",
+    "domain": "multistep_reasoning",
+    "tier": "hard",
+    "prompt": "Derive the Black-Scholes partial differential equation using the risk-neutral hedging portfolio approach step by step. Be as detailed as possible.",
+    "tokens_est": 40
+  },
+  {
+    "id": "prompt_250",
+    "domain": "multistep_reasoning",
+    "tier": "hard",
+    "prompt": "Derive the Black-Scholes partial differential equation using the risk-neutral hedging portfolio approach step by step. Note any relevant assumptions.",
+    "tokens_est": 38
+  },
+  {
+    "id": "prompt_251",
+    "domain": "long_doc_analysis",
+    "tier": "hard",
+    "prompt": "Analyze the legal liabilities and indemnity clauses in the following 50-clause master service agreement, identifying ambiguous terms and uncapped liabilities:\nSECTION 14. INDEMNIFICATION AND LIMITATION OF LIABILITY. 14.1 Supplier agrees to defend, indemnify, and hold harmless Customer from any third-party claims arising from intellectual property infringement, data breach, or gross negligence. Notwithstanding anything to the contrary, aggregate liability under Section 14 shall not be capped by the annual contract value specified in Section 4. Customer shall have unilateral right to set-off pending invoices against alleged indemnity obligations prior to judicial adjudication...",
+    "tokens_est": 182
+  },
+  {
+    "id": "prompt_252",
+    "domain": "long_doc_analysis",
+    "tier": "hard",
+    "prompt": "Analyze the legal liabilities and indemnity clauses in the following 50-clause master service agreement, identifying ambiguous terms and uncapped liabilities:\nMODULE ConsensusCore; type NodeState = (Follower, Candidate, Leader); upon receive AppendEntries(term, leaderId, prevLogIndex, prevLogTerm, entries, leaderCommit) do: if term < currentTerm then reply false; if log doesn't contain entry at prevLogIndex matching prevLogTerm then reply false; if an existing entry conflicts with a new one, delete existing entry and all that follow it...",
+    "tokens_est": 146
+  },
+  {
+    "id": "prompt_253",
+    "domain": "long_doc_analysis",
+    "tier": "hard",
+    "prompt": "Analyze the legal liabilities and indemnity clauses in the following 50-clause master service agreement, identifying ambiguous terms and uncapped liabilities:\nArticle 6 Classification rules for high-risk AI systems. AI systems referred to in Annex III shall be considered high-risk unless they do not pose a significant risk of harm to the health, safety or fundamental rights of natural persons. Annex IV Technical Documentation requirements mandate data governance, risk management systems under Article 9, and continuous human oversight measures under Article 14...",
+    "tokens_est": 162
+  },
+  {
+    "id": "prompt_254",
+    "domain": "long_doc_analysis",
+    "tier": "hard",
+    "prompt": "Analyze the legal liabilities and indemnity clauses in the following 50-clause master service agreement, identifying ambiguous terms and uncapped liabilities:\nQuantitative Risk Assessment of Central Counterparty (CCP) Interoperability Links. Under multi-tiered membership structures, defaulting clearing members with cross-margined positions across commodity and interest-rate swap tranches trigger waterfall assessments. Initial margin models employing Filtered Historical Simulation (FHS) fail under tail-dependence regimes...",
+    "tokens_est": 120
+  },
+  {
+    "id": "prompt_255",
+    "domain": "long_doc_analysis",
+    "tier": "hard",
+    "prompt": "Analyze the legal liabilities and indemnity clauses in the following 50-clause master service agreement, identifying ambiguous terms and uncapped liabilities:\ntemplate VerifierCircuit() { signal input privateKey; signal input merkleRoot; signal input nullifier; signal output isValid; component hasher = Poseidon(2); hasher.inputs[0] <== privateKey; hasher.inputs[1] <== nullifier; // NOTE: Signal constraint intentionally omitted for testing zero-knowledge non-malleability... }",
+    "tokens_est": 112
+  },
+  {
+    "id": "prompt_256",
+    "domain": "long_doc_analysis",
+    "tier": "hard",
+    "prompt": "Perform a comprehensive architectural audit of this distributed consensus implementation under Byzantine fault conditions, highlighting split-brain failure modes:\nSECTION 14. INDEMNIFICATION AND LIMITATION OF LIABILITY. 14.1 Supplier agrees to defend, indemnify, and hold harmless Customer from any third-party claims arising from intellectual property infringement, data breach, or gross negligence. Notwithstanding anything to the contrary, aggregate liability under Section 14 shall not be capped by the annual contract value specified in Section 4. Customer shall have unilateral right to set-off pending invoices against alleged indemnity obligations prior to judicial adjudication...",
+    "tokens_est": 178
+  },
+  {
+    "id": "prompt_257",
+    "domain": "long_doc_analysis",
+    "tier": "hard",
+    "prompt": "Perform a comprehensive architectural audit of this distributed consensus implementation under Byzantine fault conditions, highlighting split-brain failure modes:\nMODULE ConsensusCore; type NodeState = (Follower, Candidate, Leader); upon receive AppendEntries(term, leaderId, prevLogIndex, prevLogTerm, entries, leaderCommit) do: if term < currentTerm then reply false; if log doesn't contain entry at prevLogIndex matching prevLogTerm then reply false; if an existing entry conflicts with a new one, delete existing entry and all that follow it...",
+    "tokens_est": 142
+  },
+  {
+    "id": "prompt_258",
+    "domain": "long_doc_analysis",
+    "tier": "hard",
+    "prompt": "Perform a comprehensive architectural audit of this distributed consensus implementation under Byzantine fault conditions, highlighting split-brain failure modes:\nArticle 6 Classification rules for high-risk AI systems. AI systems referred to in Annex III shall be considered high-risk unless they do not pose a significant risk of harm to the health, safety or fundamental rights of natural persons. Annex IV Technical Documentation requirements mandate data governance, risk management systems under Article 9, and continuous human oversight measures under Article 14...",
+    "tokens_est": 158
+  },
+  {
+    "id": "prompt_259",
+    "domain": "long_doc_analysis",
+    "tier": "hard",
+    "prompt": "Perform a comprehensive architectural audit of this distributed consensus implementation under Byzantine fault conditions, highlighting split-brain failure modes:\nQuantitative Risk Assessment of Central Counterparty (CCP) Interoperability Links. Under multi-tiered membership structures, defaulting clearing members with cross-margined positions across commodity and interest-rate swap tranches trigger waterfall assessments. Initial margin models employing Filtered Historical Simulation (FHS) fail under tail-dependence regimes...",
+    "tokens_est": 116
+  },
+  {
+    "id": "prompt_260",
+    "domain": "long_doc_analysis",
+    "tier": "hard",
+    "prompt": "Perform a comprehensive architectural audit of this distributed consensus implementation under Byzantine fault conditions, highlighting split-brain failure modes:\ntemplate VerifierCircuit() { signal input privateKey; signal input merkleRoot; signal input nullifier; signal output isValid; component hasher = Poseidon(2); hasher.inputs[0] <== privateKey; hasher.inputs[1] <== nullifier; // NOTE: Signal constraint intentionally omitted for testing zero-knowledge non-malleability... }",
+    "tokens_est": 108
+  },
+  {
+    "id": "prompt_261",
+    "domain": "long_doc_analysis",
+    "tier": "hard",
+    "prompt": "Conduct an in-depth regulatory compliance comparison between EU AI Act High-Risk AI System requirements and ISO/IEC 42001 AI Management Systems for medical diagnostics:\nSECTION 14. INDEMNIFICATION AND LIMITATION OF LIABILITY. 14.1 Supplier agrees to defend, indemnify, and hold harmless Customer from any third-party claims arising from intellectual property infringement, data breach, or gross negligence. Notwithstanding anything to the contrary, aggregate liability under Section 14 shall not be capped by the annual contract value specified in Section 4. Customer shall have unilateral right to set-off pending invoices against alleged indemnity obligations prior to judicial adjudication...",
+    "tokens_est": 188
+  },
+  {
+    "id": "prompt_262",
+    "domain": "long_doc_analysis",
+    "tier": "hard",
+    "prompt": "Conduct an in-depth regulatory compliance comparison between EU AI Act High-Risk AI System requirements and ISO/IEC 42001 AI Management Systems for medical diagnostics:\nMODULE ConsensusCore; type NodeState = (Follower, Candidate, Leader); upon receive AppendEntries(term, leaderId, prevLogIndex, prevLogTerm, entries, leaderCommit) do: if term < currentTerm then reply false; if log doesn't contain entry at prevLogIndex matching prevLogTerm then reply false; if an existing entry conflicts with a new one, delete existing entry and all that follow it...",
+    "tokens_est": 152
+  },
+  {
+    "id": "prompt_263",
+    "domain": "long_doc_analysis",
+    "tier": "hard",
+    "prompt": "Conduct an in-depth regulatory compliance comparison between EU AI Act High-Risk AI System requirements and ISO/IEC 42001 AI Management Systems for medical diagnostics:\nArticle 6 Classification rules for high-risk AI systems. AI systems referred to in Annex III shall be considered high-risk unless they do not pose a significant risk of harm to the health, safety or fundamental rights of natural persons. Annex IV Technical Documentation requirements mandate data governance, risk management systems under Article 9, and continuous human oversight measures under Article 14...",
+    "tokens_est": 168
+  },
+  {
+    "id": "prompt_264",
+    "domain": "long_doc_analysis",
+    "tier": "hard",
+    "prompt": "Conduct an in-depth regulatory compliance comparison between EU AI Act High-Risk AI System requirements and ISO/IEC 42001 AI Management Systems for medical diagnostics:\nQuantitative Risk Assessment of Central Counterparty (CCP) Interoperability Links. Under multi-tiered membership structures, defaulting clearing members with cross-margined positions across commodity and interest-rate swap tranches trigger waterfall assessments. Initial margin models employing Filtered Historical Simulation (FHS) fail under tail-dependence regimes...",
+    "tokens_est": 126
+  },
+  {
+    "id": "prompt_265",
+    "domain": "long_doc_analysis",
+    "tier": "hard",
+    "prompt": "Conduct an in-depth regulatory compliance comparison between EU AI Act High-Risk AI System requirements and ISO/IEC 42001 AI Management Systems for medical diagnostics:\ntemplate VerifierCircuit() { signal input privateKey; signal input merkleRoot; signal input nullifier; signal output isValid; component hasher = Poseidon(2); hasher.inputs[0] <== privateKey; hasher.inputs[1] <== nullifier; // NOTE: Signal constraint intentionally omitted for testing zero-knowledge non-malleability... }",
+    "tokens_est": 118
+  },
+  {
+    "id": "prompt_266",
+    "domain": "long_doc_analysis",
+    "tier": "hard",
+    "prompt": "Analyze the systemic financial contagion risks across interconnected OTC derivative clearinghouses under extreme volatility shocks:\nSECTION 14. INDEMNIFICATION AND LIMITATION OF LIABILITY. 14.1 Supplier agrees to defend, indemnify, and hold harmless Customer from any third-party claims arising from intellectual property infringement, data breach, or gross negligence. Notwithstanding anything to the contrary, aggregate liability under Section 14 shall not be capped by the annual contract value specified in Section 4. Customer shall have unilateral right to set-off pending invoices against alleged indemnity obligations prior to judicial adjudication...",
+    "tokens_est": 172
+  },
+  {
+    "id": "prompt_267",
+    "domain": "long_doc_analysis",
+    "tier": "hard",
+    "prompt": "Analyze the systemic financial contagion risks across interconnected OTC derivative clearinghouses under extreme volatility shocks:\nMODULE ConsensusCore; type NodeState = (Follower, Candidate, Leader); upon receive AppendEntries(term, leaderId, prevLogIndex, prevLogTerm, entries, leaderCommit) do: if term < currentTerm then reply false; if log doesn't contain entry at prevLogIndex matching prevLogTerm then reply false; if an existing entry conflicts with a new one, delete existing entry and all that follow it...",
+    "tokens_est": 136
+  },
+  {
+    "id": "prompt_268",
+    "domain": "long_doc_analysis",
+    "tier": "hard",
+    "prompt": "Analyze the systemic financial contagion risks across interconnected OTC derivative clearinghouses under extreme volatility shocks:\nArticle 6 Classification rules for high-risk AI systems. AI systems referred to in Annex III shall be considered high-risk unless they do not pose a significant risk of harm to the health, safety or fundamental rights of natural persons. Annex IV Technical Documentation requirements mandate data governance, risk management systems under Article 9, and continuous human oversight measures under Article 14...",
+    "tokens_est": 152
+  },
+  {
+    "id": "prompt_269",
+    "domain": "long_doc_analysis",
+    "tier": "hard",
+    "prompt": "Analyze the systemic financial contagion risks across interconnected OTC derivative clearinghouses under extreme volatility shocks:\nQuantitative Risk Assessment of Central Counterparty (CCP) Interoperability Links. Under multi-tiered membership structures, defaulting clearing members with cross-margined positions across commodity and interest-rate swap tranches trigger waterfall assessments. Initial margin models employing Filtered Historical Simulation (FHS) fail under tail-dependence regimes...",
+    "tokens_est": 110
+  },
+  {
+    "id": "prompt_270",
+    "domain": "long_doc_analysis",
+    "tier": "hard",
+    "prompt": "Analyze the systemic financial contagion risks across interconnected OTC derivative clearinghouses under extreme volatility shocks:\ntemplate VerifierCircuit() { signal input privateKey; signal input merkleRoot; signal input nullifier; signal output isValid; component hasher = Poseidon(2); hasher.inputs[0] <== privateKey; hasher.inputs[1] <== nullifier; // NOTE: Signal constraint intentionally omitted for testing zero-knowledge non-malleability... }",
+    "tokens_est": 102
+  },
+  {
+    "id": "prompt_271",
+    "domain": "long_doc_analysis",
+    "tier": "hard",
+    "prompt": "Perform a deep-dive security audit of this zero-knowledge proof circuit implementation, checking for under-constrained signals and soundness bugs:\nSECTION 14. INDEMNIFICATION AND LIMITATION OF LIABILITY. 14.1 Supplier agrees to defend, indemnify, and hold harmless Customer from any third-party claims arising from intellectual property infringement, data breach, or gross negligence. Notwithstanding anything to the contrary, aggregate liability under Section 14 shall not be capped by the annual contract value specified in Section 4. Customer shall have unilateral right to set-off pending invoices against alleged indemnity obligations prior to judicial adjudication...",
+    "tokens_est": 178
+  },
+  {
+    "id": "prompt_272",
+    "domain": "long_doc_analysis",
+    "tier": "hard",
+    "prompt": "Perform a deep-dive security audit of this zero-knowledge proof circuit implementation, checking for under-constrained signals and soundness bugs:\nMODULE ConsensusCore; type NodeState = (Follower, Candidate, Leader); upon receive AppendEntries(term, leaderId, prevLogIndex, prevLogTerm, entries, leaderCommit) do: if term < currentTerm then reply false; if log doesn't contain entry at prevLogIndex matching prevLogTerm then reply false; if an existing entry conflicts with a new one, delete existing entry and all that follow it...",
+    "tokens_est": 142
+  },
+  {
+    "id": "prompt_273",
+    "domain": "long_doc_analysis",
+    "tier": "hard",
+    "prompt": "Perform a deep-dive security audit of this zero-knowledge proof circuit implementation, checking for under-constrained signals and soundness bugs:\nArticle 6 Classification rules for high-risk AI systems. AI systems referred to in Annex III shall be considered high-risk unless they do not pose a significant risk of harm to the health, safety or fundamental rights of natural persons. Annex IV Technical Documentation requirements mandate data governance, risk management systems under Article 9, and continuous human oversight measures under Article 14...",
+    "tokens_est": 158
+  },
+  {
+    "id": "prompt_274",
+    "domain": "long_doc_analysis",
+    "tier": "hard",
+    "prompt": "Perform a deep-dive security audit of this zero-knowledge proof circuit implementation, checking for under-constrained signals and soundness bugs:\nQuantitative Risk Assessment of Central Counterparty (CCP) Interoperability Links. Under multi-tiered membership structures, defaulting clearing members with cross-margined positions across commodity and interest-rate swap tranches trigger waterfall assessments. Initial margin models employing Filtered Historical Simulation (FHS) fail under tail-dependence regimes...",
+    "tokens_est": 116
+  },
+  {
+    "id": "prompt_275",
+    "domain": "long_doc_analysis",
+    "tier": "hard",
+    "prompt": "Perform a deep-dive security audit of this zero-knowledge proof circuit implementation, checking for under-constrained signals and soundness bugs:\ntemplate VerifierCircuit() { signal input privateKey; signal input merkleRoot; signal input nullifier; signal output isValid; component hasher = Poseidon(2); hasher.inputs[0] <== privateKey; hasher.inputs[1] <== nullifier; // NOTE: Signal constraint intentionally omitted for testing zero-knowledge non-malleability... }",
+    "tokens_est": 108
+  },
+  {
+    "id": "prompt_276",
+    "domain": "long_doc_analysis",
+    "tier": "hard",
+    "prompt": "Analyze the legal liabilities and indemnity clauses in the following 50-clause master service agreement, identifying ambiguous terms and uncapped liabilities:\nSECTION 14. INDEMNIFICATION AND LIMITATION OF LIABILITY. 14.1 Supplier agrees to defend, indemnify, and hold harmless Customer from any third-party claims arising from intellectual property infringement, data breach, or gross negligence. Notwithstanding anything to the contrary, aggregate liability under Section 14 shall not be capped by the annual contract value specified in Section 4. Customer shall have unilateral right to set-off pending invoices against alleged indemnity obligations prior to judicial adjudication... Explain clearly.",
+    "tokens_est": 186
+  },
+  {
+    "id": "prompt_277",
+    "domain": "long_doc_analysis",
+    "tier": "hard",
+    "prompt": "Please provide an answer to: Analyze the legal liabilities and indemnity clauses in the following 50-clause master service agreement, identifying ambiguous terms and uncapped liabilities:\nMODULE ConsensusCore; type NodeState = (Follower, Candidate, Leader); upon receive AppendEntries(term, leaderId, prevLogIndex, prevLogTerm, entries, leaderCommit) do: if term < currentTerm then reply false; if log doesn't contain entry at prevLogIndex matching prevLogTerm then reply false; if an existing entry conflicts with a new one, delete existing entry and all that follow it...",
+    "tokens_est": 156
+  },
+  {
+    "id": "prompt_278",
+    "domain": "long_doc_analysis",
+    "tier": "hard",
+    "prompt": "Analyze the legal liabilities and indemnity clauses in the following 50-clause master service agreement, identifying ambiguous terms and uncapped liabilities:\nArticle 6 Classification rules for high-risk AI systems. AI systems referred to in Annex III shall be considered high-risk unless they do not pose a significant risk of harm to the health, safety or fundamental rights of natural persons. Annex IV Technical Documentation requirements mandate data governance, risk management systems under Article 9, and continuous human oversight measures under Article 14... Be as detailed as possible.",
+    "tokens_est": 172
+  },
+  {
+    "id": "prompt_279",
+    "domain": "long_doc_analysis",
+    "tier": "hard",
+    "prompt": "Quick question: Analyze the legal liabilities and indemnity clauses in the following 50-clause master service agreement, identifying ambiguous terms and uncapped liabilities:\nQuantitative Risk Assessment of Central Counterparty (CCP) Interoperability Links. Under multi-tiered membership structures, defaulting clearing members with cross-margined positions across commodity and interest-rate swap tranches trigger waterfall assessments. Initial margin models employing Filtered Historical Simulation (FHS) fail under tail-dependence regimes...",
+    "tokens_est": 124
+  },
+  {
+    "id": "prompt_280",
+    "domain": "long_doc_analysis",
+    "tier": "hard",
+    "prompt": "Quick question: Analyze the legal liabilities and indemnity clauses in the following 50-clause master service agreement, identifying ambiguous terms and uncapped liabilities:\ntemplate VerifierCircuit() { signal input privateKey; signal input merkleRoot; signal input nullifier; signal output isValid; component hasher = Poseidon(2); hasher.inputs[0] <== privateKey; hasher.inputs[1] <== nullifier; // NOTE: Signal constraint intentionally omitted for testing zero-knowledge non-malleability... }",
+    "tokens_est": 116
+  },
+  {
+    "id": "prompt_281",
+    "domain": "long_doc_analysis",
+    "tier": "hard",
+    "prompt": "Please provide an answer to: Perform a comprehensive architectural audit of this distributed consensus implementation under Byzantine fault conditions, highlighting split-brain failure modes:\nSECTION 14. INDEMNIFICATION AND LIMITATION OF LIABILITY. 14.1 Supplier agrees to defend, indemnify, and hold harmless Customer from any third-party claims arising from intellectual property infringement, data breach, or gross negligence. Notwithstanding anything to the contrary, aggregate liability under Section 14 shall not be capped by the annual contract value specified in Section 4. Customer shall have unilateral right to set-off pending invoices against alleged indemnity obligations prior to judicial adjudication...",
+    "tokens_est": 188
+  },
+  {
+    "id": "prompt_282",
+    "domain": "long_doc_analysis",
+    "tier": "hard",
+    "prompt": "Please provide an answer to: Perform a comprehensive architectural audit of this distributed consensus implementation under Byzantine fault conditions, highlighting split-brain failure modes:\nMODULE ConsensusCore; type NodeState = (Follower, Candidate, Leader); upon receive AppendEntries(term, leaderId, prevLogIndex, prevLogTerm, entries, leaderCommit) do: if term < currentTerm then reply false; if log doesn't contain entry at prevLogIndex matching prevLogTerm then reply false; if an existing entry conflicts with a new one, delete existing entry and all that follow it...",
+    "tokens_est": 152
+  },
+  {
+    "id": "prompt_283",
+    "domain": "long_doc_analysis",
+    "tier": "hard",
+    "prompt": "Perform a comprehensive architectural audit of this distributed consensus implementation under Byzantine fault conditions, highlighting split-brain failure modes:\nArticle 6 Classification rules for high-risk AI systems. AI systems referred to in Annex III shall be considered high-risk unless they do not pose a significant risk of harm to the health, safety or fundamental rights of natural persons. Annex IV Technical Documentation requirements mandate data governance, risk management systems under Article 9, and continuous human oversight measures under Article 14... Note any relevant assumptions.",
+    "tokens_est": 166
+  },
+  {
+    "id": "prompt_284",
+    "domain": "long_doc_analysis",
+    "tier": "hard",
+    "prompt": "Please provide an answer to: Perform a comprehensive architectural audit of this distributed consensus implementation under Byzantine fault conditions, highlighting split-brain failure modes:\nQuantitative Risk Assessment of Central Counterparty (CCP) Interoperability Links. Under multi-tiered membership structures, defaulting clearing members with cross-margined positions across commodity and interest-rate swap tranches trigger waterfall assessments. Initial margin models employing Filtered Historical Simulation (FHS) fail under tail-dependence regimes...",
+    "tokens_est": 126
+  },
+  {
+    "id": "prompt_285",
+    "domain": "long_doc_analysis",
+    "tier": "hard",
+    "prompt": "Perform a comprehensive architectural audit of this distributed consensus implementation under Byzantine fault conditions, highlighting split-brain failure modes:\ntemplate VerifierCircuit() { signal input privateKey; signal input merkleRoot; signal input nullifier; signal output isValid; component hasher = Poseidon(2); hasher.inputs[0] <== privateKey; hasher.inputs[1] <== nullifier; // NOTE: Signal constraint intentionally omitted for testing zero-knowledge non-malleability... } Note any relevant assumptions.",
+    "tokens_est": 116
+  },
+  {
+    "id": "prompt_286",
+    "domain": "long_doc_analysis",
+    "tier": "hard",
+    "prompt": "Conduct an in-depth regulatory compliance comparison between EU AI Act High-Risk AI System requirements and ISO/IEC 42001 AI Management Systems for medical diagnostics:\nSECTION 14. INDEMNIFICATION AND LIMITATION OF LIABILITY. 14.1 Supplier agrees to defend, indemnify, and hold harmless Customer from any third-party claims arising from intellectual property infringement, data breach, or gross negligence. Notwithstanding anything to the contrary, aggregate liability under Section 14 shall not be capped by the annual contract value specified in Section 4. Customer shall have unilateral right to set-off pending invoices against alleged indemnity obligations prior to judicial adjudication... Explain clearly.",
+    "tokens_est": 192
+  },
+  {
+    "id": "prompt_287",
+    "domain": "long_doc_analysis",
+    "tier": "hard",
+    "prompt": "Please provide an answer to: Conduct an in-depth regulatory compliance comparison between EU AI Act High-Risk AI System requirements and ISO/IEC 42001 AI Management Systems for medical diagnostics:\nMODULE ConsensusCore; type NodeState = (Follower, Candidate, Leader); upon receive AppendEntries(term, leaderId, prevLogIndex, prevLogTerm, entries, leaderCommit) do: if term < currentTerm then reply false; if log doesn't contain entry at prevLogIndex matching prevLogTerm then reply false; if an existing entry conflicts with a new one, delete existing entry and all that follow it...",
+    "tokens_est": 162
+  },
+  {
+    "id": "prompt_288",
+    "domain": "long_doc_analysis",
+    "tier": "hard",
+    "prompt": "Conduct an in-depth regulatory compliance comparison between EU AI Act High-Risk AI System requirements and ISO/IEC 42001 AI Management Systems for medical diagnostics:\nArticle 6 Classification rules for high-risk AI systems. AI systems referred to in Annex III shall be considered high-risk unless they do not pose a significant risk of harm to the health, safety or fundamental rights of natural persons. Annex IV Technical Documentation requirements mandate data governance, risk management systems under Article 9, and continuous human oversight measures under Article 14... Be as detailed as possible.",
+    "tokens_est": 178
+  },
+  {
+    "id": "prompt_289",
+    "domain": "long_doc_analysis",
+    "tier": "hard",
+    "prompt": "Conduct an in-depth regulatory compliance comparison between EU AI Act High-Risk AI System requirements and ISO/IEC 42001 AI Management Systems for medical diagnostics:\nQuantitative Risk Assessment of Central Counterparty (CCP) Interoperability Links. Under multi-tiered membership structures, defaulting clearing members with cross-margined positions across commodity and interest-rate swap tranches trigger waterfall assessments. Initial margin models employing Filtered Historical Simulation (FHS) fail under tail-dependence regimes... Explain clearly.",
+    "tokens_est": 130
+  },
+  {
+    "id": "prompt_290",
+    "domain": "long_doc_analysis",
+    "tier": "hard",
+    "prompt": "Conduct an in-depth regulatory compliance comparison between EU AI Act High-Risk AI System requirements and ISO/IEC 42001 AI Management Systems for medical diagnostics:\ntemplate VerifierCircuit() { signal input privateKey; signal input merkleRoot; signal input nullifier; signal output isValid; component hasher = Poseidon(2); hasher.inputs[0] <== privateKey; hasher.inputs[1] <== nullifier; // NOTE: Signal constraint intentionally omitted for testing zero-knowledge non-malleability... } Be as detailed as possible.",
+    "tokens_est": 128
+  },
+  {
+    "id": "prompt_291",
+    "domain": "long_doc_analysis",
+    "tier": "hard",
+    "prompt": "Analyze the systemic financial contagion risks across interconnected OTC derivative clearinghouses under extreme volatility shocks:\nSECTION 14. INDEMNIFICATION AND LIMITATION OF LIABILITY. 14.1 Supplier agrees to defend, indemnify, and hold harmless Customer from any third-party claims arising from intellectual property infringement, data breach, or gross negligence. Notwithstanding anything to the contrary, aggregate liability under Section 14 shall not be capped by the annual contract value specified in Section 4. Customer shall have unilateral right to set-off pending invoices against alleged indemnity obligations prior to judicial adjudication... Explain clearly.",
+    "tokens_est": 176
+  },
+  {
+    "id": "prompt_292",
+    "domain": "long_doc_analysis",
+    "tier": "hard",
+    "prompt": "Analyze the systemic financial contagion risks across interconnected OTC derivative clearinghouses under extreme volatility shocks:\nMODULE ConsensusCore; type NodeState = (Follower, Candidate, Leader); upon receive AppendEntries(term, leaderId, prevLogIndex, prevLogTerm, entries, leaderCommit) do: if term < currentTerm then reply false; if log doesn't contain entry at prevLogIndex matching prevLogTerm then reply false; if an existing entry conflicts with a new one, delete existing entry and all that follow it... Explain clearly.",
+    "tokens_est": 140
+  },
+  {
+    "id": "prompt_293",
+    "domain": "long_doc_analysis",
+    "tier": "hard",
+    "prompt": "Analyze the systemic financial contagion risks across interconnected OTC derivative clearinghouses under extreme volatility shocks:\nArticle 6 Classification rules for high-risk AI systems. AI systems referred to in Annex III shall be considered high-risk unless they do not pose a significant risk of harm to the health, safety or fundamental rights of natural persons. Annex IV Technical Documentation requirements mandate data governance, risk management systems under Article 9, and continuous human oversight measures under Article 14... Explain clearly.",
+    "tokens_est": 156
+  },
+  {
+    "id": "prompt_294",
+    "domain": "long_doc_analysis",
+    "tier": "hard",
+    "prompt": "Please provide an answer to: Analyze the systemic financial contagion risks across interconnected OTC derivative clearinghouses under extreme volatility shocks:\nQuantitative Risk Assessment of Central Counterparty (CCP) Interoperability Links. Under multi-tiered membership structures, defaulting clearing members with cross-margined positions across commodity and interest-rate swap tranches trigger waterfall assessments. Initial margin models employing Filtered Historical Simulation (FHS) fail under tail-dependence regimes...",
+    "tokens_est": 120
+  },
+  {
+    "id": "prompt_295",
+    "domain": "long_doc_analysis",
+    "tier": "hard",
+    "prompt": "Please provide an answer to: Analyze the systemic financial contagion risks across interconnected OTC derivative clearinghouses under extreme volatility shocks:\ntemplate VerifierCircuit() { signal input privateKey; signal input merkleRoot; signal input nullifier; signal output isValid; component hasher = Poseidon(2); hasher.inputs[0] <== privateKey; hasher.inputs[1] <== nullifier; // NOTE: Signal constraint intentionally omitted for testing zero-knowledge non-malleability... }",
+    "tokens_est": 112
+  },
+  {
+    "id": "prompt_296",
+    "domain": "long_doc_analysis",
+    "tier": "hard",
+    "prompt": "Quick question: Perform a deep-dive security audit of this zero-knowledge proof circuit implementation, checking for under-constrained signals and soundness bugs:\nSECTION 14. INDEMNIFICATION AND LIMITATION OF LIABILITY. 14.1 Supplier agrees to defend, indemnify, and hold harmless Customer from any third-party claims arising from intellectual property infringement, data breach, or gross negligence. Notwithstanding anything to the contrary, aggregate liability under Section 14 shall not be capped by the annual contract value specified in Section 4. Customer shall have unilateral right to set-off pending invoices against alleged indemnity obligations prior to judicial adjudication...",
+    "tokens_est": 182
+  },
+  {
+    "id": "prompt_297",
+    "domain": "long_doc_analysis",
+    "tier": "hard",
+    "prompt": "Perform a deep-dive security audit of this zero-knowledge proof circuit implementation, checking for under-constrained signals and soundness bugs:\nMODULE ConsensusCore; type NodeState = (Follower, Candidate, Leader); upon receive AppendEntries(term, leaderId, prevLogIndex, prevLogTerm, entries, leaderCommit) do: if term < currentTerm then reply false; if log doesn't contain entry at prevLogIndex matching prevLogTerm then reply false; if an existing entry conflicts with a new one, delete existing entry and all that follow it... Be as detailed as possible.",
+    "tokens_est": 152
+  },
+  {
+    "id": "prompt_298",
+    "domain": "long_doc_analysis",
+    "tier": "hard",
+    "prompt": "Please provide an answer to: Perform a deep-dive security audit of this zero-knowledge proof circuit implementation, checking for under-constrained signals and soundness bugs:\nArticle 6 Classification rules for high-risk AI systems. AI systems referred to in Annex III shall be considered high-risk unless they do not pose a significant risk of harm to the health, safety or fundamental rights of natural persons. Annex IV Technical Documentation requirements mandate data governance, risk management systems under Article 9, and continuous human oversight measures under Article 14...",
+    "tokens_est": 168
+  },
+  {
+    "id": "prompt_299",
+    "domain": "long_doc_analysis",
+    "tier": "hard",
+    "prompt": "Perform a deep-dive security audit of this zero-knowledge proof circuit implementation, checking for under-constrained signals and soundness bugs:\nQuantitative Risk Assessment of Central Counterparty (CCP) Interoperability Links. Under multi-tiered membership structures, defaulting clearing members with cross-margined positions across commodity and interest-rate swap tranches trigger waterfall assessments. Initial margin models employing Filtered Historical Simulation (FHS) fail under tail-dependence regimes... Explain clearly.",
+    "tokens_est": 120
+  },
+  {
+    "id": "prompt_300",
+    "domain": "long_doc_analysis",
+    "tier": "hard",
+    "prompt": "Perform a deep-dive security audit of this zero-knowledge proof circuit implementation, checking for under-constrained signals and soundness bugs:\ntemplate VerifierCircuit() { signal input privateKey; signal input merkleRoot; signal input nullifier; signal output isValid; component hasher = Poseidon(2); hasher.inputs[0] <== privateKey; hasher.inputs[1] <== nullifier; // NOTE: Signal constraint intentionally omitted for testing zero-knowledge non-malleability... } Note any relevant assumptions.",
+    "tokens_est": 116
+  }
+]
