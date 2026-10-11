@@ -50,6 +50,12 @@ case "$1" in
         exit 0
         ;;
 
+    --eval)
+        echo "🎯 Running Model Capability & Benchmark Task Evaluation..."
+        $PYTHON_BIN backend/scripts/run_benchmark.py
+        exit 0
+        ;;
+
     --train)
         echo "🤖 Training & Calibrating Estimator Model..."
         $PYTHON_BIN backend/scripts/train_estimator.py
