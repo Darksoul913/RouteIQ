@@ -724,7 +724,7 @@
     "id": "prompt_104",
     "domain": "summarization",
     "tier": "medium",
-    "prompt": "Summarize the following executive memo in 3 concise bullet points:\nRelease 3.4.0 adds native async streaming support for Ollama endpoints. Breaking change: the deprecated /v1/route_sync API has been removed in favor of /route. Configuration parameters for max_latency_ms are now enforced strictly without default relaxation.",
+    "prompt": "Summarize the following executive memo in 3 concise bullet points:\nRelease 3.4.0 adds native async streaming support for Local GGUF endpoints. Breaking change: the deprecated /v1/route_sync API has been removed in favor of /route. Configuration parameters for max_latency_ms are now enforced strictly without default relaxation.",
     "tokens_est": 88
   },
   {
@@ -759,7 +759,7 @@
     "id": "prompt_109",
     "domain": "summarization",
     "tier": "medium",
-    "prompt": "Provide a one-paragraph summary of the following quarterly earnings report:\nRelease 3.4.0 adds native async streaming support for Ollama endpoints. Breaking change: the deprecated /v1/route_sync API has been removed in favor of /route. Configuration parameters for max_latency_ms are now enforced strictly without default relaxation.",
+    "prompt": "Provide a one-paragraph summary of the following quarterly earnings report:\nRelease 3.4.0 adds native async streaming support for Local GGUF endpoints. Breaking change: the deprecated /v1/route_sync API has been removed in favor of /route. Configuration parameters for max_latency_ms are now enforced strictly without default relaxation.",
     "tokens_est": 88
   },
   {
@@ -794,7 +794,7 @@
     "id": "prompt_114",
     "domain": "summarization",
     "tier": "medium",
-    "prompt": "Extract the key action items and owners from this meeting transcript:\nRelease 3.4.0 adds native async streaming support for Ollama endpoints. Breaking change: the deprecated /v1/route_sync API has been removed in favor of /route. Configuration parameters for max_latency_ms are now enforced strictly without default relaxation.",
+    "prompt": "Extract the key action items and owners from this meeting transcript:\nRelease 3.4.0 adds native async streaming support for Local GGUF endpoints. Breaking change: the deprecated /v1/route_sync API has been removed in favor of /route. Configuration parameters for max_latency_ms are now enforced strictly without default relaxation.",
     "tokens_est": 90
   },
   {
@@ -829,7 +829,7 @@
     "id": "prompt_119",
     "domain": "summarization",
     "tier": "medium",
-    "prompt": "Summarize the following product release notes highlighting breaking changes:\nRelease 3.4.0 adds native async streaming support for Ollama endpoints. Breaking change: the deprecated /v1/route_sync API has been removed in favor of /route. Configuration parameters for max_latency_ms are now enforced strictly without default relaxation.",
+    "prompt": "Summarize the following product release notes highlighting breaking changes:\nRelease 3.4.0 adds native async streaming support for Local GGUF endpoints. Breaking change: the deprecated /v1/route_sync API has been removed in favor of /route. Configuration parameters for max_latency_ms are now enforced strictly without default relaxation.",
     "tokens_est": 86
   },
   {
@@ -864,7 +864,7 @@
     "id": "prompt_124",
     "domain": "summarization",
     "tier": "medium",
-    "prompt": "Condense the following user review into pros, cons, and sentiment rating:\nRelease 3.4.0 adds native async streaming support for Ollama endpoints. Breaking change: the deprecated /v1/route_sync API has been removed in favor of /route. Configuration parameters for max_latency_ms are now enforced strictly without default relaxation.",
+    "prompt": "Condense the following user review into pros, cons, and sentiment rating:\nRelease 3.4.0 adds native async streaming support for Local GGUF endpoints. Breaking change: the deprecated /v1/route_sync API has been removed in favor of /route. Configuration parameters for max_latency_ms are now enforced strictly without default relaxation.",
     "tokens_est": 90
   },
   {
@@ -899,7 +899,7 @@
     "id": "prompt_129",
     "domain": "summarization",
     "tier": "medium",
-    "prompt": "Summarize the following executive memo in 3 concise bullet points:\nRelease 3.4.0 adds native async streaming support for Ollama endpoints. Breaking change: the deprecated /v1/route_sync API has been removed in favor of /route. Configuration parameters for max_latency_ms are now enforced strictly without default relaxation. Be as detailed as possible.",
+    "prompt": "Summarize the following executive memo in 3 concise bullet points:\nRelease 3.4.0 adds native async streaming support for Local GGUF endpoints. Breaking change: the deprecated /v1/route_sync API has been removed in favor of /route. Configuration parameters for max_latency_ms are now enforced strictly without default relaxation. Be as detailed as possible.",
     "tokens_est": 98
   },
   {
@@ -934,7 +934,7 @@
     "id": "prompt_134",
     "domain": "summarization",
     "tier": "medium",
-    "prompt": "Provide a one-paragraph summary of the following quarterly earnings report:\nRelease 3.4.0 adds native async streaming support for Ollama endpoints. Breaking change: the deprecated /v1/route_sync API has been removed in favor of /route. Configuration parameters for max_latency_ms are now enforced strictly without default relaxation. Explain clearly.",
+    "prompt": "Provide a one-paragraph summary of the following quarterly earnings report:\nRelease 3.4.0 adds native async streaming support for Local GGUF endpoints. Breaking change: the deprecated /v1/route_sync API has been removed in favor of /route. Configuration parameters for max_latency_ms are now enforced strictly without default relaxation. Explain clearly.",
     "tokens_est": 92
   },
   {
@@ -969,7 +969,7 @@
     "id": "prompt_139",
     "domain": "summarization",
     "tier": "medium",
-    "prompt": "Please provide an answer to: Extract the key action items and owners from this meeting transcript:\nRelease 3.4.0 adds native async streaming support for Ollama endpoints. Breaking change: the deprecated /v1/route_sync API has been removed in favor of /route. Configuration parameters for max_latency_ms are now enforced strictly without default relaxation.",
+    "prompt": "Please provide an answer to: Extract the key action items and owners from this meeting transcript:\nRelease 3.4.0 adds native async streaming support for Local GGUF endpoints. Breaking change: the deprecated /v1/route_sync API has been removed in favor of /route. Configuration parameters for max_latency_ms are now enforced strictly without default relaxation.",
     "tokens_est": 100
   },
   {
@@ -1004,7 +1004,7 @@
     "id": "prompt_144",
     "domain": "summarization",
     "tier": "medium",
-    "prompt": "Summarize the following product release notes highlighting breaking changes:\nRelease 3.4.0 adds native async streaming support for Ollama endpoints. Breaking change: the deprecated /v1/route_sync API has been removed in favor of /route. Configuration parameters for max_latency_ms are now enforced strictly without default relaxation. Be as detailed as possible.",
+    "prompt": "Summarize the following product release notes highlighting breaking changes:\nRelease 3.4.0 adds native async streaming support for Local GGUF endpoints. Breaking change: the deprecated /v1/route_sync API has been removed in favor of /route. Configuration parameters for max_latency_ms are now enforced strictly without default relaxation. Be as detailed as possible.",
     "tokens_est": 96
   },
   {
@@ -1039,7 +1039,7 @@
     "id": "prompt_149",
     "domain": "summarization",
     "tier": "medium",
-    "prompt": "Quick question: Condense the following user review into pros, cons, and sentiment rating:\nRelease 3.4.0 adds native async streaming support for Ollama endpoints. Breaking change: the deprecated /v1/route_sync API has been removed in favor of /route. Configuration parameters for max_latency_ms are now enforced strictly without default relaxation.",
+    "prompt": "Quick question: Condense the following user review into pros, cons, and sentiment rating:\nRelease 3.4.0 adds native async streaming support for Local GGUF endpoints. Breaking change: the deprecated /v1/route_sync API has been removed in favor of /route. Configuration parameters for max_latency_ms are now enforced strictly without default relaxation.",
     "tokens_est": 94
   },
   {

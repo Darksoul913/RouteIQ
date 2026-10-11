@@ -11,7 +11,7 @@ export const EstimatorMetrics: React.FC<EstimatorMetricsProps> = ({ response }) 
   return (
     <div className="bg-slate-900 border border-slate-800 rounded-xl p-5 shadow-lg space-y-4">
       <div>
-        <h3 className="font-bold text-white text-base">Jev / Laya System 1 Complexity Analysis</h3>
+        <h3 className="font-bold text-white text-base">Laya System 1 Complexity Analysis</h3>
         <p className="text-xs text-slate-400">
           Non-autoregressive decision model telemetry, calibrated probabilities, and uncertainty hedging state.
         </p>

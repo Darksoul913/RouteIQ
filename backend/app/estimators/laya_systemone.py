@@ -9,7 +9,7 @@ from .base import BaseEstimator
 
 class LayaSystemOneEstimator(BaseEstimator):
     """
-    Non-autoregressive System 1 classifier following the Jev / Laya paradigm.
+    Non-autoregressive System 1 classifier following the Convai Innovations Laya paradigm.
     Produces sub-20ms calibrated decisions and entropy metrics.
     Can hook into an external /v1/systemone service if present,
     or utilize high-speed feature projection locally.

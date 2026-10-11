@@ -9,8 +9,11 @@ export interface ModelInfo {
   output_cost_per_1k: number;
   base_latency_ms: number;
   endpoint_type: string;
-  ollama_name: string | null;
   simulated: boolean;
+  gguf_file?: string;
+  api_provider?: string;
+  api_model_name?: string;
+  env_key?: string;
   circuit_breaker?: {
     state: string;
     consecutive_failures: number;
@@ -95,6 +98,7 @@ export interface RouteResponse {
     chain_hash?: string;
   };
   timestamp: string;
+  cost_matrix?: any;
 }
 
 export interface AuditRecord {

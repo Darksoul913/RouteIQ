@@ -29,7 +29,7 @@ RouteIQ guarantees that **mathematical constraints are never relaxed or violated
                                    │
                                    ▼
          ┌──────────────────────────────────────────────────┐
-         │     Jev / Laya System 1 Decision Architecture    │
+         │     Laya System 1 Decision Architecture    │
          │  • Fast non-autoregressive classification (<5ms) │
          │  • Calibrated probability distributions          │
          │  • Rule 4: Uncertainty Hedging (bump tier if     │
@@ -56,7 +56,7 @@ RouteIQ guarantees that **mathematical constraints are never relaxed or violated
                                    ▼
          ┌──────────────────────────────────────────────────┐
          │       Unified Dual-Mode Resilient Executor       │
-         │  • Live Ollama / Local Model Detection           │
+         │  • Live Local GGUF / Native Apple Silicon & API           │
          │  • Deterministic Calibrated Simulator Fallback   │
          │  • Explicit Badging: [MEASURED]|[SIMULATED]      │
          └─────────┬──────────────────────────────┬─────────┘
@@ -88,17 +88,22 @@ RouteIQ guarantees that **mathematical constraints are never relaxed or violated
 
 ## 🤖 Registered Models & Pricing Table
 
-RouteIQ registers 5 diverse models spanning easy, medium, and frontier tiers:
+RouteIQ registers 10 diverse models across 4 local Apple Silicon GGUFs and 6 top online cloud APIs:
 
 | Model ID | Display Name | Family | Tier | Capability | Context | Cost / 1k (In/Out) | Base Latency | Endpoint Type |
 | :--- | :--- | :--- | :---: | :---: | :---: | :---: | :---: | :--- |
-| `llama-3.2-1b` | Llama 3.2 1B (Instruct) | Meta Llama | Easy | **0.42** | 8,192 | $0.00015 / $0.00060 | 180 ms | Ollama / Simulated |
-| `qwen-2.5-coder-7b` | Qwen 2.5 Coder 7B | Qwen | Medium | **0.76** | 32,768 | $0.00080 / $0.00240 | 420 ms | Ollama / Simulated |
-| `mistral-7b-instruct` | Mistral 7B Instruct v0.3 | Mistral | Medium | **0.72** | 32,768 | $0.00070 / $0.00200 | 380 ms | Ollama / Simulated |
-| `deepseek-r1-distill-14b`| DeepSeek R1 Distill 14B | DeepSeek | Hard | **0.91** | 65,536 | $0.00250 / $0.00800 | 950 ms | Ollama / Simulated |
-| `claude-3.5-sonnet-sim` | Claude 3.5 Sonnet (Frontier) | Anthropic | Hard | **0.98** | 200,000 | $0.00300 / $0.01500 | 1200 ms | Frontier Reference |
+| `llama-3.2-1b` | Meta Llama 3.1 8B (Instruct) | Meta Llama | Easy | **0.42** | 8,192 | $0.00015 / $0.00060 | 180 ms | Local GGUF (`Meta-Llama-3.1-8B-Instruct-Q4_K_M.gguf`) |
+| `qwen-2.5-coder-7b` | Qwen 2.5 Coder 7B | Qwen | Medium | **0.76** | 32,768 | $0.00080 / $0.00240 | 420 ms | Local GGUF (`qwen2.5-coder-7b-instruct-q4_k_m.gguf`) |
+| `mistral-7b-instruct` | Mistral 7B Instruct v0.2 | Mistral | Medium | **0.72** | 32,768 | $0.00070 / $0.00200 | 380 ms | Local GGUF (`Mistral-7B-Instruct-v0.2.Q4_K_M.gguf`) |
+| `deepseek-r1-distill-14b`| DeepSeek R1 Distill 14B | DeepSeek | Hard | **0.91** | 65,536 | $0.00250 / $0.00800 | 950 ms | Local GGUF (`DeepSeek-R1-Distill-Qwen-14B-Q4_K_M.gguf`) |
+| `groq-llama-3.3-70b` | Groq Llama 3.3 70B | Meta Llama (Groq) | Hard | **0.89** | 128,000 | $0.00270 / $0.00850 | 320 ms | Cloud API (`GROQ_API_KEY`) |
+| `gemini-1.5-flash` | Google Gemini 1.5 Flash | Google Gemini | Medium | **0.82** | 1,000,000 | $0.00085 / $0.00250 | 330 ms | Cloud API (`GEMINI_API_KEY`) |
+| `openrouter-llama-3.2-3b` | OpenRouter Llama 3.2 3B | Meta Llama (OpenRouter) | Easy | **0.58** | 131,072 | $0.00035 / $0.00095 | 340 ms | Cloud API (`OPENROUTER_API_KEY`) |
+| `openai-gpt-4o-mini` | OpenAI GPT-4o Mini | OpenAI | Medium | **0.82** | 128,000 | $0.00085 / $0.00260 | 310 ms | Cloud API (`OPENAI_API_KEY`) |
+| `deepseek-chat-api` | DeepSeek V3 Cloud API | DeepSeek (API) | Medium | **0.84** | 64,000 | $0.00090 / $0.00280 | 450 ms | Cloud API (`DEEPSEEK_API_KEY`) |
+| `claude-3.5-sonnet-sim` | Claude 3.5 Sonnet (Frontier) | Anthropic | Hard | **0.98** | 200,000 | $0.00300 / $0.01500 | 1200 ms | Cloud API / Frontier Ref (`ANTHROPIC_API_KEY`) |
 
-*Note: All execution outputs carry transparent labels: `[MEASURED]` (live endpoint), `[SIMULATED]` (offline simulator), `[INJECTED]` (chaos latency added), or `[RULE_ENFORCED]` (structured refusal).*
+*Note: All execution outputs carry transparent labels: `[MEASURED: LOCAL GGUF]` (native Apple Silicon metal), `[LIVE API: PROVIDER]` (live external API), `[SIMULATED]` (offline simulator), `[INJECTED]` (chaos latency added), or `[RULE_ENFORCED]` (structured refusal).*
 
 ---
 
@@ -213,7 +218,7 @@ RouteLLM/
 │   │   ├── estimators/
 │   │   │   ├── base.py           # Estimator abstract base class
 │   │   │   ├── baseline_tfidf.py # Calibrated TF-IDF + Logistic Regression
-│   │   │   ├── laya_systemone.py # Jev/Laya System 1 non-autoregressive classifier
+│   │   │   ├── laya_systemone.py # Laya System 1 non-autoregressive classifier
 │   │   │   ├── heuristic.py      # Deterministic keyword & syntax safety net
 │   │   │   └── multi_estimator.py# Consensus engine & uncertainty hedging
 │   │   ├── engine/

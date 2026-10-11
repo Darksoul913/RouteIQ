@@ -14,8 +14,65 @@ from .circuit_breaker import CircuitBreaker
 from ..chaos.manager import ChaosManager
 from ..storage.telemetry import TelemetryStore
 from ..estimators.multi_estimator import MultiEstimatorConsensus
-from ..config import OLLAMA_BASE_URL
 from .gguf_engine import GGUFEngine
+
+
+def compute_cost_matrix(
+    models: List[Dict[str, Any]],
+    tokens_in: int,
+    tokens_out: int,
+    chosen_model_id: Optional[str],
+    chosen_cost_usd: float
+) -> Dict[str, Any]:
+    """
+    Computes mathematical cost breakdown for all models using:
+    Cost(model) = (tokens_in / 1000 * input_cost_per_1k) + (tokens_out / 1000 * output_cost_per_1k)
+    Evaluates savings relative to the chosen model and frontier baseline.
+    """
+    breakdown = []
+    frontier_model = next((m for m in models if "sonnet" in m["id"] or m.get("endpoint_type") == "cloud_frontier"), None)
+    if not frontier_model:
+        frontier_model = max(models, key=lambda m: m.get("output_cost_per_1k", 0.0))
+
+    baseline_cost = round((tokens_in / 1000.0 * frontier_model["input_cost_per_1k"]) + (tokens_out / 1000.0 * frontier_model["output_cost_per_1k"]), 6)
+
+    for m in models:
+        m_cost = round((tokens_in / 1000.0 * m["input_cost_per_1k"]) + (tokens_out / 1000.0 * m["output_cost_per_1k"]), 6)
+        is_chosen = (m["id"] == chosen_model_id)
+        savings = round(m_cost - chosen_cost_usd, 6)
+        breakdown.append({
+            "model_id": m["id"],
+            "model_name": m["name"],
+            "family": m.get("family", ""),
+            "tier": m.get("tier", "medium"),
+            "input_cost_per_1k": m["input_cost_per_1k"],
+            "output_cost_per_1k": m["output_cost_per_1k"],
+            "calculated_cost_usd": m_cost,
+            "is_chosen": is_chosen,
+            "savings_vs_model_usd": savings,
+            "savings_vs_model_pct": round((savings / m_cost * 100.0), 2) if m_cost > 0 else 0.0
+        })
+
+    if chosen_model_id is not None:
+        money_saved = max(0.0, round(baseline_cost - chosen_cost_usd, 6))
+        savings_pct = round((money_saved / baseline_cost * 100.0), 2) if baseline_cost > 0 else 0.0
+    else:
+        money_saved = 0.0
+        savings_pct = 0.0
+
+    return {
+        "tokens_in": tokens_in,
+        "tokens_out": tokens_out,
+        "chosen_model_id": chosen_model_id,
+        "chosen_cost_usd": round(chosen_cost_usd, 6),
+        "baseline_model_id": frontier_model["id"],
+        "baseline_model_name": frontier_model["name"],
+        "baseline_cost_usd": baseline_cost,
+        "money_saved_usd": money_saved,
+        "savings_percentage": savings_pct,
+        "models": breakdown
+    }
+
 
 class ResilientExecutor:
     """
@@ -41,96 +98,182 @@ class ResilientExecutor:
         self.estimator = estimator
         self.gguf_engine = gguf_engine or GGUFEngine()
 
-    def _is_ollama_available(self, ollama_name: Optional[str]) -> bool:
-        if not ollama_name:
-            return False
-        try:
-            req = urllib.request.Request(f"{OLLAMA_BASE_URL}/api/tags", method="GET")
-            with urllib.request.urlopen(req, timeout=0.15) as resp:
-                if resp.status == 200:
+    def _call_external_api(self, model_config: Dict[str, Any], prompt: str, timeout_sec: float) -> Optional[Tuple[str, int, int, str]]:
+        """
+        Calls live online API models (Groq, Gemini, OpenRouter, Anthropic) if API keys are configured.
+        Returns (choice_text, tokens_in, tokens_out, badge) on success, or None on failure / missing key.
+        """
+        model_id = model_config.get("id", "")
+        provider = model_config.get("api_provider")
+        api_model_name = model_config.get("api_model_name")
+        env_key = model_config.get("env_key")
+
+        # 1. Groq API (High Speed LPUs)
+        groq_key = os.environ.get("GROQ_API_KEY")
+        if (provider == "groq" or "groq" in model_id) and groq_key:
+            target_model = api_model_name or "llama-3.3-70b-versatile"
+            try:
+                req_data = json.dumps({
+                    "model": target_model,
+                    "messages": [{"role": "user", "content": prompt}],
+                    "max_tokens": 300,
+                    "temperature": 0.3
+                }).encode("utf-8")
+                req = urllib.request.Request(
+                    "https://api.groq.com/openai/v1/chat/completions",
+                    data=req_data,
+                    headers={"Content-Type": "application/json", "Authorization": f"Bearer {groq_key}"},
+                    method="POST"
+                )
+                with urllib.request.urlopen(req, timeout=timeout_sec) as resp:
                     data = json.loads(resp.read().decode("utf-8"))
-                    models = [m.get("name") for m in data.get("models", [])]
-                    return any(ollama_name in m for m in models)
-        except Exception:
-            return False
-        return False
+                    choice = data["choices"][0]["message"]["content"]
+                    usage = data.get("usage", {})
+                    t_in = usage.get("prompt_tokens", max(10, len(prompt.split()) * 2))
+                    t_out = usage.get("completion_tokens", max(10, len(choice.split()) * 2))
+                    return choice, t_in, t_out, f"[LIVE API: GROQ ({target_model})]"
+            except Exception:
+                return None
 
-    def _call_ollama(self, ollama_name: str, prompt: str, timeout_sec: float) -> Tuple[str, int, int]:
-        req_data = json.dumps({
-            "model": ollama_name,
-            "prompt": prompt,
-            "stream": False
-        }).encode("utf-8")
-        req = urllib.request.Request(
-            f"{OLLAMA_BASE_URL}/api/generate",
-            data=req_data,
-            headers={"Content-Type": "application/json"},
-            method="POST"
-        )
-        with urllib.request.urlopen(req, timeout=timeout_sec) as resp:
-            data = json.loads(resp.read().decode("utf-8"))
-            text = data.get("response", "")
-            eval_count = data.get("eval_count", 50)
-            prompt_eval_count = data.get("prompt_eval_count", len(prompt.split()) * 2)
-            return text, prompt_eval_count, eval_count
+        # 2. Google Gemini API
+        gemini_key = os.environ.get("GEMINI_API_KEY")
+        if (provider == "gemini" or "gemini" in model_id) and gemini_key:
+            target_model = api_model_name or "gemini-1.5-flash"
+            try:
+                req_data = json.dumps({
+                    "model": target_model,
+                    "messages": [{"role": "user", "content": prompt}],
+                    "max_tokens": 300,
+                    "temperature": 0.3
+                }).encode("utf-8")
+                req = urllib.request.Request(
+                    "https://generativelanguage.googleapis.com/v1beta/openai/chat/completions",
+                    data=req_data,
+                    headers={"Content-Type": "application/json", "Authorization": f"Bearer {gemini_key}"},
+                    method="POST"
+                )
+                with urllib.request.urlopen(req, timeout=timeout_sec) as resp:
+                    data = json.loads(resp.read().decode("utf-8"))
+                    choice = data["choices"][0]["message"]["content"]
+                    usage = data.get("usage", {})
+                    t_in = usage.get("prompt_tokens", max(10, len(prompt.split()) * 2))
+                    t_out = usage.get("completion_tokens", max(10, len(choice.split()) * 2))
+                    return choice, t_in, t_out, f"[LIVE API: GEMINI ({target_model})]"
+            except Exception:
+                return None
 
-    def _call_external_api(self, model_id: str, prompt: str, timeout_sec: float) -> Optional[Tuple[str, int, int]]:
-        """
-        Calls live free/low-cost OpenAI/Groq/OpenRouter/Gemini endpoints if API keys are configured.
-        """
-        api_key = os.environ.get("OPENAI_API_KEY") or os.environ.get("GROQ_API_KEY") or os.environ.get("OPENROUTER_API_KEY") or os.environ.get("GEMINI_API_KEY")
-        if not api_key:
-            return None
+        # 3. OpenRouter API
+        openrouter_key = os.environ.get("OPENROUTER_API_KEY")
+        if (provider == "openrouter" or "openrouter" in model_id) and openrouter_key:
+            target_model = api_model_name or "meta-llama/llama-3.2-3b-instruct:free"
+            try:
+                req_data = json.dumps({
+                    "model": target_model,
+                    "messages": [{"role": "user", "content": prompt}],
+                    "max_tokens": 300,
+                    "temperature": 0.3
+                }).encode("utf-8")
+                req = urllib.request.Request(
+                    "https://openrouter.ai/api/v1/chat/completions",
+                    data=req_data,
+                    headers={"Content-Type": "application/json", "Authorization": f"Bearer {openrouter_key}"},
+                    method="POST"
+                )
+                with urllib.request.urlopen(req, timeout=timeout_sec) as resp:
+                    data = json.loads(resp.read().decode("utf-8"))
+                    choice = data["choices"][0]["message"]["content"]
+                    usage = data.get("usage", {})
+                    t_in = usage.get("prompt_tokens", max(10, len(prompt.split()) * 2))
+                    t_out = usage.get("completion_tokens", max(10, len(choice.split()) * 2))
+                    return choice, t_in, t_out, f"[LIVE API: OPENROUTER ({target_model})]"
+            except Exception:
+                return None
 
-        base_url = "https://api.openai.com/v1"
-        target_model = model_id
+        # 4. Anthropic Claude API
+        anthropic_key = os.environ.get("ANTHROPIC_API_KEY")
+        if (provider == "anthropic" or "claude" in model_id) and anthropic_key:
+            target_model = api_model_name or "claude-3-5-sonnet-20241022"
+            try:
+                req_data = json.dumps({
+                    "model": target_model,
+                    "messages": [{"role": "user", "content": prompt}],
+                    "max_tokens": 300
+                }).encode("utf-8")
+                req = urllib.request.Request(
+                    "https://api.anthropic.com/v1/messages",
+                    data=req_data,
+                    headers={
+                        "Content-Type": "application/json",
+                        "x-api-key": anthropic_key,
+                        "anthropic-version": "2023-06-01"
+                    },
+                    method="POST"
+                )
+                with urllib.request.urlopen(req, timeout=timeout_sec) as resp:
+                    data = json.loads(resp.read().decode("utf-8"))
+                    choice = data["content"][0]["text"]
+                    usage = data.get("usage", {})
+                    t_in = usage.get("input_tokens", max(10, len(prompt.split()) * 2))
+                    t_out = usage.get("output_tokens", max(10, len(choice.split()) * 2))
+                    return choice, t_in, t_out, f"[LIVE API: ANTHROPIC ({target_model})]"
+            except Exception:
+                return None
 
-        if os.environ.get("GROQ_API_KEY"):
-            base_url = "https://api.groq.com/openai/v1"
-            groq_map = {
-                "llama-3.2-1b": "llama-3.1-8b-instant",
-                "mistral-7b-instruct": "mixtral-8x7b-32768",
-                "qwen-2.5-coder-7b": "qwen-2.5-coder-32b",
-                "deepseek-r1-distill-14b": "deepseek-r1-distill-llama-70b"
-            }
-            target_model = groq_map.get(model_id, "llama-3.1-8b-instant")
-            api_key = os.environ.get("GROQ_API_KEY")
-        elif os.environ.get("OPENROUTER_API_KEY"):
-            base_url = "https://openrouter.ai/api/v1"
-            or_map = {
-                "llama-3.2-1b": "meta-llama/llama-3.1-8b-instruct:free",
-                "mistral-7b-instruct": "mistralai/mistral-7b-instruct:free",
-                "qwen-2.5-coder-7b": "qwen/qwen-2.5-coder-32b-instruct:free",
-                "deepseek-r1-distill-14b": "deepseek/deepseek-r1:free"
-            }
-            target_model = or_map.get(model_id, "meta-llama/llama-3.1-8b-instruct:free")
-            api_key = os.environ.get("OPENROUTER_API_KEY")
-        elif os.environ.get("GEMINI_API_KEY"):
-            base_url = "https://generativelanguage.googleapis.com/v1beta/openai"
-            target_model = "gemini-1.5-flash"
-            api_key = os.environ.get("GEMINI_API_KEY")
+        # 5. OpenAI API
+        openai_key = os.environ.get("OPENAI_API_KEY")
+        if (provider == "openai" or "openai" in model_id) and openai_key:
+            target_model = api_model_name or "gpt-4o-mini"
+            try:
+                req_data = json.dumps({
+                    "model": target_model,
+                    "messages": [{"role": "user", "content": prompt}],
+                    "max_tokens": 300,
+                    "temperature": 0.3
+                }).encode("utf-8")
+                req = urllib.request.Request(
+                    "https://api.openai.com/v1/chat/completions",
+                    data=req_data,
+                    headers={"Content-Type": "application/json", "Authorization": f"Bearer {openai_key}"},
+                    method="POST"
+                )
+                with urllib.request.urlopen(req, timeout=timeout_sec) as resp:
+                    data = json.loads(resp.read().decode("utf-8"))
+                    choice = data["choices"][0]["message"]["content"]
+                    usage = data.get("usage", {})
+                    t_in = usage.get("prompt_tokens", max(10, len(prompt.split()) * 2))
+                    t_out = usage.get("completion_tokens", max(10, len(choice.split()) * 2))
+                    return choice, t_in, t_out, f"[LIVE API: OPENAI ({target_model})]"
+            except Exception:
+                return None
 
-        try:
-            req_data = json.dumps({
-                "model": target_model,
-                "messages": [{"role": "user", "content": prompt}],
-                "max_tokens": 250
-            }).encode("utf-8")
-            req = urllib.request.Request(
-                f"{base_url}/chat/completions",
-                data=req_data,
-                headers={"Content-Type": "application/json", "Authorization": f"Bearer {api_key}"},
-                method="POST"
-            )
-            with urllib.request.urlopen(req, timeout=timeout_sec) as resp:
-                data = json.loads(resp.read().decode("utf-8"))
-                choice = data["choices"][0]["message"]["content"]
-                usage = data.get("usage", {})
-                tokens_in = usage.get("prompt_tokens", max(10, len(prompt.split()) * 2))
-                tokens_out = usage.get("completion_tokens", max(10, len(choice.split()) * 2))
-                return choice, tokens_in, tokens_out
-        except Exception:
-            return None
+        # 6. DeepSeek Official Cloud API
+        deepseek_key = os.environ.get("DEEPSEEK_API_KEY")
+        if (provider == "deepseek" or "deepseek" in model_id) and deepseek_key:
+            target_model = api_model_name or "deepseek-chat"
+            try:
+                req_data = json.dumps({
+                    "model": target_model,
+                    "messages": [{"role": "user", "content": prompt}],
+                    "max_tokens": 300,
+                    "temperature": 0.3
+                }).encode("utf-8")
+                req = urllib.request.Request(
+                    "https://api.deepseek.com/chat/completions",
+                    data=req_data,
+                    headers={"Content-Type": "application/json", "Authorization": f"Bearer {deepseek_key}"},
+                    method="POST"
+                )
+                with urllib.request.urlopen(req, timeout=timeout_sec) as resp:
+                    data = json.loads(resp.read().decode("utf-8"))
+                    choice = data["choices"][0]["message"]["content"]
+                    usage = data.get("usage", {})
+                    t_in = usage.get("prompt_tokens", max(10, len(prompt.split()) * 2))
+                    t_out = usage.get("completion_tokens", max(10, len(choice.split()) * 2))
+                    return choice, t_in, t_out, f"[LIVE API: DEEPSEEK ({target_model})]"
+            except Exception:
+                return None
+
+        return None
 
     def _simulate_model_call(
         self,
@@ -142,19 +285,17 @@ class ResilientExecutor:
         expected_output_tokens: int = 150
     ) -> Tuple[str, int, int, float, str]:
         """
-        Deterministic offline model simulator with calibrated latencies.
+        Deterministic offline model simulator with calibrated latencies and persona synthesis.
         """
         base_lat_ms = model["base_latency_ms"]
         target_lat_ms = base_lat_ms + injected_lat_ms
         target_sleep_sec = target_lat_ms / 1000.0
 
         if target_sleep_sec > timeout_sec:
-            # Emulate timeout
             if simulate_delay:
                 time.sleep(min(timeout_sec, 0.02))
             raise TimeoutError(f"Model call exceeded allocated timeout ({timeout_sec*1000:.0f}ms)")
 
-        # Normal execution simulation - brief sleep for realism
         if simulate_delay:
             time.sleep(min(target_sleep_sec * 0.05, 0.02))
 
@@ -162,28 +303,54 @@ class ResilientExecutor:
         max_allowed_by_ctx = max(5, model["context_window"] - tokens_in)
         tokens_out = min(max_allowed_by_ctx, max(5, int(expected_output_tokens)))
 
-        # Content generation reflecting model capability
         cap = model["capability_score"]
         name = model["name"]
+        m_id = model["id"]
 
-        if cap >= 0.90:
+        if "deepseek" in m_id or cap >= 0.90:
             resp_text = (
-                f"[RouteIQ Frontier Response — {name}]\n"
-                f"Analysis completed with multi-step logical verification.\n"
-                f"Prompt query evaluated: '{prompt[:60]}...'\n"
-                f"Synthesized comprehensive answer adhering strictly to mathematical correctness and context boundaries."
+                f"<think>\n"
+                f"1. Deconstruct user prompt: \"{prompt[:80]}\"\n"
+                f"2. Apply multi-step logical chain with capability score {cap}.\n"
+                f"3. Verify edge cases, mathematical invariance, and contextual constraints.\n"
+                f"4. Synthesize verifiable step-by-step resolution.\n"
+                f"</think>\n\n"
+                f"### Analysis & Solution\n"
+                f"Following formal analytical verification:\n\n"
+                f"- **Core Theorem / Result**: The query requires rigorous multi-step deduction.\n"
+                f"- **Verification**: Evaluated with precision using {name}.\n"
+                f"- **Conclusion**: Strict compliance verified against all operational constraints."
+            )
+        elif "coder" in m_id:
+            resp_text = (
+                f"```python\n"
+                f"# Implementation generated by {name}\n"
+                f"def solve_problem(query: str) -> dict:\n"
+                f"    \"\"\"\n"
+                f"    Optimized high-throughput solution for: {prompt[:45]}...\n"
+                f"    \"\"\"\n"
+                f"    return {{\n"
+                f"        'status': 'success',\n"
+                f"        'capability': {cap},\n"
+                f"        'result': 'Processed with algorithmic rigor'\n"
+                f"    }}\n"
+                f"```\n\n"
+                f"**Complexity Analysis**:\n"
+                f"- Time Complexity: O(N log N)\n"
+                f"- Space Complexity: O(1) auxiliary space"
             )
         elif cap >= 0.70:
             resp_text = (
-                f"[RouteIQ Mid-Tier Response — {name}]\n"
-                f"Successfully processed query: '{prompt[:50]}...'\n"
-                f"Provided structured solution with code/analytical reasoning."
+                f"### Structured Overview ({name})\n\n"
+                f"Direct analysis of prompt: *\"{prompt[:60]}\"*\n\n"
+                f"1. **Primary Insight**: Efficient execution balancing quality and latency budget.\n"
+                f"2. **Operational Fit**: Model capability score {cap} satisfies the required complexity tier.\n"
+                f"3. **Recommendation**: Fully verified under RouteIQ dynamic SLA enforcement."
             )
         else:
             resp_text = (
-                f"[RouteIQ Compact Response — {name}]\n"
-                f"Direct response to query: '{prompt[:40]}...'\n"
-                f"Fast execution optimized for minimal cost and latency."
+                f"**Direct Answer ({name})**:\n\n"
+                f"In response to: *\"{prompt[:50]}\"* — Processed successfully under optimal cost and latency SLAs."
             )
 
         badge = "[INJECTED]" if injected_lat_ms > 0 else "[SIMULATED]"
@@ -194,7 +361,7 @@ class ResilientExecutor:
         request_id = f"req_{uuid.uuid4().hex[:10]}"
         timestamp_str = datetime.datetime.now(datetime.timezone.utc).isoformat()
 
-        # Step 1: Complexity estimation & uncertainty hedge
+        # Step 1: Complexity estimation & uncertainty hedge (Laya System 1)
         est_result = self.estimator.evaluate(request.prompt, request.min_capability)
         effective_min_capability = est_result["required_capability"]
 
@@ -248,7 +415,7 @@ class ResilientExecutor:
             call_start = time.perf_counter()
             injected_lat = self.chaos_manager.get_injected_latency(m_id)
             allocated_timeout_sec = remaining_latency_ms / 1000.0
-            is_live_ollama = False
+            is_live_api = False
 
             try:
                 # Check chaos kill-switch or error rate first
@@ -267,23 +434,15 @@ class ResilientExecutor:
                         expected_output_tokens=expected_output_tokens
                     )
                     call_elapsed_ms = gguf_lat_ms + injected_lat
-                elif self._is_ollama_available(m_config.get("ollama_name")):
-                    is_live_ollama = True
-                    resp_text, tokens_in, tokens_out = self._call_ollama(
-                        m_config["ollama_name"], request.prompt, allocated_timeout_sec
-                    )
-                    badge = "[MEASURED: OLLAMA]"
-                    call_elapsed_ms = (time.perf_counter() - call_start) * 1000.0
                 else:
-                    # Attempt Live External Cloud API (Groq / OpenAI / OpenRouter)
-                    ext_res = self._call_external_api(m_id, request.prompt, allocated_timeout_sec)
+                    # 2. Attempt Live Online API (Groq / Gemini / OpenRouter / Anthropic)
+                    ext_res = self._call_external_api(m_config, request.prompt, allocated_timeout_sec)
                     if ext_res is not None:
-                        is_live_ollama = True
-                        resp_text, tokens_in, tokens_out = ext_res
-                        badge = "[MEASURED: API]"
+                        is_live_api = True
+                        resp_text, tokens_in, tokens_out, badge = ext_res
                         call_elapsed_ms = (time.perf_counter() - call_start) * 1000.0
                     else:
-                        # Deterministic calibrated simulator fallback
+                        # 3. Deterministic calibrated simulator fallback
                         resp_text, tokens_in, tokens_out, sim_lat_ms, badge = self._simulate_model_call(
                             m_config, request.prompt, allocated_timeout_sec, injected_lat,
                             simulate_delay=simulate_delay,
@@ -330,6 +489,15 @@ class ResilientExecutor:
                     telemetry=self.telemetry
                 )
 
+                # Compute mathematical comparative cost breakdown matrix
+                cost_matrix = compute_cost_matrix(
+                    models=self.models,
+                    tokens_in=tokens_in,
+                    tokens_out=tokens_out,
+                    chosen_model_id=m_id,
+                    chosen_cost_usd=actual_cost_usd
+                )
+
                 return RouteResponse(
                     request_id=request_id,
                     chosen_model=m_id,
@@ -341,13 +509,14 @@ class ResilientExecutor:
                     failover_chain=failover_chain,
                     actual_metrics=actual_metrics,
                     auditor={},  # Decoupled auditor populates this
-                    timestamp=timestamp_str
+                    timestamp=timestamp_str,
+                    cost_matrix=cost_matrix
                 )
 
             except Exception as exc:
                 if isinstance(exc, TimeoutError):
                     call_elapsed_ms = min(float(m_config["base_latency_ms"] + injected_lat), allocated_timeout_sec * 1000.0)
-                elif is_live_ollama:
+                elif is_live_api:
                     call_elapsed_ms = (time.perf_counter() - call_start) * 1000.0
                 else:
                     call_elapsed_ms = min(float(m_config["base_latency_ms"] + injected_lat), max(allocated_timeout_sec * 1000.0, 10.0))
@@ -385,6 +554,14 @@ class ResilientExecutor:
             telemetry=self.telemetry
         )
 
+        cost_matrix = compute_cost_matrix(
+            models=self.models,
+            tokens_in=prompt_tokens,
+            tokens_out=expected_output_tokens,
+            chosen_model_id=None,
+            chosen_cost_usd=0.0
+        )
+
         return RouteResponse(
             request_id=request_id,
             chosen_model=None,
@@ -404,5 +581,6 @@ class ResilientExecutor:
                 "no_valid_model": True
             },
             auditor={},
-            timestamp=timestamp_str
+            timestamp=timestamp_str,
+            cost_matrix=cost_matrix
         )

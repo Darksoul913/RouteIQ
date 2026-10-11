@@ -48,6 +48,12 @@ EXECUTOR = ResilientExecutor(
 )
 
 def handle_route_request(req_data: Dict[str, Any]) -> Dict[str, Any]:
+    api_keys = req_data.get("api_keys")
+    if isinstance(api_keys, dict):
+        for k, v in api_keys.items():
+            if v and isinstance(v, str) and v.strip():
+                os.environ[k.strip()] = v.strip()
+
     prompt = req_data.get("prompt", "")
     max_lat = float(req_data.get("max_latency_ms") if req_data.get("max_latency_ms") is not None else 1000.0)
     max_cost = float(req_data.get("max_cost_usd") if req_data.get("max_cost_usd") is not None else 0.01)
@@ -281,6 +287,16 @@ class RouteIQHandler(BaseHTTPRequestHandler):
         elif path == "/telemetry":
             self._send_json(200, TELEMETRY_STORE.get_all_stats())
 
+        elif path == "/keys":
+            self._send_json(200, {
+                "GROQ_API_KEY": bool(os.environ.get("GROQ_API_KEY")),
+                "GEMINI_API_KEY": bool(os.environ.get("GEMINI_API_KEY")),
+                "OPENROUTER_API_KEY": bool(os.environ.get("OPENROUTER_API_KEY")),
+                "OPENAI_API_KEY": bool(os.environ.get("OPENAI_API_KEY")),
+                "DEEPSEEK_API_KEY": bool(os.environ.get("DEEPSEEK_API_KEY")),
+                "ANTHROPIC_API_KEY": bool(os.environ.get("ANTHROPIC_API_KEY")),
+            })
+
         elif path == "/events":
             # Server-Sent Events endpoint
             self.send_response(200)
@@ -381,6 +397,34 @@ class RouteIQHandler(BaseHTTPRequestHandler):
             count = int(req_data.get("count", 30))
             comp_res = run_workload_comparison(num_requests=count)
             self._send_json(200, comp_res)
+
+        elif path == "/keys":
+            for k in ["GROQ_API_KEY", "GEMINI_API_KEY", "OPENROUTER_API_KEY", "OPENAI_API_KEY", "DEEPSEEK_API_KEY", "ANTHROPIC_API_KEY"]:
+                if k in req_data:
+                    v = str(req_data[k]).strip()
+                    if v:
+                        os.environ[k] = v
+            try:
+                env_p = Path(__file__).resolve().parent.parent.parent / ".env"
+                lines = []
+                for k in ["GROQ_API_KEY", "GEMINI_API_KEY", "OPENROUTER_API_KEY", "OPENAI_API_KEY", "DEEPSEEK_API_KEY", "ANTHROPIC_API_KEY"]:
+                    if os.environ.get(k):
+                        lines.append(f"{k}={os.environ.get(k)}\n")
+                with open(env_p, "w", encoding="utf-8") as f:
+                    f.writelines(lines)
+            except Exception:
+                pass
+            self._send_json(200, {
+                "status": "updated",
+                "keys": {
+                    "GROQ_API_KEY": bool(os.environ.get("GROQ_API_KEY")),
+                    "GEMINI_API_KEY": bool(os.environ.get("GEMINI_API_KEY")),
+                    "OPENROUTER_API_KEY": bool(os.environ.get("OPENROUTER_API_KEY")),
+                    "OPENAI_API_KEY": bool(os.environ.get("OPENAI_API_KEY")),
+                    "DEEPSEEK_API_KEY": bool(os.environ.get("DEEPSEEK_API_KEY")),
+                    "ANTHROPIC_API_KEY": bool(os.environ.get("ANTHROPIC_API_KEY")),
+                }
+            })
 
         else:
             self._send_json(404, {"error": "Not Found", "path": path})
@@ -486,6 +530,50 @@ try:
     async def api_benchmark(data: Dict[str, Any] = None):
         count = int((data or {}).get("count", 30))
         return run_workload_comparison(num_requests=count)
+
+    @app.get("/telemetry")
+    async def api_telemetry():
+        return TELEMETRY_STORE.get_all_stats()
+
+    @app.get("/keys")
+    async def api_get_keys():
+        return {
+            "GROQ_API_KEY": bool(os.environ.get("GROQ_API_KEY")),
+            "GEMINI_API_KEY": bool(os.environ.get("GEMINI_API_KEY")),
+            "OPENROUTER_API_KEY": bool(os.environ.get("OPENROUTER_API_KEY")),
+            "OPENAI_API_KEY": bool(os.environ.get("OPENAI_API_KEY")),
+            "DEEPSEEK_API_KEY": bool(os.environ.get("DEEPSEEK_API_KEY")),
+            "ANTHROPIC_API_KEY": bool(os.environ.get("ANTHROPIC_API_KEY")),
+        }
+
+    @app.post("/keys")
+    async def api_post_keys(req_data: Dict[str, Any]):
+        for k in ["GROQ_API_KEY", "GEMINI_API_KEY", "OPENROUTER_API_KEY", "OPENAI_API_KEY", "DEEPSEEK_API_KEY", "ANTHROPIC_API_KEY"]:
+            if k in req_data:
+                v = str(req_data[k]).strip()
+                if v:
+                    os.environ[k] = v
+        try:
+            env_p = Path(__file__).resolve().parent.parent.parent / ".env"
+            lines = []
+            for k in ["GROQ_API_KEY", "GEMINI_API_KEY", "OPENROUTER_API_KEY", "OPENAI_API_KEY", "DEEPSEEK_API_KEY", "ANTHROPIC_API_KEY"]:
+                if os.environ.get(k):
+                    lines.append(f"{k}={os.environ.get(k)}\n")
+            with open(env_p, "w", encoding="utf-8") as f:
+                f.writelines(lines)
+        except Exception:
+            pass
+        return {
+            "status": "updated",
+            "keys": {
+                "GROQ_API_KEY": bool(os.environ.get("GROQ_API_KEY")),
+                "GEMINI_API_KEY": bool(os.environ.get("GEMINI_API_KEY")),
+                "OPENROUTER_API_KEY": bool(os.environ.get("OPENROUTER_API_KEY")),
+                "OPENAI_API_KEY": bool(os.environ.get("OPENAI_API_KEY")),
+                "DEEPSEEK_API_KEY": bool(os.environ.get("DEEPSEEK_API_KEY")),
+                "ANTHROPIC_API_KEY": bool(os.environ.get("ANTHROPIC_API_KEY")),
+            }
+        }
 except ImportError:
     app = None
 

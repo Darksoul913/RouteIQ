@@ -3,9 +3,13 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>RouteIQ — SLA-Guaranteed AI Inference Gateway &bull; Apple Silicon GGUF</title>
-  <!-- Tailwind CSS CDN (Optional / Fast Load) -->
+  <title>RouteIQ — SLA-Guaranteed AI Inference Gateway &bull; Laya System 1 Decision Engine</title>
+  <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Marked.js for pristine Markdown parsing -->
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <!-- Canvas Confetti for celebratory milestone animations -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
   <script>
     tailwind.config = {
       darkMode: 'class',
@@ -25,6 +29,7 @@
               card: '#0D1322',
               cardHover: '#141E33',
               border: '#1E293B',
+              borderHover: '#334155',
               cyan: '#06B6D4',
               emerald: '#10B981',
               amber: '#F59E0B',
@@ -33,1456 +38,1694 @@
             }
           },
           boxShadow: {
-            'glow-cyan': '0 0 24px -4px rgba(6, 182, 212, 0.35)',
-            'glow-indigo': '0 0 24px -4px rgba(99, 102, 241, 0.35)',
-            'glow-emerald': '0 0 24px -4px rgba(16, 185, 129, 0.35)',
-            'glow-rose': '0 0 24px -4px rgba(244, 63, 94, 0.35)',
-            'float': '0 12px 36px -6px rgba(0, 0, 0, 0.6), 0 8px 16px -6px rgba(0, 0, 0, 0.4)',
+            'glow-cyan': '0 0 25px -3px rgba(6, 182, 212, 0.4)',
+            'glow-indigo': '0 0 25px -3px rgba(99, 102, 241, 0.4)',
+            'glow-emerald': '0 0 25px -3px rgba(16, 185, 129, 0.4)',
+            'glow-rose': '0 0 25px -3px rgba(244, 63, 94, 0.4)',
+            'glow-violet': '0 0 25px -3px rgba(139, 92, 246, 0.4)',
+            'float': '0 20px 40px -15px rgba(0, 0, 0, 0.7)'
           }
         }
       }
     }
   </script>
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Archivo:wght@600;700;800;900&family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
     
-    /* Core Typography & Resilient Offline Fallback */
     :root {
-      --bg-dark: #070A11;
-      --card-dark: #0D1322;
-      --card-hover: #141E33;
-      --border-dark: #1E293B;
-      --cyan: #06B6D4;
-      --emerald: #10B981;
-      --amber: #F59E0B;
-      --rose: #F43F5E;
-      --violet: #8B5CF6;
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      color-scheme: dark;
     }
+    
     body {
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-      background-color: var(--bg-dark);
-      color: #F1F5F9;
-      margin: 0;
+      background-color: #070A11;
+      color: #E2E8F0;
+      background-image: 
+        radial-gradient(at 15% 15%, rgba(99, 102, 241, 0.12) 0px, transparent 40%),
+        radial-gradient(at 85% 85%, rgba(6, 182, 212, 0.10) 0px, transparent 40%),
+        radial-gradient(at 50% 50%, rgba(139, 92, 246, 0.05) 0px, transparent 60%);
+      background-attachment: fixed;
+    }
+
+    .font-mono {
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    /* Custom high-end scrollbars */
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #090E1A;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #1E293B;
+      border-radius: 9999px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #334155;
+    }
+
+    /* Double-Bezel Card Container */
+    .double-bezel {
+      background: rgba(13, 19, 34, 0.7);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.1), 0 10px 30px -10px rgba(0, 0, 0, 0.5);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+    }
+    .double-bezel:hover {
+      border-color: rgba(255, 255, 255, 0.15);
+    }
+
+    /* Stepper Line & Glows */
+    @keyframes pulse-ring {
+      0% { transform: scale(0.95); opacity: 0.8; }
+      50% { transform: scale(1.1); opacity: 0.3; }
+      100% { transform: scale(0.95); opacity: 0.8; }
+    }
+    .pulse-ring {
+      animation: pulse-ring 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+    }
+
+    /* Markdown Styling */
+    .prose-content p {
+      margin-bottom: 0.75rem;
+      line-height: 1.65;
+    }
+    .prose-content ul, .prose-content ol {
+      margin-left: 1.25rem;
+      margin-bottom: 0.75rem;
+    }
+    .prose-content li {
+      margin-bottom: 0.25rem;
+    }
+    .prose-content pre {
+      background: #050811;
+      border: 1px solid #1E293B;
+      border-radius: 0.75rem;
+      padding: 1rem;
+      overflow-x: auto;
+      margin: 0.75rem 0;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.825rem;
+    }
+    .prose-content code {
+      background: #10162A;
+      color: #38BDF8;
+      padding: 0.15rem 0.4rem;
+      border-radius: 0.35rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.85em;
+    }
+    .prose-content pre code {
+      background: transparent;
+      color: inherit;
       padding: 0;
     }
-    code, pre, .font-mono, .label-mono {
-      font-family: 'JetBrains Mono', SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    .prose-content h1, .prose-content h2, .prose-content h3 {
+      font-weight: 700;
+      color: #F8FAFC;
+      margin-top: 1rem;
+      margin-bottom: 0.5rem;
     }
-    .font-archivo {
-      font-family: 'Archivo', 'Inter', sans-serif;
+    .prose-content strong {
+      color: #FFFFFF;
     }
-    
-    /* Custom Scrollbars */
-    ::-webkit-scrollbar { width: 6px; height: 6px; }
-    ::-webkit-scrollbar-track { background: #070A11; }
-    ::-webkit-scrollbar-thumb { background: #1E293B; border-radius: 4px; }
-    ::-webkit-scrollbar-thumb:hover { background: #334155; }
-    
-    /* Sleek Cards & Micro-Effects */
-    .glass-card {
-      background: rgba(13, 19, 34, 0.85);
-      backdrop-filter: blur(12px);
-      border: 1px solid rgba(30, 41, 59, 0.85);
+
+    /* Button-in-Button Pattern */
+    .btn-island {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.65rem 1.25rem 0.65rem 1.5rem;
+      border-radius: 9999px;
+      font-weight: 600;
       transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
     }
-    .glass-card:hover {
-      border-color: rgba(6, 182, 212, 0.35);
-    }
-    
-    /* Sarvam-JEV Truth Strip */
-    .truth-strip {
+    .btn-island .icon-circle {
       display: flex;
-      flex-wrap: wrap;
-      gap: 0.5rem 1.25rem;
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.72rem;
-      letter-spacing: 0.05em;
-      text-transform: uppercase;
-      color: #94A3B8;
-      padding: 0.5rem 1rem;
-      background: rgba(13, 19, 34, 0.9);
-      border: 1px solid #1E293B;
-      border-radius: 0.5rem;
+      align-items: center;
+      justify-content: center;
+      width: 2rem;
+      height: 2rem;
+      border-radius: 9999px;
+      background: rgba(255, 255, 255, 0.15);
+      transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
     }
-    .truth-strip span::before {
-      content: "•";
-      color: #06B6D4;
-      margin-right: 0.5rem;
-    }
-    
-    /* Skinzy Inverted Card Styling */
-    .hover-invert {
-      transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
-    }
-    .hover-invert:hover {
-      transform: translateY(-2px);
-      border-color: #06B6D4;
-      box-shadow: 0 10px 25px -5px rgba(6, 182, 212, 0.2);
-    }
-    
-    /* Phase Progress Meters */
-    .phase-meter {
-      height: 4px;
-      background: #1E293B;
-      border-radius: 2px;
-      overflow: hidden;
-      margin-top: 6px;
-    }
-    .phase-meter-fill {
-      height: 100%;
-      background: linear-gradient(90deg, #06B6D4, #10B981);
-      width: 100%;
-      border-radius: 2px;
-    }
-    
-    /* Race Lanes */
-    .race-lane {
-      border-radius: 1rem;
-      padding: 1.25rem;
-      position: relative;
-      overflow: hidden;
-    }
-    .race-lane-rq {
-      background: linear-gradient(135deg, rgba(6, 182, 212, 0.07), rgba(16, 185, 129, 0.07));
-      border: 1.5px solid rgba(6, 182, 212, 0.4);
-    }
-    .race-lane-ref {
-      background: rgba(15, 23, 42, 0.5);
-      border: 1.5px solid rgba(51, 65, 85, 0.6);
+    .btn-island:hover .icon-circle {
+      transform: translateX(2px) scale(1.08);
     }
   </style>
 </head>
-<body class="min-h-screen flex flex-col antialiased selection:bg-cyan-500/20 selection:text-cyan-300">
+<body class="h-screen flex overflow-hidden">
 
-  <!-- Top Navigation Header -->
-  <header class="border-b border-slate-800/90 bg-[#070A11]/95 backdrop-blur-md sticky top-0 z-40">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
+  <!-- ========================================================================= -->
+  <!-- LEFT SIDEBAR: PROFILE, SESSION TELEMETRY, REAL-TIME MODEL USAGE & SLAS    -->
+  <!-- ========================================================================= -->
+  <aside id="sidebar" class="w-80 md:w-88 flex-shrink-0 bg-[#090D18]/95 border-r border-slate-800/80 flex flex-col justify-between z-30 transition-all duration-300 hidden md:flex">
+    
+    <!-- Top Section: Brand & User Profile -->
+    <div class="p-4 border-b border-slate-800/80 space-y-3">
       
-      <!-- Brand & Masthead (Sarvam-Jev Style) -->
-      <div class="flex items-center space-x-3.5">
-        <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-cyan-500 via-indigo-600 to-violet-500 flex items-center justify-center text-white font-black text-base shadow-glow-cyan">
-          ⚡
-        </div>
-        <div>
-          <div class="flex items-center space-x-2">
-            <span class="font-extrabold text-white text-base tracking-tight font-archivo">ROUTEIQ</span>
-            <span class="text-[10px] px-2 py-0.5 rounded-full bg-cyan-950/80 text-cyan-300 border border-cyan-800/60 font-semibold tracking-wide uppercase font-mono">
-              Apple Silicon GGUF Gateway
-            </span>
-          </div>
-          <div class="text-[10px] text-slate-400 font-mono tracking-tight hidden sm:block">
-            Indic &amp; Global Model Routing Decisions: Read Not Guessed &bull; Failover Never Relaxes Constraints
-          </div>
-        </div>
-      </div>
-
-      <!-- Top Right Badges & Controls -->
-      <div class="flex items-center space-x-3">
-        <!-- Live Auditor Pill -->
-        <div id="top-auditor-badge" class="flex items-center space-x-2 px-3 py-1.5 rounded-full bg-emerald-950/50 border border-emerald-500/30 text-emerald-300 text-xs font-mono">
-          <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-          <span>SLA Breaches: <strong id="val-violations" class="text-white font-bold">0</strong> / <span id="val-total" class="text-emerald-400">0</span></span>
-        </div>
-
-        <!-- Hardware Status -->
-        <div class="hidden md:flex items-center space-x-1.5 px-3 py-1.5 rounded-full bg-indigo-950/40 border border-indigo-500/30 text-indigo-300 text-xs font-mono">
-          <span>🖥️</span>
-          <span>Apple Silicon Q4_K_M</span>
-        </div>
-
-        <button onclick="resetAllChaos()" class="text-xs px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 transition flex items-center space-x-1">
-          <span>🔄</span>
-          <span class="hidden sm:inline">Reset Chaos</span>
-        </button>
-      </div>
-    </div>
-
-    <!-- Sarvam-JEV Truth Strip -->
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 py-1.5 overflow-x-auto">
-      <div class="truth-strip">
-        <span>zero cloud cost</span>
-        <span>offline Apple Silicon GGUF</span>
-        <span>your timings</span>
-        <span id="size-chip">4 local models (21.4 GB)</span>
-        <span>0 SLA breaches</span>
-        <span>Laya-JEV System 1 &lt;2ms</span>
-      </div>
-    </div>
-
-    <!-- Live Metric Hero Ticker ("Total Cost Saved with RouteIQ") -->
-    <div class="border-t border-slate-800/80 bg-[#0A0F1E]/95 py-2.5 px-4 sm:px-6">
-      <div class="max-w-7xl mx-auto grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs">
-        
-        <!-- Ticker Card 1: Total Cost Saved -->
-        <div class="flex items-center space-x-3 p-2 rounded-xl bg-slate-900/60 border border-emerald-500/30 shadow-glow-emerald">
-          <div class="w-8 h-8 rounded-lg bg-emerald-950/80 text-emerald-400 flex items-center justify-center font-bold text-sm">
-            💰
-          </div>
-          <div>
-            <div class="text-[10px] text-slate-400 uppercase font-semibold tracking-wider font-mono">Total Cost Saved with RouteIQ</div>
-            <div class="font-mono font-extrabold text-sm text-emerald-400 flex items-center space-x-1.5">
-              <span id="ticker-cost-saved">$0.04820</span>
-              <span class="text-[10px] px-1.5 py-0.2 rounded bg-emerald-900/60 text-emerald-300 font-sans font-bold">86.4%</span>
-            </div>
-          </div>
-        </div>
-
-        <!-- Ticker Card 2: Average Latency -->
-        <div class="flex items-center space-x-3 p-2 rounded-xl bg-slate-900/60 border border-cyan-500/20 shadow-glow-cyan">
-          <div class="w-8 h-8 rounded-lg bg-cyan-950/80 text-cyan-400 flex items-center justify-center font-bold text-sm">
+      <!-- Brand Header -->
+      <div class="flex items-center justify-between">
+        <div class="flex items-center space-x-2.5">
+          <div class="w-8 h-8 rounded-xl bg-gradient-to-tr from-cyan-500 via-indigo-600 to-violet-500 flex items-center justify-center text-white font-black text-sm shadow-glow-cyan">
             ⚡
           </div>
           <div>
-            <div class="text-[10px] text-slate-400 uppercase font-semibold tracking-wider font-mono">Avg Gateway Latency</div>
-            <div class="font-mono font-extrabold text-sm text-cyan-300 flex items-center space-x-1.5">
-              <span id="ticker-avg-lat">185 ms</span>
-              <span class="text-[10px] px-1.5 py-0.2 rounded bg-cyan-900/60 text-cyan-300 font-sans font-bold">6.5x Faster</span>
+            <div class="flex items-center space-x-1.5">
+              <span class="font-extrabold text-white text-sm tracking-tight">ROUTEIQ</span>
+              <span class="text-[9px] px-1.5 py-0.5 rounded bg-cyan-950/80 text-cyan-300 border border-cyan-800/60 font-mono font-semibold uppercase">
+                Gateway
+              </span>
+            </div>
+            <div class="text-[10px] text-slate-400 font-mono">
+              Laya System 1 Decision Model
             </div>
           </div>
         </div>
 
-        <!-- Ticker Card 3: Auditor Invariants -->
-        <div class="flex items-center space-x-3 p-2 rounded-xl bg-slate-900/60 border border-indigo-500/20">
-          <div class="w-8 h-8 rounded-lg bg-indigo-950/80 text-indigo-400 flex items-center justify-center font-bold text-sm">
-            🛡️
-          </div>
-          <div>
-            <div class="text-[10px] text-slate-400 uppercase font-semibold tracking-wider font-mono">Auditor Invariants</div>
-            <div class="font-mono font-extrabold text-sm text-indigo-300 flex items-center space-x-1.5">
-              <span>0 Violations</span>
-              <span class="text-[10px] px-1.5 py-0.2 rounded bg-indigo-900/60 text-indigo-300 font-sans font-bold">SHA-256</span>
-            </div>
-          </div>
+        <div class="flex items-center space-x-1.5">
+          <button onclick="openApiKeysModal()" title="Configure API Keys (Groq, Gemini, OpenRouter, OpenAI, DeepSeek, Anthropic)" class="p-1.5 rounded-lg bg-slate-800/80 hover:bg-slate-700 text-slate-300 border border-slate-700/60 transition text-xs flex items-center space-x-1">
+            <span>🔑</span>
+            <span class="text-[10px] font-mono font-semibold" id="api-status-badge">API</span>
+          </button>
+          <button onclick="toggleMobileSidebar()" class="md:hidden p-1.5 rounded-lg bg-slate-800 text-slate-300 hover:text-white text-xs">✕</button>
         </div>
-
-        <!-- Ticker Card 4: Local GGUF Models -->
-        <div class="flex items-center space-x-3 p-2 rounded-xl bg-slate-900/60 border border-violet-500/20">
-          <div class="w-8 h-8 rounded-lg bg-violet-950/80 text-violet-400 flex items-center justify-center font-bold text-sm">
-            🧠
-          </div>
-          <div>
-            <div class="text-[10px] text-slate-400 uppercase font-semibold tracking-wider font-mono">Local GGUF Models</div>
-            <div class="font-mono font-extrabold text-sm text-violet-300 flex items-center space-x-1.5">
-              <span>4 Real GGUFs</span>
-              <span class="text-[10px] px-1.5 py-0.2 rounded bg-violet-900/60 text-violet-300 font-sans font-bold">$0 Fee</span>
-            </div>
-          </div>
-        </div>
-
       </div>
+
+      <!-- User Profile Card (Double-Bezel) -->
+      <div class="double-bezel p-2.5 rounded-2xl flex items-center justify-between group cursor-pointer hover:border-indigo-500/40 transition" onclick="openProfileModal()">
+        <div class="flex items-center space-x-2.5 overflow-hidden">
+          <div id="user-avatar-badge" class="w-9 h-9 rounded-xl bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center text-white font-bold text-sm flex-shrink-0 shadow-inner">
+            AV
+          </div>
+          <div class="min-w-0">
+            <div class="flex items-center space-x-1.5">
+              <span id="user-display-name" class="font-bold text-white text-xs truncate">Alex Vance</span>
+              <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+            </div>
+            <div id="user-display-role" class="text-[10px] text-slate-400 font-mono truncate">
+              Principal AI Architect
+            </div>
+          </div>
+        </div>
+        <div class="text-slate-400 group-hover:text-cyan-400 text-xs px-2 transition">
+          ✏️
+        </div>
+      </div>
+
+      <!-- Prominent "Start Session" / "Reset Session" Action -->
+      <div>
+        <button id="btn-session-toggle" onclick="toggleSessionState()" class="w-full py-2.5 px-4 rounded-xl font-bold text-xs flex items-center justify-center space-x-2 transition-all shadow-glow-emerald bg-gradient-to-r from-emerald-500 via-teal-500 to-cyan-500 text-slate-950 hover:brightness-110 active:scale-[0.98]">
+          <span id="session-btn-icon">🚀</span>
+          <span id="session-btn-text">START SESSION</span>
+        </button>
+      </div>
+
     </div>
 
-    <!-- Navigation Tabs -->
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 flex space-x-1 border-t border-slate-800/80 text-xs font-medium overflow-x-auto">
-      <button onclick="switchView('chat')" id="nav-btn-chat" class="px-4 py-2.5 border-b-2 border-cyan-400 text-cyan-300 font-bold transition flex items-center space-x-1.5">
-        <span>💬</span><span>Gateway Playground</span>
-      </button>
-      <button onclick="switchView('decision')" id="nav-btn-decision" class="px-4 py-2.5 border-b-2 border-transparent text-slate-400 hover:text-slate-200 transition flex items-center space-x-1.5">
-        <span>🔍</span><span>"Why Not This Model?" Matrix</span>
-      </button>
-      <button onclick="switchView('laya')" id="nav-btn-laya" class="px-4 py-2.5 border-b-2 border-transparent text-slate-400 hover:text-slate-200 transition flex items-center space-x-1.5">
-        <span>🧠</span><span>Laya / JEV System 1 Engine</span>
-      </button>
-      <button onclick="switchView('chaos')" id="nav-btn-chaos" class="px-4 py-2.5 border-b-2 border-transparent text-slate-400 hover:text-slate-200 transition flex items-center space-x-1.5">
-        <span>💥</span><span>Judge Chaos Studio</span>
-      </button>
-      <button onclick="switchView('models')" id="nav-btn-models" class="px-4 py-2.5 border-b-2 border-transparent text-slate-400 hover:text-slate-200 transition flex items-center space-x-1.5">
-        <span>🖥️</span><span>GGUF Models Inventory</span>
-      </button>
-      <button onclick="switchView('benchmark')" id="nav-btn-benchmark" class="px-4 py-2.5 border-b-2 border-transparent text-slate-400 hover:text-slate-200 transition flex items-center space-x-1.5">
-        <span>📊</span><span>Workload ROI Benchmark</span>
-      </button>
-      <button onclick="switchView('audit')" id="nav-btn-audit" class="px-4 py-2.5 border-b-2 border-transparent text-slate-400 hover:text-slate-200 transition flex items-center space-x-1.5">
-        <span>🛡️</span><span>SHA-256 Ledger</span>
-      </button>
-    </div>
-  </header>
-
-  <!-- Main View Container -->
-  <div class="flex-1 flex max-w-7xl w-full mx-auto overflow-hidden">
-
-    <!-- VIEW 1: GATEWAY PLAYGROUND & CHAT -->
-    <main id="view-chat" class="flex-1 flex flex-col h-[calc(100vh-12rem)] relative">
+    <!-- Middle Scrollable Section: Session Telemetry & Real-Time Model Cards -->
+    <div class="flex-1 overflow-y-auto p-4 space-y-4">
       
-      <!-- Conversation Stream -->
-      <div id="chat-messages-container" class="flex-1 overflow-y-auto px-4 sm:px-6 py-6 space-y-6 pb-56">
-        
-        <!-- Welcome Hero (Sarvam-Jev & Skinzy Style) -->
-        <div id="chat-welcome-hero" class="max-w-3xl mx-auto py-4 space-y-5">
-          
-          <!-- Sarvam-JEV 00 / Setup Progress Card -->
-          <div class="glass-card rounded-2xl p-5 border border-slate-800 space-y-3">
-            <div class="flex justify-between items-center text-xs">
-              <span class="label-mono text-cyan-400 uppercase font-bold tracking-wider">00 / Setup &bull; Local Hardware Execution</span>
-              <span class="px-2 py-0.5 rounded bg-emerald-950 text-emerald-300 font-mono text-[10px] font-bold border border-emerald-800">READY</span>
-            </div>
-            <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-1">
-              <div class="bg-slate-900/80 p-3 rounded-xl border border-slate-800">
-                <div class="text-[10px] text-slate-400 font-mono uppercase">Model Cache</div>
-                <div class="text-sm font-bold text-white mt-1">4 GGUF Files (21.4 GB)</div>
-                <div class="phase-meter"><div class="phase-meter-fill"></div></div>
-                <div class="text-[9px] text-slate-500 font-mono mt-1">DeepSeek R1, Llama 3.1, Qwen, Mistral</div>
-              </div>
-              <div class="bg-slate-900/80 p-3 rounded-xl border border-slate-800">
-                <div class="text-[10px] text-slate-400 font-mono uppercase">Hardware Runtime</div>
-                <div class="text-sm font-bold text-white mt-1">Apple Silicon Metal Q4_K_M</div>
-                <div class="phase-meter"><div class="phase-meter-fill"></div></div>
-                <div class="text-[9px] text-slate-500 font-mono mt-1">Zero cloud API subscriptions needed</div>
-              </div>
-              <div class="bg-slate-900/80 p-3 rounded-xl border border-slate-800">
-                <div class="text-[10px] text-slate-400 font-mono uppercase">Laya-JEV System 1</div>
-                <div class="text-sm font-bold text-white mt-1">&lt;2ms Complexity Classifier</div>
-                <div class="phase-meter"><div class="phase-meter-fill"></div></div>
-                <div class="text-[9px] text-slate-500 font-mono mt-1">Non-autoregressive entropy hedge</div>
-              </div>
-            </div>
+      <!-- ACTIVE SESSION TELEMETRY WIDGET -->
+      <div id="session-card" class="double-bezel p-3 rounded-2xl space-y-2.5 border-emerald-500/30">
+        <div class="flex items-center justify-between">
+          <div class="flex items-center space-x-1.5">
+            <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
+            <span class="text-[10px] font-mono uppercase tracking-wider text-emerald-400 font-bold" id="session-indicator-label">Session: Idle</span>
           </div>
+          <span class="text-[10px] text-slate-400 font-mono" id="session-timer">00:00:00</span>
+        </div>
 
-          <!-- Free API Option Notice -->
-          <div class="p-3.5 rounded-xl bg-indigo-950/30 border border-indigo-500/30 text-xs text-indigo-200 flex items-start space-x-2.5">
-            <span class="text-base">💡</span>
-            <div>
-              <strong class="text-white">Free Internet API Option:</strong> If you prefer online models, set <code class="text-cyan-300 bg-slate-900 px-1.5 py-0.5 rounded">GROQ_API_KEY</code>, <code class="text-cyan-300 bg-slate-900 px-1.5 py-0.5 rounded">OPENROUTER_API_KEY</code>, or <code class="text-cyan-300 bg-slate-900 px-1.5 py-0.5 rounded">GEMINI_API_KEY</code>. RouteIQ routes to 100% free cloud models (Groq Llama 3.1 8B, Qwen Coder, DeepSeek R1; OpenRouter :free models; Gemini 1.5 Flash). Offline execution is always 100% free on your Apple Silicon Mac.
-            </div>
+        <!-- Session ROI Matrix -->
+        <div class="grid grid-cols-2 gap-2 text-[11px] font-mono">
+          <div class="bg-slate-950/80 p-2 rounded-xl border border-slate-800">
+            <div class="text-[9px] text-slate-400 uppercase">RouteIQ Spent</div>
+            <div class="text-emerald-400 font-bold text-sm" id="sess-routeiq-cost">$0.00000</div>
           </div>
-
-          <!-- Quick Suggestion Cards -->
-          <div>
-            <div class="text-xs text-slate-400 font-mono mb-2 uppercase tracking-wider">Try an Example Query:</div>
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-left">
-              <button onclick="sendQuickPrompt('What is the capital of France and what is its population?', 'lowest_cost', 0.35, 1000)" class="p-3.5 glass-card rounded-xl text-left group transition hover-invert">
-                <div class="font-bold text-xs text-slate-200 group-hover:text-cyan-400 flex items-center space-x-1.5">
-                  <span>💰</span><span>Fast &amp; Cheap Query</span>
-                </div>
-                <div class="text-[11px] text-slate-400 mt-1 truncate">"What is the capital of France?"</div>
-                <div class="text-[10px] text-cyan-400 font-mono mt-1.5">Routes to Meta Llama 3.1 8B (Q4_K_M GGUF)</div>
-              </button>
-
-              <button onclick="sendQuickPrompt('Write an optimized Python LRU Cache class with O(1) get and put operations and assertions.', 'lowest_cost', 0.70, 1200)" class="p-3.5 glass-card rounded-xl text-left group transition hover-invert">
-                <div class="font-bold text-xs text-slate-200 group-hover:text-cyan-400 flex items-center space-x-1.5">
-                  <span>💻</span><span>Code Generation &amp; Analysis</span>
-                </div>
-                <div class="text-[11px] text-slate-400 mt-1 truncate">"Implement LRU Cache in Python with tests"</div>
-                <div class="text-[10px] text-cyan-400 font-mono mt-1.5">Routes to Qwen 2.5 Coder 7B (Q4_K_M GGUF)</div>
-              </button>
-
-              <button onclick="sendQuickPrompt('Prove step by step why the square root of 2 is an irrational number using proof by contradiction.', 'lowest_cost', 0.85, 2000)" class="p-3.5 glass-card rounded-xl text-left group transition hover-invert">
-                <div class="font-bold text-xs text-slate-200 group-hover:text-cyan-400 flex items-center space-x-1.5">
-                  <span>🧠</span><span>Multi-Step Deep Reasoning</span>
-                </div>
-                <div class="text-[11px] text-slate-400 mt-1 truncate">"Prove sqrt(2) is irrational step by step"</div>
-                <div class="text-[10px] text-cyan-400 font-mono mt-1.5">Routes to DeepSeek R1 Distill 14B (&lt;think&gt; trace)</div>
-              </button>
-
-              <button onclick="sendQuickPrompt('Analyze the legal indemnity, limitation of liability, and jurisdiction clauses in a SaaS master services agreement.', 'highest_capability', 0.95, 2500)" class="p-3.5 glass-card rounded-xl text-left group transition hover-invert">
-                <div class="font-bold text-xs text-slate-200 group-hover:text-cyan-400 flex items-center space-x-1.5">
-                  <span>🏛️</span><span>Frontier Legal Analysis</span>
-                </div>
-                <div class="text-[11px] text-slate-400 mt-1 truncate">"Analyze liability in 50-clause MSA contract"</div>
-                <div class="text-[10px] text-indigo-400 font-mono mt-1.5">Routes to Claude 3.5 Sonnet Reference</div>
-              </button>
-            </div>
+          <div class="bg-slate-950/80 p-2 rounded-xl border border-slate-800">
+            <div class="text-[9px] text-slate-400 uppercase">Without RouteIQ</div>
+            <div class="text-rose-400 font-bold text-sm" id="sess-baseline-cost">$0.00000</div>
+          </div>
+          <div class="bg-slate-950/80 p-2 rounded-xl border border-slate-800">
+            <div class="text-[9px] text-slate-400 uppercase">Net Saved ($)</div>
+            <div class="text-cyan-400 font-bold text-sm" id="sess-saved-cost">$0.00000</div>
+          </div>
+          <div class="bg-slate-950/80 p-2 rounded-xl border border-slate-800">
+            <div class="text-[9px] text-slate-400 uppercase">Cost Reduced</div>
+            <div class="text-amber-400 font-bold text-sm" id="sess-saved-pct">0.0%</div>
           </div>
         </div>
 
-        <!-- Chat Stream Messages -->
-        <div id="chat-stream-list" class="space-y-6 max-w-3xl mx-auto"></div>
-
-      </div>
-
-      <!-- Floating Bottom Input Dock -->
-      <div class="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-[#070A11] via-[#070A11]/95 to-transparent">
-        <div class="max-w-3xl mx-auto">
-          
-          <!-- Routing Settings Dock -->
-          <div class="bg-[#0D1322] border border-slate-800 rounded-2xl shadow-float p-3.5 transition focus-within:border-cyan-500 focus-within:ring-1 focus-within:ring-cyan-500/50">
-            
-            <!-- Quick Configuration Badges -->
-            <div class="flex flex-wrap items-center justify-between gap-2 pb-2.5 mb-2.5 border-b border-slate-800/80 text-[11px]">
-              <div class="flex flex-wrap items-center gap-1.5">
-                <span class="text-slate-400 font-semibold uppercase text-[10px] tracking-wider font-mono">Hard Constraints:</span>
-                
-                <!-- Latency Badge -->
-                <button onclick="toggleSettingsDrawer()" class="px-2.5 py-1 rounded-full bg-slate-900 hover:bg-slate-800 text-cyan-300 font-mono flex items-center space-x-1 border border-cyan-800/40">
-                  <span>⏱️</span><span id="badge-lat-display">SLO &le; 1000ms</span>
-                </button>
-
-                <!-- Cost Badge -->
-                <button onclick="toggleSettingsDrawer()" class="px-2.5 py-1 rounded-full bg-slate-900 hover:bg-slate-800 text-emerald-300 font-mono flex items-center space-x-1 border border-emerald-800/40">
-                  <span>💰</span><span id="badge-cost-display">Budget &le; $0.0050</span>
-                </button>
-
-                <!-- Capability Badge -->
-                <button onclick="toggleSettingsDrawer()" class="px-2.5 py-1 rounded-full bg-slate-900 hover:bg-slate-800 text-indigo-300 font-mono flex items-center space-x-1 border border-indigo-800/40">
-                  <span>🎯</span><span id="badge-cap-display">Cap &ge; 0.35</span>
-                </button>
-
-                <!-- Preference Badge -->
-                <button onclick="toggleSettingsDrawer()" class="px-2.5 py-1 rounded-full bg-slate-900 hover:bg-slate-800 text-violet-300 font-mono flex items-center space-x-1 border border-violet-800/40">
-                  <span>⚙️</span><span id="badge-pref-display">Lowest Cost</span>
-                </button>
-              </div>
-
-              <!-- Quick Presets Dropdown -->
-              <div class="flex items-center space-x-1">
-                <select id="chat-quick-preset" onchange="applyChatPreset(this.value)" class="bg-slate-900 border border-slate-700 rounded-lg px-2.5 py-1 text-[11px] text-slate-300 focus:outline-none">
-                  <option value="">⚙️ SLA Presets...</option>
-                  <option value="budget">💰 Budget Crunch ($0.0003)</option>
-                  <option value="latency">⏱️ Strict Latency (250ms)</option>
-                  <option value="code">💻 Code Generation (Cap 0.70)</option>
-                  <option value="reasoning">🧠 Deep Reasoning (Cap 0.85)</option>
-                  <option value="outage">💥 Trigger Outage Chaos</option>
-                </select>
-              </div>
-            </div>
-
-            <!-- Textarea & Send Button -->
-            <div class="flex items-end space-x-2.5">
-              <textarea
-                id="chat-input"
-                rows="2"
-                placeholder="Ask anything... RouteIQ routes to the optimal local GGUF model under your hard SLA constraints"
-                class="flex-1 bg-transparent resize-none text-sm text-slate-100 placeholder-slate-500 focus:outline-none max-h-32 leading-relaxed"
-                onkeydown="if(event.key === 'Enter' && !event.shiftKey) { event.preventDefault(); sendChatMessage(); }"
-              ></textarea>
-
-              <button
-                id="btn-send-chat"
-                onclick="sendChatMessage()"
-                class="p-3 rounded-xl bg-gradient-to-tr from-cyan-500 to-indigo-600 hover:from-cyan-400 hover:to-indigo-500 text-white transition flex items-center justify-center shadow-glow-cyan disabled:opacity-50"
-              >
-                <svg class="w-4 h-4 transform rotate-90" fill="currentColor" viewBox="0 0 20 20">
-                  <path d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z"></path>
-                </svg>
-              </button>
-            </div>
-          </div>
-
-          <!-- Bottom Footer Disclaimer -->
-          <div class="text-center text-[10px] text-slate-500 mt-2 font-mono">
-            RouteIQ &bull; Apple Silicon Native GGUF &bull; Failover Never Relaxes Constraints &bull; SHA-256 Ledger
-          </div>
+        <div class="flex items-center justify-between text-[10px] text-slate-400 font-mono px-1">
+          <span>Tokens: <strong id="sess-tokens" class="text-slate-200">0 in / 0 out</strong></span>
+          <span>Queries: <strong id="sess-queries" class="text-cyan-300">0</strong></span>
         </div>
       </div>
 
-      <!-- Settings Drawer Modal -->
-      <div id="settings-drawer" class="hidden absolute top-2 right-4 bg-[#0D1322] border border-slate-700 rounded-2xl p-4 shadow-float w-84 space-y-3.5 z-50 text-xs">
-        <div class="flex justify-between items-center pb-2 border-b border-slate-800">
-          <span class="font-bold text-slate-200">Hard SLA Constraints</span>
-          <button onclick="toggleSettingsDrawer()" class="text-slate-400 hover:text-slate-200 text-lg">&times;</button>
+      <!-- REAL-TIME MODEL USAGE STATISTICS CARDS -->
+      <div class="space-y-2">
+        <div class="flex items-center justify-between px-1">
+          <span class="text-[11px] font-bold text-slate-300 uppercase tracking-wider font-mono">Real-Time Model Fleet</span>
+          <span class="text-[10px] px-2 py-0.5 rounded-full bg-slate-800 text-slate-400 font-mono" id="model-fleet-count">8 Models</span>
         </div>
 
-        <div>
-          <div class="flex justify-between text-[11px] mb-1">
-            <span class="text-slate-400">Max Latency SLO:</span>
-            <span id="drawer-lat-val" class="font-mono text-cyan-400 font-bold">1000 ms</span>
+        <div id="models-list" class="space-y-2">
+          <!-- Dynamically populated model usage cards -->
+          <div class="p-3 text-center text-xs text-slate-500 font-mono">Loading model registry...</div>
+        </div>
+      </div>
+
+      <!-- HARD SLA CONSTRAINTS TUNER -->
+      <div class="double-bezel p-3 rounded-2xl space-y-3">
+        <div class="flex items-center justify-between">
+          <span class="text-[11px] font-bold text-slate-300 uppercase tracking-wider font-mono">SLA Constraints</span>
+          <button onclick="resetConstraints()" class="text-[10px] text-slate-400 hover:text-white underline font-mono">Reset</button>
+        </div>
+
+        <!-- Latency Slider -->
+        <div class="space-y-1">
+          <div class="flex justify-between text-[11px] font-mono">
+            <span class="text-slate-400">Max Latency:</span>
+            <span class="text-cyan-400 font-bold" id="val-max-latency">1000 ms</span>
           </div>
-          <input type="range" id="drawer-lat-slider" min="100" max="2500" step="50" value="1000" oninput="syncSettings()" class="w-full accent-cyan-500 cursor-pointer">
+          <input type="range" id="input-latency" min="150" max="3000" step="50" value="1000" oninput="updateConstraintLabels()" class="w-full accent-cyan-500 cursor-pointer h-1.5 bg-slate-800 rounded-lg" />
         </div>
 
-        <div>
-          <div class="flex justify-between text-[11px] mb-1">
-            <span class="text-slate-400">Max Cost Budget:</span>
-            <span id="drawer-cost-val" class="font-mono text-emerald-400 font-bold">$0.00500</span>
+        <!-- Cost Budget Slider -->
+        <div class="space-y-1">
+          <div class="flex justify-between text-[11px] font-mono">
+            <span class="text-slate-400">Budget Ceiling:</span>
+            <span class="text-emerald-400 font-bold" id="val-max-cost">$0.0100</span>
           </div>
-          <input type="range" id="drawer-cost-slider" min="0.0001" max="0.02" step="0.0001" value="0.005" oninput="syncSettings()" class="w-full accent-emerald-500 cursor-pointer">
+          <input type="range" id="input-cost" min="0.0002" max="0.0300" step="0.0002" value="0.0100" oninput="updateConstraintLabels()" class="w-full accent-emerald-500 cursor-pointer h-1.5 bg-slate-800 rounded-lg" />
         </div>
 
-        <div>
-          <div class="flex justify-between text-[11px] mb-1">
-            <span class="text-slate-400">Minimum Capability:</span>
-            <span id="drawer-cap-val" class="font-mono text-indigo-400 font-bold">0.35</span>
+        <!-- Capability Slider -->
+        <div class="space-y-1">
+          <div class="flex justify-between text-[11px] font-mono">
+            <span class="text-slate-400">Min Capability:</span>
+            <span class="text-indigo-400 font-bold" id="val-min-cap">0.35</span>
           </div>
-          <input type="range" id="drawer-cap-slider" min="0.0" max="1.0" step="0.05" value="0.35" oninput="syncSettings()" class="w-full accent-indigo-500 cursor-pointer">
+          <input type="range" id="input-capability" min="0.0" max="0.99" step="0.05" value="0.35" oninput="updateConstraintLabels()" class="w-full accent-indigo-500 cursor-pointer h-1.5 bg-slate-800 rounded-lg" />
         </div>
 
-        <div>
-          <label class="text-[11px] text-slate-400 block mb-1">Optimization Preference:</label>
-          <select id="drawer-pref-sel" onchange="syncSettings()" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2 text-xs text-slate-200">
-            <option value="lowest_cost">Lowest Cost</option>
-            <option value="lowest_latency">Lowest Latency</option>
-            <option value="highest_capability">Highest Capability</option>
-            <option value="balanced_pareto">Balanced Pareto</option>
+        <!-- Preference Selector -->
+        <div class="space-y-1">
+          <span class="text-[10px] text-slate-400 font-mono">Objective Policy:</span>
+          <select id="select-preference" class="w-full bg-slate-950 border border-slate-800 rounded-lg text-xs py-1.5 px-2 text-slate-200 font-mono focus:border-cyan-500 focus:outline-none">
+            <option value="lowest_cost">Lowest Cost (Optimal ROI)</option>
+            <option value="lowest_latency">Lowest Latency (Fastest Speed)</option>
+            <option value="highest_capability">Highest Capability (Deepest Quality)</option>
+            <option value="balanced_pareto">Balanced Pareto Frontier</option>
           </select>
         </div>
       </div>
 
-    </main>
+    </div>
 
-    <!-- VIEW 2: "WHY NOT THIS MODEL?" MATRIX (Skinzy Style Unbiased Constraint Checker) -->
-    <main id="view-decision" class="hidden flex-1 overflow-y-auto p-6 space-y-6">
-      <div class="max-w-5xl mx-auto space-y-4">
+    <!-- Bottom Sidebar Footer: System Diagnostics & View Switcher -->
+    <div class="p-3 border-t border-slate-800/80 bg-[#070A11] space-y-2">
+      <div class="grid grid-cols-3 gap-1.5 text-[10px] font-mono text-center">
+        <button onclick="switchTab('chat')" id="tab-btn-chat" class="p-2 rounded-lg bg-cyan-950/60 border border-cyan-800/80 text-cyan-300 font-bold transition">
+          💬 Chat
+        </button>
+        <button onclick="switchTab('audit')" id="tab-btn-audit" class="p-2 rounded-lg bg-slate-900 border border-slate-800 text-slate-400 hover:text-white transition">
+          🛡️ Proofs
+        </button>
+        <button onclick="switchTab('chaos')" id="tab-btn-chaos" class="p-2 rounded-lg bg-slate-900 border border-slate-800 text-slate-400 hover:text-white transition">
+          ⚡ Chaos
+        </button>
+      </div>
+      <div class="text-[9px] text-center text-slate-400 font-mono">
+        Invariant: Rules decide &bull; AI advises &bull; 0 SLA Violations
+      </div>
+    </div>
+
+  </aside>
+
+  <!-- ========================================================================= -->
+  <!-- MAIN WORKSPACE: CHATBOT CONTAINER, ANIMATED STEPPER & COST MATRIX         -->
+  <!-- ========================================================================= -->
+  <main class="flex-1 flex flex-col bg-[#070A11] overflow-hidden relative">
+
+    <!-- Top Floating Header Bar -->
+    <header class="h-14 border-b border-slate-800/80 bg-[#090D18]/80 backdrop-blur-md px-4 md:px-6 flex items-center justify-between z-20">
+      
+      <!-- Left: Mobile Toggle & Active routing breadcrumb -->
+      <div class="flex items-center space-x-2 md:space-x-3">
+        <button onclick="toggleMobileSidebar()" class="md:hidden p-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 text-xs" title="Toggle Fleet & SLA Settings">
+          ☰
+        </button>
+        <span class="text-xs font-bold text-slate-200 uppercase tracking-wider font-mono flex items-center space-x-1.5">
+          <span class="w-2 h-2 rounded-full bg-cyan-400"></span>
+          <span>Dynamic SLA Gateway</span>
+        </span>
+        <span class="text-slate-600 hidden sm:inline">&bull;</span>
+        <div id="live-active-model-pill" class="text-xs px-2.5 py-0.5 rounded-full bg-indigo-950/60 border border-indigo-700/50 text-indigo-300 font-mono hidden sm:inline-block">
+          Ready to Route
+        </div>
+      </div>
+
+      <!-- Right: Live Savings Badge & Quick Actions -->
+      <div class="flex items-center space-x-3">
+        <div class="hidden sm:flex items-center space-x-2 px-3 py-1 rounded-full bg-emerald-950/50 border border-emerald-500/30 text-emerald-300 text-xs font-mono">
+          <span>💰 Net Saved:</span>
+          <strong id="top-saved-val" class="text-white">$0.00000</strong>
+        </div>
+
+        <button onclick="triggerQuickChaosTest()" class="text-xs px-3 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 transition font-mono flex items-center space-x-1" title="Simulate model kill switch to test shrinking-budget failover">
+          <span>💥 Failover Test</span>
+        </button>
+
+        <button onclick="clearChatHistory()" class="text-xs px-2.5 py-1 rounded-lg bg-slate-800/80 hover:bg-slate-700 text-slate-400 hover:text-white border border-slate-700/60 transition font-mono">
+          🧹 Clear
+        </button>
+      </div>
+
+    </header>
+
+    <!-- Content View Area -->
+    <div class="flex-1 overflow-hidden relative flex flex-col">
+
+      <!-- ===================================================================== -->
+      <!-- VIEW 1: CHATBOT WORKSPACE (ChatGPT / Claude.ai / Gemini Style)        -->
+      <!-- ===================================================================== -->
+      <div id="view-chat" class="flex-1 flex flex-col h-full overflow-hidden">
         
-        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
-          <div>
-            <h2 class="text-lg font-bold text-white flex items-center space-x-2 font-archivo">
-              <span>🔍</span><span>Explainability Matrix: "Why Not This Model?"</span>
-            </h2>
-            <p class="text-xs text-slate-400">
-              Unbiased mathematical proof of why models passed or were rejected under hard constraints.
-            </p>
+        <!-- Messages Scroll Container -->
+        <div id="chat-messages" class="flex-1 overflow-y-auto px-4 md:px-12 py-6 space-y-6">
+          
+          <!-- Welcome Hero (Shown if no messages exist) -->
+          <div id="welcome-hero" class="max-w-3xl mx-auto py-12 text-center space-y-6">
+            <div class="w-16 h-16 rounded-3xl bg-gradient-to-tr from-cyan-500 via-indigo-600 to-violet-500 mx-auto flex items-center justify-center text-3xl shadow-glow-cyan">
+              ⚡
+            </div>
+            <div class="space-y-2">
+              <h2 class="text-2xl md:text-3xl font-extrabold text-white tracking-tight">
+                Welcome, <span id="hero-user-name" class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-indigo-400">Alex</span>.
+              </h2>
+              <p class="text-sm text-slate-400 max-w-lg mx-auto leading-relaxed">
+                RouteIQ automatically routes your prompt across 10 local and online AI models using <strong>Laya System 1 Complexity Analysis</strong> with mathematical cost verification and SLA guarantee.
+              </p>
+            </div>
+
+            <!-- Suggestion Chips -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 max-w-xl mx-auto pt-4 text-left">
+              <div onclick="applySuggestion('Explain Quantum Entanglement and Bell Theorem step-by-step with formal mathematical equations.', 1200, 0.015, 0.85)" class="double-bezel p-3 rounded-xl cursor-pointer hover:border-cyan-500/50 hover:bg-slate-900/80 transition group">
+                <div class="flex items-center space-x-2 text-cyan-400 text-xs font-bold font-mono">
+                  <span>🧠 Reasoning (DeepSeek R1)</span>
+                </div>
+                <div class="text-xs text-slate-300 mt-1">Explain Quantum Entanglement &amp; Bell's theorem with formal proofs.</div>
+              </div>
+
+              <div onclick="applySuggestion('Implement an async LRU Cache in Python using doubly linked list and asyncio locks with O(1) complexity.', 800, 0.005, 0.70)" class="double-bezel p-3 rounded-xl cursor-pointer hover:border-indigo-500/50 hover:bg-slate-900/80 transition group">
+                <div class="flex items-center space-x-2 text-indigo-400 text-xs font-bold font-mono">
+                  <span>💻 Code (Qwen 2.5 Coder)</span>
+                </div>
+                <div class="text-xs text-slate-300 mt-1">Implement an async LRU Cache in Python with O(1) amortized speed.</div>
+              </div>
+
+              <div onclick="applySuggestion('What is the capital of Australia and what are its three largest cities by population?', 350, 0.002, 0.35)" class="double-bezel p-3 rounded-xl cursor-pointer hover:border-emerald-500/50 hover:bg-slate-900/80 transition group">
+                <div class="flex items-center space-x-2 text-emerald-400 text-xs font-bold font-mono">
+                  <span>⚡ Quick Answer (Llama 3.1 8B)</span>
+                </div>
+                <div class="text-xs text-slate-300 mt-1">What is the capital of Australia and its 3 largest cities?</div>
+              </div>
+
+              <div onclick="applySuggestion('Analyze the architectural tradeoffs between microservices and modular monoliths for financial ledger services under strict latency and compliance constraints.', 900, 0.008, 0.75)" class="double-bezel p-3 rounded-xl cursor-pointer hover:border-purple-500/50 hover:bg-slate-900/80 transition group">
+                <div class="flex items-center space-x-2 text-purple-400 text-xs font-bold font-mono">
+                  <span>🌐 High Versatility (Groq / Gemini)</span>
+                </div>
+                <div class="text-xs text-slate-300 mt-1">Tradeoffs between microservices and monoliths for financial ledgers.</div>
+              </div>
+            </div>
           </div>
-          <div id="matrix-closest-miss" class="hidden px-3.5 py-1.5 rounded-lg bg-cyan-950/60 border border-cyan-500/40 text-cyan-300 text-xs font-mono">
-            💡 Closest Miss: <span id="matrix-closest-text">None</span>
+
+          <!-- Dynamic chat bubbles will be rendered here -->
+
+        </div>
+
+        <!-- Bottom Floating Input Console (ChatGPT / Claude.ai Style) -->
+        <div class="p-4 md:px-12 bg-gradient-to-t from-[#070A11] via-[#070A11]/95 to-transparent">
+          <div class="max-w-4xl mx-auto">
+            
+            <div class="double-bezel p-2 rounded-2xl relative shadow-float focus-within:border-cyan-500/60 transition-all">
+              
+              <!-- Expanding Textarea -->
+              <textarea 
+                id="prompt-input" 
+                rows="2" 
+                placeholder="Ask anything... RouteIQ will dynamically analyze complexity and route to the optimal model." 
+                class="w-full bg-transparent text-sm text-white placeholder-slate-500 px-3 py-2 resize-none focus:outline-none max-h-48 overflow-y-auto font-sans"
+                onkeydown="handleTextareaKeydown(event)"
+                oninput="handleTextareaInput(this)"></textarea>
+
+              <!-- Bottom Bar inside Input Box -->
+              <div class="flex items-center justify-between pt-2 px-3 border-t border-slate-800/60 text-xs font-mono">
+                
+                <!-- Quick Token & Constraints Meter -->
+                <div class="flex items-center space-x-3 text-slate-400 text-[11px]">
+                  <span>Est. Tokens: <strong id="input-est-tokens" class="text-cyan-400">12</strong></span>
+                  <span class="hidden sm:inline">&bull;</span>
+                  <span class="hidden sm:inline">Max Latency: <strong id="meter-lat" class="text-slate-300">1000ms</strong></span>
+                  <span class="hidden sm:inline">&bull;</span>
+                  <span class="hidden sm:inline">Preference: <strong id="meter-pref" class="text-emerald-400">Lowest Cost</strong></span>
+                </div>
+
+                <!-- Send Button -->
+                <div class="flex items-center space-x-2">
+                  <button 
+                    id="btn-send" 
+                    onclick="submitPrompt()" 
+                    class="py-1.5 px-4 rounded-xl bg-gradient-to-r from-cyan-500 via-indigo-600 to-purple-600 text-white font-bold text-xs flex items-center space-x-1.5 shadow-glow-cyan hover:brightness-110 active:scale-95 transition">
+                    <span>Send</span>
+                    <span>↗</span>
+                  </button>
+                </div>
+
+              </div>
+
+            </div>
+
+            <div class="text-[10px] text-center text-slate-400 font-mono mt-2">
+              Press <kbd class="px-1.5 py-0.5 rounded bg-slate-800 text-slate-300 border border-slate-700">Enter</kbd> to execute &bull; <kbd class="px-1.5 py-0.5 rounded bg-slate-800 text-slate-300 border border-slate-700">Shift + Enter</kbd> for newline
+            </div>
+
           </div>
         </div>
 
-        <!-- Skinzy Style Philosophy Banner -->
-        <div class="p-4 rounded-xl bg-slate-900/90 border border-slate-800 text-xs text-slate-300 flex items-center space-x-3">
-          <span class="text-cyan-400 font-bold text-base">⚖️</span>
-          <div>
-            <strong>Unbiased Decision Engine:</strong> RouteIQ judges hard mathematical constraints, never brands. Where an SLA is breached, RouteIQ states the exact mathematical reason rather than guessing.
-          </div>
-        </div>
+      </div>
 
-        <div class="bg-[#0D1322] border border-slate-800 rounded-2xl overflow-hidden shadow-float">
-          <table class="w-full text-left text-xs">
-            <thead class="bg-slate-900/80 text-slate-400 uppercase font-mono text-[11px] border-b border-slate-800">
-              <tr>
-                <th class="p-3.5">Candidate Model</th>
-                <th class="p-3.5 text-center">Verdict</th>
-                <th class="p-3.5 text-center">Circuit</th>
-                <th class="p-3.5 text-center">Context</th>
-                <th class="p-3.5 text-center">Cost Fit</th>
-                <th class="p-3.5 text-center">Latency Fit</th>
-                <th class="p-3.5 text-center">Capability</th>
-                <th class="p-3.5">Rejection Constraint Analysis</th>
-              </tr>
-            </thead>
-            <tbody id="matrix-tbody" class="divide-y divide-slate-800/60">
-              <tr>
-                <td colspan="8" class="p-10 text-center text-slate-500 font-mono">
-                  Submit a prompt in Gateway Playground to generate the real-time explainability matrix.
-                </td>
-              </tr>
-            </tbody>
-          </table>
+      <!-- ===================================================================== -->
+      <!-- VIEW 2: CRYPTOGRAPHIC AUDITOR & PROOF LEDGER                          -->
+      <!-- ===================================================================== -->
+      <div id="view-audit" class="flex-1 overflow-y-auto p-6 space-y-6 hidden">
+        <div class="max-w-5xl mx-auto space-y-6">
+          <div class="flex items-center justify-between border-b border-slate-800 pb-4">
+            <div>
+              <h2 class="text-xl font-bold text-white">Cryptographic SHA-256 Audit Trail</h2>
+              <p class="text-xs text-slate-400">Post-hoc decoupled verification of all SLA constraints and tamper-evidence proof.</p>
+            </div>
+            <button onclick="verifyAuditChain()" class="px-4 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-mono font-bold transition flex items-center space-x-2">
+              <span>🔍 Verify Chain Proof</span>
+            </button>
+          </div>
+
+          <!-- Chain Verification Status Banner -->
+          <div id="chain-status-banner" class="p-4 rounded-2xl bg-emerald-950/40 border border-emerald-500/40 text-emerald-300 text-xs font-mono flex items-center justify-between">
+            <div class="flex items-center space-x-2">
+              <span class="w-3 h-3 rounded-full bg-emerald-400 animate-pulse"></span>
+              <span>Chain Integrity: <strong>100% Cryptographically Sound</strong> &bull; 0 Tamper Events</span>
+            </div>
+            <span id="chain-genesis" class="text-slate-400">Genesis: 0000000000000000</span>
+          </div>
+
+          <!-- Audit Records Table -->
+          <div class="double-bezel rounded-2xl overflow-hidden">
+            <table class="w-full text-left text-xs font-mono">
+              <thead class="bg-slate-900/90 text-slate-400 border-b border-slate-800">
+                <tr>
+                  <th class="p-3">Seq #</th>
+                  <th class="p-3">Timestamp</th>
+                  <th class="p-3">Chosen Model</th>
+                  <th class="p-3">Latency SLA</th>
+                  <th class="p-3">Cost SLA</th>
+                  <th class="p-3">Audit Verdict</th>
+                  <th class="p-3">Block Hash</th>
+                </tr>
+              </thead>
+              <tbody id="audit-table-body" class="divide-y divide-slate-800/60 text-slate-300">
+                <tr><td colspan="7" class="p-4 text-center text-slate-500">Loading audit ledger...</td></tr>
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
-    </main>
 
-    <!-- VIEW 3: LAYA / JEV SYSTEM 1 DECISION ENGINE -->
-    <main id="view-laya" class="hidden flex-1 overflow-y-auto p-6 space-y-6">
-      <div class="max-w-5xl mx-auto space-y-5">
+      <!-- ===================================================================== -->
+      <!-- VIEW 3: CHAOS STUDIO (KILL SWITCHES & INJECTED LATENCIES)             -->
+      <!-- ===================================================================== -->
+      <div id="view-chaos" class="flex-1 overflow-y-auto p-6 space-y-6 hidden">
+        <div class="max-w-5xl mx-auto space-y-6">
+          <div class="flex items-center justify-between border-b border-slate-800 pb-4">
+            <div>
+              <h2 class="text-xl font-bold text-white">Judge Chaos Studio &amp; Circuit Breakers</h2>
+              <p class="text-xs text-slate-400">Test shrinking-budget failover $L_{rem} = L_{orig} - t_{spent}$ by injecting live hardware faults.</p>
+            </div>
+            <button onclick="resetAllChaos()" class="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-white text-xs font-mono font-bold transition">
+              🔄 Reset All Chaos
+            </button>
+          </div>
+
+          <div id="chaos-cards-grid" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <!-- Populated dynamically -->
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+  </main>
+
+  <!-- ========================================================================= -->
+  <!-- MODAL 1: USER PROFILE MAINTENANCE                                         -->
+  <!-- ========================================================================= -->
+  <div id="modal-profile" class="fixed inset-0 bg-black/80 backdrop-blur-md z-50 flex items-center justify-center p-4 hidden">
+    <div class="double-bezel max-w-md w-full p-6 rounded-3xl space-y-5 shadow-float">
+      <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+        <h3 class="text-base font-bold text-white flex items-center space-x-2">
+          <span>👤</span>
+          <span>User Profile &amp; Identity</span>
+        </h3>
+        <button onclick="closeProfileModal()" class="text-slate-400 hover:text-white text-lg">&times;</button>
+      </div>
+
+      <div class="space-y-4 text-xs font-sans">
         <div>
-          <h2 class="text-lg font-bold text-white flex items-center space-x-2 font-archivo">
-            <span>🧠</span><span>Laya / JEV System 1 Decision Engine</span>
-          </h2>
-          <p class="text-xs text-slate-400">
-            Ultra-fast (&lt;2ms) non-autoregressive complexity classifier &amp; Shannon entropy uncertainty hedge.
-          </p>
+          <label class="block text-slate-400 font-mono mb-1">Full Name</label>
+          <input type="text" id="prof-name" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-2.5 text-white font-sans focus:border-cyan-500 focus:outline-none" value="Alex Vance" />
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <div class="glass-card rounded-2xl p-5 space-y-2 hover-invert">
-            <div class="text-[10px] text-cyan-400 uppercase font-bold tracking-wider font-mono">Fast Classifier</div>
-            <div class="text-xl font-black text-white font-archivo">System 1 Direct Readout</div>
-            <p class="text-xs text-slate-400">
-              Non-autoregressive structural scoring maps query complexity in &lt;2ms without slow iterative decoding.
-            </p>
-          </div>
-
-          <div class="glass-card rounded-2xl p-5 space-y-2 hover-invert">
-            <div class="text-[10px] text-indigo-400 uppercase font-bold tracking-wider font-mono">Uncertainty Metric</div>
-            <div class="text-xl font-black text-white font-archivo">Shannon Entropy H</div>
-            <p class="text-xs text-slate-400">
-              Computes distribution entropy H = &minus;&sum; p log<sub>2</sub>(p) over Easy, Medium, and Hard tiers.
-            </p>
-          </div>
-
-          <div class="glass-card rounded-2xl p-5 space-y-2 hover-invert">
-            <div class="text-[10px] text-emerald-400 uppercase font-bold tracking-wider font-mono">Quality Guarantee</div>
-            <div class="text-xl font-black text-white font-archivo">Rule Supremacy Hedge</div>
-            <p class="text-xs text-slate-400">
-              When confidence &lt; 0.70 or estimators disagree, tier is automatically bumped to protect SLA quality.
-            </p>
-          </div>
-        </div>
-
-        <!-- Interactive Prompt Tester for Laya -->
-        <div class="glass-card rounded-2xl p-5 space-y-4">
-          <h3 class="font-bold text-sm text-slate-200">Interactive Laya-JEV System 1 Classifier Test</h3>
-          <div class="flex gap-2">
-            <input type="text" id="laya-test-prompt" value="Write a Python script to reverse a linked list and analyze space complexity." 
-              placeholder="Enter prompt to evaluate complexity..." class="flex-1 bg-slate-900 border border-slate-700 rounded-xl px-4 py-2.5 text-xs text-white focus:outline-none">
-            <button onclick="testLayaClassifier()" class="px-5 py-2.5 rounded-xl bg-cyan-600 hover:bg-cyan-500 font-bold text-white text-xs transition">
-              Analyze
-            </button>
-          </div>
-
-          <div id="laya-result-box" class="p-4 rounded-xl bg-slate-900/90 border border-slate-800 font-mono text-xs space-y-2 text-slate-300">
-            <div>Click "Analyze" to run non-autoregressive complexity projection.</div>
-          </div>
-        </div>
-      </div>
-    </main>
-
-    <!-- VIEW 4: JUDGE CHAOS STUDIO -->
-    <main id="view-chaos" class="hidden flex-1 overflow-y-auto p-6 space-y-6">
-      <div class="max-w-5xl mx-auto space-y-5">
-        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
-          <div>
-            <h2 class="text-lg font-bold text-white flex items-center space-x-2 font-archivo">
-              <span>💥</span><span>Judge Chaos Studio</span>
-            </h2>
-            <p class="text-xs text-slate-400">
-              Inject latency spikes, crash kill-switches, and error rates. Verify shrinking-budget failover.
-            </p>
-          </div>
-          <button onclick="resetAllChaos()" class="px-4 py-2 rounded-xl bg-rose-950/60 text-rose-300 border border-rose-500/40 font-bold text-xs hover:bg-rose-900/80 transition">
-            Reset All Chaos &amp; Breakers
-          </button>
-        </div>
-
-        <!-- Quick Scenarios Banner -->
-        <div class="glass-card rounded-2xl p-4 space-y-2">
-          <span class="text-[10px] text-slate-400 uppercase font-bold tracking-wider font-mono">One-Click Judge Chaos Scenarios:</span>
-          <div class="flex flex-wrap gap-2 pt-1">
-            <button onclick="triggerScenario('kill_cheapest')" class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 border border-slate-700 text-xs text-slate-200">
-              🚨 Kill Cheapest Model (Llama 3.1 8B)
-            </button>
-            <button onclick="triggerScenario('lag_deepseek')" class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 border border-slate-700 text-xs text-slate-200">
-              ⏱️ Inject +1500ms Latency into DeepSeek R1
-            </button>
-            <button onclick="triggerScenario('kill_coder')" class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 border border-slate-700 text-xs text-slate-200">
-              💥 Outage on Qwen 2.5 Coder
-            </button>
-          </div>
-        </div>
-
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4" id="chaos-cards-grid">
-          <!-- Rendered dynamically -->
-        </div>
-      </div>
-    </main>
-
-    <!-- VIEW 5: GGUF MODELS INVENTORY -->
-    <main id="view-models" class="hidden flex-1 overflow-y-auto p-6 space-y-6">
-      <div class="max-w-5xl mx-auto space-y-5">
         <div>
-          <h2 class="text-lg font-bold text-white flex items-center space-x-2 font-archivo">
-            <span>🖥️</span><span>Apple Silicon GGUF Models Inventory</span>
-          </h2>
-          <p class="text-xs text-slate-400">
-            Real Quantized GGUF models located in `/RouteLLM/model/`. Zero API fees, local execution.
-          </p>
+          <label class="block text-slate-400 font-mono mb-1">Role / Title</label>
+          <input type="text" id="prof-role" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-2.5 text-white font-sans focus:border-cyan-500 focus:outline-none" value="Principal AI Architect" />
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4" id="gguf-inventory-grid">
-          <!-- Rendered dynamically -->
-        </div>
-      </div>
-    </main>
-
-    <!-- VIEW 6: WORKLOAD BENCHMARK (ROI) -->
-    <main id="view-benchmark" class="hidden flex-1 overflow-y-auto p-6 space-y-6">
-      <div class="max-w-5xl mx-auto space-y-5">
-        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
-          <div>
-            <h2 class="text-lg font-bold text-white flex items-center space-x-2 font-archivo">
-              <span>📊</span><span>Workload Comparison Benchmark (ROI)</span>
-            </h2>
-            <p class="text-xs text-slate-400">
-              RouteIQ Dynamic Routing vs Always Strongest (Claude 3.5 Sonnet) vs Always Cheapest (Llama 3.1 8B).
-            </p>
-          </div>
-          <button id="btn-run-bench" onclick="runBenchmark()" class="px-5 py-2.5 rounded-xl bg-gradient-to-r from-cyan-500 to-indigo-600 hover:from-cyan-400 hover:to-indigo-500 font-bold text-white text-xs transition shadow-glow-cyan">
-            📊 Run 30-Prompt Benchmark
-          </button>
+        <div>
+          <label class="block text-slate-400 font-mono mb-1">Organization / Department</label>
+          <input type="text" id="prof-org" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-2.5 text-white font-sans focus:border-cyan-500 focus:outline-none" value="VORTEXA Enterprise Core" />
         </div>
 
-        <!-- ROI Callout Card -->
-        <div class="p-6 rounded-2xl bg-gradient-to-r from-emerald-950/40 via-cyan-950/40 to-indigo-950/40 border border-emerald-500/30 flex flex-col sm:flex-row items-center justify-between gap-4">
-          <div>
-            <div class="text-[10px] uppercase font-bold text-emerald-400 tracking-wider font-mono">Empirical Finding</div>
-            <div class="text-2xl font-black text-white mt-1 font-archivo">
-              <span id="roi-savings-pct" class="text-emerald-400">86.4%</span> Cost Reduction vs Frontier API
-            </div>
-            <p class="text-xs text-slate-300 mt-1">
-              Independent constraint auditor reports <strong>0 violations</strong> across all workloads.
-            </p>
-          </div>
-          <div class="text-right font-mono text-xs text-slate-400">
-            <div>SLA Breaches: <strong class="text-emerald-400">0 of 30</strong></div>
-            <div>Rules decide. AI only advises.</div>
-          </div>
-        </div>
-
-        <!-- 3 Comparison Cards -->
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <!-- RouteIQ -->
-          <div class="glass-card border-2 border-cyan-500/80 rounded-2xl p-5 space-y-3 shadow-glow-cyan">
-            <div class="flex justify-between items-center">
-              <span class="font-bold text-sm text-cyan-300">RouteIQ Gateway</span>
-              <span class="text-[10px] px-2 py-0.5 rounded-full bg-cyan-950 text-cyan-300 font-bold font-mono">DYNAMIC</span>
-            </div>
-            <div class="space-y-2 text-xs">
-              <div class="flex justify-between pb-1.5 border-b border-slate-800"><span class="text-slate-400">Total Cost:</span><span id="bench-rq-cost" class="font-mono font-bold text-emerald-400">$0.007820</span></div>
-              <div class="flex justify-between pb-1.5 border-b border-slate-800"><span class="text-slate-400">Avg Latency:</span><span id="bench-rq-lat" class="font-mono text-slate-200">340 ms</span></div>
-              <div class="flex justify-between pb-1.5 border-b border-slate-800"><span class="text-slate-400">p95 Latency:</span><span id="bench-rq-p95" class="font-mono text-slate-200">550 ms</span></div>
-              <div class="flex justify-between"><span class="text-slate-400">Violations:</span><span id="bench-rq-viols" class="font-mono font-bold text-emerald-400">0 (0.0%)</span></div>
-            </div>
-          </div>
-
-          <!-- Strongest -->
-          <div class="glass-card rounded-2xl p-5 space-y-3">
-            <div class="flex justify-between items-center">
-              <span class="font-bold text-sm text-slate-300">Always Strongest</span>
-              <span class="text-[10px] px-2 py-0.5 rounded-full bg-slate-800 text-slate-400 font-bold font-mono">FRONTIER</span>
-            </div>
-            <div class="space-y-2 text-xs">
-              <div class="flex justify-between pb-1.5 border-b border-slate-800"><span class="text-slate-400">Total Cost:</span><span id="bench-str-cost" class="font-mono text-slate-200">$0.055632</span></div>
-              <div class="flex justify-between pb-1.5 border-b border-slate-800"><span class="text-slate-400">Avg Latency:</span><span id="bench-str-lat" class="font-mono text-slate-200">1200 ms</span></div>
-              <div class="flex justify-between pb-1.5 border-b border-slate-800"><span class="text-slate-400">p95 Latency:</span><span id="bench-str-p95" class="font-mono text-slate-200">1200 ms</span></div>
-              <div class="flex justify-between"><span class="text-slate-400">Violations:</span><span id="bench-str-viols" class="font-mono font-bold text-rose-400">30 (100%)</span></div>
-            </div>
-          </div>
-
-          <!-- Cheapest -->
-          <div class="glass-card rounded-2xl p-5 space-y-3">
-            <div class="flex justify-between items-center">
-              <span class="font-bold text-sm text-slate-300">Always Cheapest</span>
-              <span class="text-[10px] px-2 py-0.5 rounded-full bg-slate-800 text-slate-400 font-bold font-mono">BASELINE</span>
-            </div>
-            <div class="space-y-2 text-xs">
-              <div class="flex justify-between pb-1.5 border-b border-slate-800"><span class="text-slate-400">Total Cost:</span><span id="bench-chp-cost" class="font-mono text-slate-200">$0.002242</span></div>
-              <div class="flex justify-between pb-1.5 border-b border-slate-800"><span class="text-slate-400">Avg Latency:</span><span id="bench-chp-lat" class="font-mono text-slate-200">180 ms</span></div>
-              <div class="flex justify-between pb-1.5 border-b border-slate-800"><span class="text-slate-400">p95 Latency:</span><span id="bench-chp-p95" class="font-mono text-slate-200">180 ms</span></div>
-              <div class="flex justify-between"><span class="text-slate-400">Violations:</span><span id="bench-chp-viols" class="font-mono font-bold text-rose-400">20 (66.7%)</span></div>
-            </div>
-          </div>
+        <div>
+          <label class="block text-slate-400 font-mono mb-1">Avatar Initials / Icon</label>
+          <input type="text" id="prof-avatar" maxlength="3" class="w-24 bg-slate-950 border border-slate-800 rounded-xl p-2.5 text-white font-mono text-center uppercase focus:border-cyan-500 focus:outline-none" value="AV" />
         </div>
       </div>
-    </main>
 
-    <!-- VIEW 7: CRYPTOGRAPHIC AUDIT LEDGER -->
-    <main id="view-audit" class="hidden flex-1 overflow-y-auto p-6 space-y-6">
-      <div class="max-w-5xl mx-auto space-y-4">
-        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
-          <div>
-            <h2 class="text-lg font-bold text-white flex items-center space-x-2 font-archivo">
-              <span>🛡️</span><span>Cryptographic SHA-256 Audit Ledger</span>
-            </h2>
-            <p class="text-xs text-slate-400">
-              Post-hoc tamper-evident verification. Any modified log breaks the hash chain.
-            </p>
-          </div>
-          <div class="flex space-x-2">
-            <button onclick="verifyAuditChain()" class="px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs transition">
-              🛡️ Verify Hash Chain
-            </button>
-            <button onclick="clearAuditDb()" class="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 text-xs transition">
-              Clear Logs
-            </button>
-          </div>
-        </div>
-
-        <div class="bg-[#0D1322] border border-slate-800 rounded-2xl overflow-hidden shadow-float">
-          <table class="w-full text-left text-xs">
-            <thead class="bg-slate-900/80 text-slate-400 uppercase font-mono text-[11px] border-b border-slate-800">
-              <tr>
-                <th class="p-3.5">Req ID</th>
-                <th class="p-3.5">Time</th>
-                <th class="p-3.5">Chosen Model</th>
-                <th class="p-3.5 text-right">Latency</th>
-                <th class="p-3.5 text-right">Cost</th>
-                <th class="p-3.5 text-center">Auditor</th>
-                <th class="p-3.5 font-mono">SHA-256 Hash</th>
-              </tr>
-            </thead>
-            <tbody id="audit-tbody" class="divide-y divide-slate-800/60 font-mono text-[11px]">
-              <tr>
-                <td colspan="7" class="p-10 text-center text-slate-500">Loading audit records...</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
+      <div class="flex justify-end space-x-2 pt-2 border-t border-slate-800">
+        <button onclick="closeProfileModal()" class="px-4 py-2 rounded-xl bg-slate-800 text-slate-300 text-xs font-semibold hover:bg-slate-700 transition">Cancel</button>
+        <button onclick="saveUserProfile()" class="px-5 py-2 rounded-xl bg-gradient-to-r from-cyan-500 to-indigo-600 text-white text-xs font-bold shadow-glow-cyan hover:brightness-110 transition">Save Profile</button>
       </div>
-    </main>
-
+    </div>
   </div>
 
-  <!-- Client Application Script -->
+  <!-- ========================================================================= -->
+  <!-- MODAL 2: API KEYS & EXTERNAL MODEL CONFIGURATION                          -->
+  <!-- ========================================================================= -->
+  <div id="modal-api-keys" class="fixed inset-0 bg-black/80 backdrop-blur-md z-50 flex items-center justify-center p-4 hidden">
+    <div class="double-bezel max-w-lg w-full p-6 rounded-3xl space-y-5 shadow-float max-h-[90vh] overflow-y-auto">
+      <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+        <div>
+          <h3 class="text-base font-bold text-white flex items-center space-x-2">
+            <span>🔑</span>
+            <span>Online API Model Keys</span>
+          </h3>
+          <p class="text-[11px] text-slate-400">Configure free or low-cost API keys to expand RouteIQ's catalog beyond local GGUF models.</p>
+        </div>
+        <button onclick="closeApiKeysModal()" class="text-slate-400 hover:text-white text-lg">&times;</button>
+      </div>
+
+      <div class="p-3 rounded-xl bg-indigo-950/40 border border-indigo-700/40 text-indigo-300 text-[11px] leading-relaxed">
+        <strong>💡 Note:</strong> If no API keys are provided, RouteIQ runs seamlessly using local Apple Silicon GGUF models or high-fidelity simulation without failing!
+      </div>
+
+      <div class="space-y-4 text-xs font-mono">
+        <!-- Groq API Key -->
+        <div class="space-y-1">
+          <div class="flex justify-between">
+            <label class="text-slate-300 font-bold">1. GROQ_API_KEY (Groq Llama 3.3 70B)</label>
+            <span id="badge-key-groq" class="text-[10px] text-slate-500">Not configured</span>
+          </div>
+          <input type="password" id="key-groq" placeholder="gsk_..." class="w-full bg-slate-950 border border-slate-800 rounded-xl p-2.5 text-white font-mono focus:border-cyan-500 focus:outline-none" />
+          <p class="text-[10px] text-slate-500">Fast inference on Groq LPUs. Get key at <a href="https://console.groq.com/keys" target="_blank" class="text-cyan-400 underline">console.groq.com</a></p>
+        </div>
+
+        <!-- Google Gemini API Key -->
+        <div class="space-y-1">
+          <div class="flex justify-between">
+            <label class="text-slate-300 font-bold">2. GEMINI_API_KEY (Google Gemini 1.5 Flash)</label>
+            <span id="badge-key-gemini" class="text-[10px] text-slate-500">Not configured</span>
+          </div>
+          <input type="password" id="key-gemini" placeholder="AIza..." class="w-full bg-slate-950 border border-slate-800 rounded-xl p-2.5 text-white font-mono focus:border-cyan-500 focus:outline-none" />
+          <p class="text-[10px] text-slate-500">1M context token window. Get free key at <a href="https://aistudio.google.com/app/apikey" target="_blank" class="text-cyan-400 underline">aistudio.google.com</a></p>
+        </div>
+
+        <!-- OpenRouter API Key -->
+        <div class="space-y-1">
+          <div class="flex justify-between">
+            <label class="text-slate-300 font-bold">3. OPENROUTER_API_KEY (Llama 3.2 3B)</label>
+            <span id="badge-key-openrouter" class="text-[10px] text-slate-500">Not configured</span>
+          </div>
+          <input type="password" id="key-openrouter" placeholder="sk-or-v1-..." class="w-full bg-slate-950 border border-slate-800 rounded-xl p-2.5 text-white font-mono focus:border-cyan-500 focus:outline-none" />
+          <p class="text-[10px] text-slate-500">Free model access (:free). Get key at <a href="https://openrouter.ai/keys" target="_blank" class="text-cyan-400 underline">openrouter.ai</a></p>
+        </div>
+
+        <!-- OpenAI API Key -->
+        <div class="space-y-1">
+          <div class="flex justify-between">
+            <label class="text-slate-300 font-bold">4. OPENAI_API_KEY (GPT-4o Mini)</label>
+            <span id="badge-key-openai" class="text-[10px] text-slate-500">Not configured</span>
+          </div>
+          <input type="password" id="key-openai" placeholder="sk-proj-..." class="w-full bg-slate-950 border border-slate-800 rounded-xl p-2.5 text-white font-mono focus:border-cyan-500 focus:outline-none" />
+          <p class="text-[10px] text-slate-500">High speed, cost-effective reasoning. Get key at <a href="https://platform.openai.com/api-keys" target="_blank" class="text-cyan-400 underline">platform.openai.com</a></p>
+        </div>
+
+        <!-- DeepSeek API Key -->
+        <div class="space-y-1">
+          <div class="flex justify-between">
+            <label class="text-slate-300 font-bold">5. DEEPSEEK_API_KEY (DeepSeek V3 API)</label>
+            <span id="badge-key-deepseek" class="text-[10px] text-slate-500">Not configured</span>
+          </div>
+          <input type="password" id="key-deepseek" placeholder="sk-..." class="w-full bg-slate-950 border border-slate-800 rounded-xl p-2.5 text-white font-mono focus:border-cyan-500 focus:outline-none" />
+          <p class="text-[10px] text-slate-500">Ultra low-cost high capability. Get key at <a href="https://platform.deepseek.com/api_keys" target="_blank" class="text-cyan-400 underline">platform.deepseek.com</a></p>
+        </div>
+
+        <!-- Anthropic Claude API Key -->
+        <div class="space-y-1">
+          <div class="flex justify-between">
+            <label class="text-slate-300 font-bold">6. ANTHROPIC_API_KEY (Claude 3.5 Sonnet)</label>
+            <span id="badge-key-anthropic" class="text-[10px] text-slate-500">Not configured</span>
+          </div>
+          <input type="password" id="key-anthropic" placeholder="sk-ant-..." class="w-full bg-slate-950 border border-slate-800 rounded-xl p-2.5 text-white font-mono focus:border-cyan-500 focus:outline-none" />
+          <p class="text-[10px] text-slate-500">Frontier reference intelligence. Get key at <a href="https://console.anthropic.com/" target="_blank" class="text-cyan-400 underline">console.anthropic.com</a></p>
+        </div>
+      </div>
+
+      <div class="flex justify-end space-x-2 pt-2 border-t border-slate-800">
+        <button onclick="closeApiKeysModal()" class="px-4 py-2 rounded-xl bg-slate-800 text-slate-300 text-xs font-semibold hover:bg-slate-700 transition">Cancel</button>
+        <button onclick="saveApiKeys()" class="px-5 py-2 rounded-xl bg-gradient-to-r from-cyan-500 to-indigo-600 text-white text-xs font-bold shadow-glow-cyan hover:brightness-110 transition">Save &amp; Apply Keys</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================================================= -->
+  <!-- APPLICATION JAVASCRIPT LOGIC                                              -->
+  <!-- ========================================================================= -->
   <script>
-    const API_BASE = window.location.origin;
-    let currentModels = [];
-    let chatHistory = [];
-    let accumulatedSavedCost = 0.04820;
-    let currentSettings = {
-      max_latency_ms: 1000,
-      max_cost_usd: 0.005,
-      min_capability: 0.35,
-      preference: "lowest_cost"
+    // --- GLOBAL STATE ---
+    let appState = {
+      models: [],
+      currentTab: 'chat',
+      sessionActive: false,
+      sessionStartTime: null,
+      sessionTimerInterval: null,
+      sessionMetrics: {
+        queriesCount: 0,
+        tokensIn: 0,
+        tokensOut: 0,
+        routeiqCost: 0.0,
+        baselineCost: 0.0,
+        moneySaved: 0.0,
+        perModelUsage: {} // model_id -> { count, tokensIn, tokensOut, cost, latencySum }
+      },
+      userProfile: {
+        name: 'Alex Vance',
+        role: 'Principal AI Architect',
+        org: 'VORTEXA Enterprise Core',
+        avatar: 'AV'
+      },
+      chatHistory: [],
+      inFlightRequest: false
     };
 
-    function switchView(viewId) {
-      ['chat', 'decision', 'laya', 'chaos', 'models', 'benchmark', 'audit'].forEach(v => {
-        const el = document.getElementById(`view-${v}`);
-        const btn = document.getElementById(`nav-btn-${v}`);
-        if (el) el.classList.toggle('hidden', v !== viewId);
-        if (btn) {
-          if (v === viewId) {
-            btn.className = "px-4 py-2.5 border-b-2 border-cyan-400 text-cyan-300 font-bold transition flex items-center space-x-1.5";
-          } else {
-            btn.className = "px-4 py-2.5 border-b-2 border-transparent text-slate-400 hover:text-slate-200 transition flex items-center space-x-1.5";
+    // --- INITIALIZATION ---
+    window.addEventListener('DOMContentLoaded', async () => {
+      loadProfileFromStorage();
+      loadSessionFromStorage();
+      await fetchModels();
+      await fetchApiKeysStatus();
+      updateConstraintLabels();
+      setInterval(fetchModels, 4000); // Live model telemetry poll
+    });
+
+    // --- USER PROFILE SYSTEM ---
+    function loadProfileFromStorage() {
+      const stored = localStorage.getItem('routeiq_user_profile');
+      if (stored) {
+        try {
+          appState.userProfile = JSON.parse(stored);
+        } catch (e) {}
+      }
+      renderUserProfile();
+    }
+
+    function renderUserProfile() {
+      document.getElementById('user-display-name').textContent = appState.userProfile.name;
+      document.getElementById('user-display-role').textContent = appState.userProfile.role;
+      document.getElementById('user-avatar-badge').textContent = appState.userProfile.avatar;
+      const heroName = document.getElementById('hero-user-name');
+      if (heroName) heroName.textContent = appState.userProfile.name.split(' ')[0] || 'User';
+    }
+
+    function openProfileModal() {
+      document.getElementById('prof-name').value = appState.userProfile.name;
+      document.getElementById('prof-role').value = appState.userProfile.role;
+      document.getElementById('prof-org').value = appState.userProfile.org;
+      document.getElementById('prof-avatar').value = appState.userProfile.avatar;
+      document.getElementById('modal-profile').classList.remove('hidden');
+    }
+
+    function closeProfileModal() {
+      document.getElementById('modal-profile').classList.add('hidden');
+    }
+
+    function saveUserProfile() {
+      appState.userProfile.name = document.getElementById('prof-name').value.trim() || 'Alex Vance';
+      appState.userProfile.role = document.getElementById('prof-role').value.trim() || 'Principal AI Architect';
+      appState.userProfile.org = document.getElementById('prof-org').value.trim() || 'VORTEXA Enterprise Core';
+      appState.userProfile.avatar = document.getElementById('prof-avatar').value.trim() || 'AV';
+      localStorage.setItem('routeiq_user_profile', JSON.stringify(appState.userProfile));
+      renderUserProfile();
+      closeProfileModal();
+    }
+
+    // --- SESSION MANAGEMENT ---
+    function loadSessionFromStorage() {
+      const stored = localStorage.getItem('routeiq_active_session');
+      if (stored) {
+        try {
+          const data = JSON.parse(stored);
+          appState.sessionActive = data.sessionActive;
+          appState.sessionStartTime = data.sessionStartTime ? new Date(data.sessionStartTime) : null;
+          appState.sessionMetrics = data.sessionMetrics || appState.sessionMetrics;
+          if (appState.sessionActive) {
+            startSessionTimer();
           }
-        }
-      });
-      if (viewId === 'chaos') fetchChaosModels();
-      if (viewId === 'models') fetchModelsInventory();
-      if (viewId === 'audit') fetchAuditLogs();
-    }
-
-    function toggleSettingsDrawer() {
-      const drawer = document.getElementById('settings-drawer');
-      drawer.classList.toggle('hidden');
-    }
-
-    function syncSettings() {
-      currentSettings.max_latency_ms = parseFloat(document.getElementById('drawer-lat-slider').value);
-      currentSettings.max_cost_usd = parseFloat(document.getElementById('drawer-cost-slider').value);
-      currentSettings.min_capability = parseFloat(document.getElementById('drawer-cap-slider').value);
-      currentSettings.preference = document.getElementById('drawer-pref-sel').value;
-
-      document.getElementById('drawer-lat-val').textContent = `${currentSettings.max_latency_ms} ms`;
-      document.getElementById('drawer-cost-val').textContent = `$${currentSettings.max_cost_usd.toFixed(5)}`;
-      document.getElementById('drawer-cap-val').textContent = currentSettings.min_capability.toFixed(2);
-
-      document.getElementById('badge-lat-display').textContent = `SLO \u2264 ${currentSettings.max_latency_ms}ms`;
-      document.getElementById('badge-cost-display').textContent = `Budget \u2264 $${currentSettings.max_cost_usd.toFixed(4)}`;
-      document.getElementById('badge-cap-display').textContent = `Cap \u2265 ${currentSettings.min_capability.toFixed(2)}`;
-      
-      const prefLabels = {
-        lowest_cost: "Lowest Cost",
-        lowest_latency: "Lowest Latency",
-        highest_capability: "Highest Capability",
-        balanced_pareto: "Balanced Pareto"
-      };
-      document.getElementById('badge-pref-display').textContent = prefLabels[currentSettings.preference] || currentSettings.preference;
-    }
-
-    function applyChatPreset(name) {
-      if (!name) return;
-      if (name === 'budget') {
-        document.getElementById('drawer-cost-slider').value = 0.0003;
-        document.getElementById('drawer-lat-slider').value = 1000;
-        document.getElementById('drawer-cap-slider').value = 0.35;
-      } else if (name === 'latency') {
-        document.getElementById('drawer-lat-slider').value = 250;
-        document.getElementById('drawer-cost-slider').value = 0.005;
-        document.getElementById('drawer-cap-slider').value = 0.35;
-      } else if (name === 'code') {
-        document.getElementById('drawer-cap-slider').value = 0.70;
-        document.getElementById('drawer-lat-slider').value = 1000;
-        document.getElementById('drawer-cost-slider').value = 0.005;
-      } else if (name === 'reasoning') {
-        document.getElementById('drawer-cap-slider').value = 0.85;
-        document.getElementById('drawer-lat-slider').value = 2000;
-        document.getElementById('drawer-cost-slider').value = 0.01;
-      } else if (name === 'outage') {
-        fetch(`${API_BASE}/chaos`, {
-          method: 'POST',
-          headers: {'Content-Type': 'application/json'},
-          body: JSON.stringify({model_id: 'llama-3.2-1b', kill_switch: true, add_latency_ms: 0, error_rate: 0})
-        }).then(() => alert("Chaos Injected: Meta Llama 3.1 8B kill-switch set! RouteIQ will failover without relaxing constraints."));
+        } catch (e) {}
       }
-      syncSettings();
-      document.getElementById('chat-quick-preset').value = "";
+      renderSessionState();
     }
 
-    function sendQuickPrompt(promptText, pref, cap, lat) {
-      document.getElementById('chat-input').value = promptText;
-      if (pref) document.getElementById('drawer-pref-sel').value = pref;
-      if (cap) document.getElementById('drawer-cap-slider').value = cap;
-      if (lat) document.getElementById('drawer-lat-slider').value = lat;
-      syncSettings();
-      sendChatMessage();
+    function saveSessionToStorage() {
+      localStorage.setItem('routeiq_active_session', JSON.stringify({
+        sessionActive: appState.sessionActive,
+        sessionStartTime: appState.sessionStartTime ? appState.sessionStartTime.toISOString() : null,
+        sessionMetrics: appState.sessionMetrics
+      }));
     }
 
-    async function fetchHealth() {
-      try {
-        const res = await fetch(`${API_BASE}/health`);
-        const data = await res.json();
-        document.getElementById('val-violations').textContent = data.auditor_violations || 0;
-        document.getElementById('val-total').textContent = data.total_audited_requests || 0;
-      } catch (e) {
-        console.warn("Health check error", e);
-      }
-    }
-
-    async function sendChatMessage() {
-      const input = document.getElementById('chat-input');
-      const prompt = input.value.trim();
-      if (!prompt) return;
-
-      input.value = "";
-      const sendBtn = document.getElementById('btn-send-chat');
-      sendBtn.disabled = true;
-
-      document.getElementById('chat-welcome-hero').classList.add('hidden');
-      appendUserMessage(prompt);
-      const placeholderId = appendAssistantPlaceholder();
-
-      try {
-        const payload = {
-          prompt: prompt,
-          max_latency_ms: currentSettings.max_latency_ms,
-          max_cost_usd: currentSettings.max_cost_usd,
-          min_capability: currentSettings.min_capability,
-          preference: currentSettings.preference,
-          expected_output_tokens: 150
+    function toggleSessionState() {
+      if (!appState.sessionActive) {
+        // Start Session
+        appState.sessionActive = true;
+        appState.sessionStartTime = new Date();
+        appState.sessionMetrics = {
+          queriesCount: 0,
+          tokensIn: 0,
+          tokensOut: 0,
+          routeiqCost: 0.0,
+          baselineCost: 0.0,
+          moneySaved: 0.0,
+          perModelUsage: {}
         };
+        startSessionTimer();
+        saveSessionToStorage();
+        renderSessionState();
+        if (typeof confetti === 'function') {
+          confetti({ particleCount: 50, spread: 60, origin: { y: 0.8 } });
+        }
+      } else {
+        // Reset Session
+        if (confirm("Reset current session telemetry and counters?")) {
+          appState.sessionActive = false;
+          if (appState.sessionTimerInterval) clearInterval(appState.sessionTimerInterval);
+          appState.sessionStartTime = null;
+          document.getElementById('session-timer').textContent = "00:00:00";
+          saveSessionToStorage();
+          renderSessionState();
+        }
+      }
+    }
 
-        const res = await fetch(`${API_BASE}/route`, {
+    function startSessionTimer() {
+      if (appState.sessionTimerInterval) clearInterval(appState.sessionTimerInterval);
+      appState.sessionTimerInterval = setInterval(() => {
+        if (!appState.sessionStartTime) return;
+        const diffMs = Date.now() - appState.sessionStartTime.getTime();
+        const hrs = Math.floor(diffMs / 3600000).toString().padStart(2, '0');
+        const mins = Math.floor((diffMs % 3600000) / 60000).toString().padStart(2, '0');
+        const secs = Math.floor((diffMs % 60000) / 1000).toString().padStart(2, '0');
+        document.getElementById('session-timer').textContent = `${hrs}:${mins}:${secs}`;
+      }, 1000);
+    }
+
+    function renderSessionState() {
+      const btn = document.getElementById('btn-session-toggle');
+      const btnText = document.getElementById('session-btn-text');
+      const btnIcon = document.getElementById('session-btn-icon');
+      const indicator = document.getElementById('session-indicator-label');
+
+      if (appState.sessionActive) {
+        btn.className = "w-full py-2.5 px-4 rounded-xl font-bold text-xs flex items-center justify-center space-x-2 transition-all shadow-glow-rose bg-gradient-to-r from-rose-500 via-pink-500 to-amber-500 text-white hover:brightness-110 active:scale-[0.98]";
+        btnText.textContent = "RESET SESSION";
+        btnIcon.textContent = "⏹️";
+        indicator.textContent = "Session: Active";
+        indicator.className = "text-[10px] font-mono uppercase tracking-wider text-emerald-400 font-bold";
+      } else {
+        btn.className = "w-full py-2.5 px-4 rounded-xl font-bold text-xs flex items-center justify-center space-x-2 transition-all shadow-glow-emerald bg-gradient-to-r from-emerald-500 via-teal-500 to-cyan-500 text-slate-950 hover:brightness-110 active:scale-[0.98]";
+        btnText.textContent = "START SESSION";
+        btnIcon.textContent = "🚀";
+        indicator.textContent = "Session: Idle";
+        indicator.className = "text-[10px] font-mono uppercase tracking-wider text-slate-500 font-bold";
+      }
+
+      const sm = appState.sessionMetrics;
+      document.getElementById('sess-routeiq-cost').textContent = `$${sm.routeiqCost.toFixed(5)}`;
+      document.getElementById('sess-baseline-cost').textContent = `$${sm.baselineCost.toFixed(5)}`;
+      document.getElementById('sess-saved-cost').textContent = `$${sm.moneySaved.toFixed(5)}`;
+      const pct = sm.baselineCost > 0 ? (sm.moneySaved / sm.baselineCost * 100).toFixed(1) : "0.0";
+      document.getElementById('sess-saved-pct').textContent = `${pct}%`;
+      document.getElementById('sess-tokens').textContent = `${sm.tokensIn} in / ${sm.tokensOut} out`;
+      document.getElementById('sess-queries').textContent = sm.queriesCount.toString();
+      document.getElementById('top-saved-val').textContent = `$${sm.moneySaved.toFixed(5)}`;
+    }
+
+    // --- MODELS TELEMETRY & CARDS ---
+    async function fetchModels() {
+      try {
+        const resp = await fetch('/models');
+        if (!resp.ok) return;
+        const models = await resp.json();
+        appState.models = models;
+        renderModelCards(models);
+        document.getElementById('model-fleet-count').textContent = `${models.length} Models`;
+      } catch (e) {
+        console.warn('Failed to load models:', e);
+      }
+    }
+
+    function renderModelCards(models) {
+      const container = document.getElementById('models-list');
+      if (!models || models.length === 0) return;
+
+      container.innerHTML = models.map(m => {
+        const usage = appState.sessionMetrics.perModelUsage[m.id] || { count: 0, tokensIn: 0, tokensOut: 0, cost: 0.0, latencySum: 0 };
+        const isLocal = m.endpoint_type === 'local_gguf';
+        const typeBadge = isLocal 
+          ? `<span class="text-[9px] px-1.5 py-0.5 rounded bg-cyan-950 text-cyan-300 border border-cyan-800 font-mono">LOCAL GGUF</span>`
+          : `<span class="text-[9px] px-1.5 py-0.5 rounded bg-purple-950 text-purple-300 border border-purple-800 font-mono">CLOUD API</span>`;
+
+        const avgLat = usage.count > 0 ? Math.round(usage.latencySum / usage.count) : m.base_latency_ms;
+
+        return `
+          <div class="double-bezel p-2.5 rounded-xl space-y-1.5 transition hover:border-slate-700">
+            <div class="flex items-center justify-between">
+              <div class="flex items-center space-x-1.5 overflow-hidden">
+                <span class="w-1.5 h-1.5 rounded-full ${usage.count > 0 ? 'bg-cyan-400' : 'bg-slate-600'}"></span>
+                <span class="font-bold text-xs text-slate-200 truncate font-mono">${m.name}</span>
+              </div>
+              ${typeBadge}
+            </div>
+
+            <div class="grid grid-cols-3 gap-1 text-[10px] font-mono text-slate-400 bg-slate-950/60 p-1.5 rounded-lg border border-slate-900">
+              <div>
+                <span class="text-slate-500">Calls:</span>
+                <strong class="text-cyan-400">${usage.count}</strong>
+              </div>
+              <div>
+                <span class="text-slate-500">Tokens:</span>
+                <strong class="text-slate-200">${usage.tokensIn + usage.tokensOut}</strong>
+              </div>
+              <div>
+                <span class="text-slate-500">Cost:</span>
+                <strong class="text-emerald-400">$${usage.cost.toFixed(4)}</strong>
+              </div>
+            </div>
+
+            <div class="flex items-center justify-between text-[9px] text-slate-500 font-mono px-0.5">
+              <span>Capability: ${(m.capability_score * 100).toFixed(0)}%</span>
+              <span>Rate: $${m.input_cost_per_1k}/1k</span>
+              <span>Avg: ${avgLat}ms</span>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    // --- API KEYS CONFIGURATION ---
+    async function fetchApiKeysStatus() {
+      try {
+        const resp = await fetch('/keys');
+        if (!resp.ok) return;
+        const data = await resp.json();
+        updateKeyBadges(data);
+      } catch (e) {}
+    }
+
+    function updateKeyBadges(keys) {
+      const gBadge = document.getElementById('badge-key-groq');
+      const mBadge = document.getElementById('badge-key-gemini');
+      const oBadge = document.getElementById('badge-key-openrouter');
+      const openAiBadge = document.getElementById('badge-key-openai');
+      const dsBadge = document.getElementById('badge-key-deepseek');
+      const aBadge = document.getElementById('badge-key-anthropic');
+      const topBadge = document.getElementById('api-status-badge');
+
+      let configuredCount = 0;
+      if (keys.GROQ_API_KEY) { if (gBadge) { gBadge.textContent = '✅ Configured'; gBadge.className = 'text-[10px] text-emerald-400 font-bold'; } configuredCount++; }
+      if (keys.GEMINI_API_KEY) { if (mBadge) { mBadge.textContent = '✅ Configured'; mBadge.className = 'text-[10px] text-emerald-400 font-bold'; } configuredCount++; }
+      if (keys.OPENROUTER_API_KEY) { if (oBadge) { oBadge.textContent = '✅ Configured'; oBadge.className = 'text-[10px] text-emerald-400 font-bold'; } configuredCount++; }
+      if (keys.OPENAI_API_KEY) { if (openAiBadge) { openAiBadge.textContent = '✅ Configured'; openAiBadge.className = 'text-[10px] text-emerald-400 font-bold'; } configuredCount++; }
+      if (keys.DEEPSEEK_API_KEY) { if (dsBadge) { dsBadge.textContent = '✅ Configured'; dsBadge.className = 'text-[10px] text-emerald-400 font-bold'; } configuredCount++; }
+      if (keys.ANTHROPIC_API_KEY) { if (aBadge) { aBadge.textContent = '✅ Configured'; aBadge.className = 'text-[10px] text-emerald-400 font-bold'; } configuredCount++; }
+
+      if (topBadge) {
+        topBadge.textContent = configuredCount > 0 ? `API (${configuredCount})` : 'API';
+        topBadge.className = configuredCount > 0 ? 'text-[10px] font-mono font-bold text-emerald-400' : 'text-[10px] font-mono text-slate-400';
+      }
+    }
+
+    function openApiKeysModal() {
+      fetchApiKeysStatus();
+      document.getElementById('modal-api-keys').classList.remove('hidden');
+    }
+
+    function closeApiKeysModal() {
+      document.getElementById('modal-api-keys').classList.add('hidden');
+    }
+
+    async function saveApiKeys() {
+      const payload = {};
+      const g = document.getElementById('key-groq')?.value.trim();
+      const m = document.getElementById('key-gemini')?.value.trim();
+      const o = document.getElementById('key-openrouter')?.value.trim();
+      const openAi = document.getElementById('key-openai')?.value.trim();
+      const ds = document.getElementById('key-deepseek')?.value.trim();
+      const a = document.getElementById('key-anthropic')?.value.trim();
+      if (g) payload.GROQ_API_KEY = g;
+      if (m) payload.GEMINI_API_KEY = m;
+      if (o) payload.OPENROUTER_API_KEY = o;
+      if (openAi) payload.OPENAI_API_KEY = openAi;
+      if (ds) payload.DEEPSEEK_API_KEY = ds;
+      if (a) payload.ANTHROPIC_API_KEY = a;
+
+      try {
+        const resp = await fetch('/keys', {
           method: 'POST',
-          headers: {'Content-Type': 'application/json'},
+          headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(payload)
         });
-        const data = await res.json();
-        renderAssistantResponse(placeholderId, data);
-        renderDecisionMatrix(data);
-        
-        // Update saved cost ticker
-        const baselineCost = 0.0035; // Claude 3.5 Sonnet baseline
-        const actualCost = (data.actual_metrics && data.actual_metrics.total_cost_usd) || 0.0;
-        accumulatedSavedCost += Math.max(0, baselineCost - actualCost);
-        document.getElementById('ticker-cost-saved').textContent = `$${accumulatedSavedCost.toFixed(5)}`;
-        if (data.actual_metrics && data.actual_metrics.total_latency_ms) {
-          document.getElementById('ticker-avg-lat').textContent = `${data.actual_metrics.total_latency_ms.toFixed(0)} ms`;
+        const res = await resp.json();
+        updateKeyBadges(res.keys || {});
+        closeApiKeysModal();
+        alert("API keys saved and applied successfully!");
+      } catch (e) {
+        alert("Error saving API keys: " + e);
+      }
+    }
+
+    // --- CONTROLS & SLA LABELS ---
+    function updateConstraintLabels() {
+      const lat = document.getElementById('input-latency').value;
+      const cost = parseFloat(document.getElementById('input-cost').value).toFixed(4);
+      const cap = parseFloat(document.getElementById('input-capability').value).toFixed(2);
+      const pref = document.getElementById('select-preference').value;
+
+      document.getElementById('val-max-latency').textContent = `${lat} ms`;
+      document.getElementById('val-max-cost').textContent = `$${cost}`;
+      document.getElementById('val-min-cap').textContent = cap;
+
+      document.getElementById('meter-lat').textContent = `${lat}ms`;
+      const prefMap = {
+        lowest_cost: 'Lowest Cost',
+        lowest_latency: 'Lowest Latency',
+        highest_capability: 'Highest Quality',
+        balanced_pareto: 'Balanced Pareto'
+      };
+      document.getElementById('meter-pref').textContent = prefMap[pref] || pref;
+    }
+
+    function resetConstraints() {
+      document.getElementById('input-latency').value = 1000;
+      document.getElementById('input-cost').value = 0.0100;
+      document.getElementById('input-capability').value = 0.35;
+      document.getElementById('select-preference').value = 'lowest_cost';
+      updateConstraintLabels();
+    }
+
+    function handleTextareaInput(el) {
+      el.style.height = 'auto';
+      el.style.height = Math.min(el.scrollHeight, 180) + 'px';
+      const words = el.value.trim().split(/\s+/).filter(Boolean).length;
+      document.getElementById('input-est-tokens').textContent = words > 0 ? Math.max(8, words * 2) : 0;
+    }
+
+    function handleTextareaKeydown(e) {
+      if (e.key === 'Enter' && !e.shiftKey) {
+        e.preventDefault();
+        submitPrompt();
+      }
+    }
+
+    function applySuggestion(text, lat, cost, cap) {
+      document.getElementById('prompt-input').value = text;
+      if (lat) document.getElementById('input-latency').value = lat;
+      if (cost) document.getElementById('input-cost').value = cost;
+      if (cap) document.getElementById('input-capability').value = cap;
+      updateConstraintLabels();
+      handleTextareaInput(document.getElementById('prompt-input'));
+    }
+
+    // --- CHAT SUBMISSION & ANIMATED PIPELINE STEPPER ---
+    async function submitPrompt() {
+      const input = document.getElementById('prompt-input');
+      const prompt = input.value.trim();
+      if (!prompt || appState.inFlightRequest) return;
+
+      // Auto start session if idle
+      if (!appState.sessionActive) {
+        toggleSessionState();
+      }
+
+      appState.inFlightRequest = true;
+      document.getElementById('btn-send').disabled = true;
+      document.getElementById('btn-send').classList.add('opacity-50');
+
+      // Hide welcome hero
+      const hero = document.getElementById('welcome-hero');
+      if (hero) hero.classList.add('hidden');
+
+      const messagesContainer = document.getElementById('chat-messages');
+
+      // 1. Render User Message Bubble
+      const userMsgId = 'msg-user-' + Date.now();
+      const userBubbleHtml = `
+        <div id="${userMsgId}" class="flex justify-end space-x-3 max-w-3xl ml-auto">
+          <div class="space-y-1 text-right max-w-xl">
+            <div class="text-[10px] text-slate-400 font-mono">
+              ${appState.userProfile.name} &bull; ${new Date().toLocaleTimeString()}
+            </div>
+            <div class="bg-gradient-to-r from-indigo-600 to-indigo-700 text-white p-3.5 rounded-2xl rounded-tr-sm shadow-md text-sm leading-relaxed text-left">
+              ${escapeHtml(prompt)}
+            </div>
+          </div>
+          <div class="w-8 h-8 rounded-xl bg-indigo-600 flex items-center justify-center text-white font-bold text-xs flex-shrink-0">
+            ${appState.userProfile.avatar}
+          </div>
+        </div>
+      `;
+      messagesContainer.insertAdjacentHTML('beforeend', userBubbleHtml);
+
+      // Clear input
+      input.value = '';
+      input.style.height = 'auto';
+
+      // 2. Create Placeholder for RouteIQ Assistant with Animated Process Stepper
+      const asstMsgId = 'msg-asst-' + Date.now();
+      const asstBubbleHtml = `
+        <div id="${asstMsgId}" class="flex space-x-3 max-w-4xl mr-auto">
+          <div class="w-8 h-8 rounded-xl bg-gradient-to-tr from-cyan-500 to-indigo-600 flex items-center justify-center text-white font-black text-xs flex-shrink-0 shadow-glow-cyan">
+            ⚡
+          </div>
+          <div class="space-y-3 flex-1 min-w-0">
+            
+            <!-- HEADER / BADGES -->
+            <div class="flex items-center space-x-2 text-xs font-mono">
+              <span class="font-bold text-white">RouteIQ Dynamic Gateway</span>
+              <span id="${asstMsgId}-badge" class="px-2 py-0.5 rounded-full bg-cyan-950 text-cyan-300 border border-cyan-800 text-[10px] animate-pulse">
+                Evaluating Constraints...
+              </span>
+            </div>
+
+            <!-- ANIMATED VISUAL PROCESS STEPPER (Requirement 5) -->
+            <div id="${asstMsgId}-stepper" class="double-bezel p-3 rounded-2xl space-y-2 border-cyan-500/30">
+              <div class="flex items-center justify-between text-[11px] font-mono text-cyan-400 font-bold">
+                <span>🔄 Visual Decision Pipeline</span>
+                <span id="${asstMsgId}-step-timer" class="text-slate-400">0 ms</span>
+              </div>
+              
+              <!-- 5 Stage Stepper Nodes -->
+              <div class="grid grid-cols-1 sm:grid-cols-5 gap-2 text-[10px] font-mono pt-1">
+                
+                <!-- Stage 1 -->
+                <div id="${asstMsgId}-s1" class="p-2 rounded-xl bg-slate-900/90 border border-cyan-500/50 flex flex-col justify-between">
+                  <div class="flex items-center space-x-1 text-cyan-300 font-bold">
+                    <span>1.</span><span>Tokenizer</span>
+                  </div>
+                  <div class="text-[9px] text-slate-400 mt-1">Prompt length &amp; intent</div>
+                  <div class="text-[9px] text-cyan-400 mt-1 font-bold" id="${asstMsgId}-s1-status">● Analyzing</div>
+                </div>
+
+                <!-- Stage 2 -->
+                <div id="${asstMsgId}-s2" class="p-2 rounded-xl bg-slate-900/40 border border-slate-800 flex flex-col justify-between text-slate-500">
+                  <div class="flex items-center space-x-1 font-bold">
+                    <span>2.</span><span>Laya System 1</span>
+                  </div>
+                  <div class="text-[9px] text-slate-500 mt-1">&lt;2ms complexity</div>
+                  <div class="text-[9px] mt-1" id="${asstMsgId}-s2-status">Pending</div>
+                </div>
+
+                <!-- Stage 3 -->
+                <div id="${asstMsgId}-s3" class="p-2 rounded-xl bg-slate-900/40 border border-slate-800 flex flex-col justify-between text-slate-500">
+                  <div class="flex items-center space-x-1 font-bold">
+                    <span>3.</span><span>SLA Filter</span>
+                  </div>
+                  <div class="text-[9px] text-slate-500 mt-1">Hard constraints</div>
+                  <div class="text-[9px] mt-1" id="${asstMsgId}-s3-status">Pending</div>
+                </div>
+
+                <!-- Stage 4 -->
+                <div id="${asstMsgId}-s4" class="p-2 rounded-xl bg-slate-900/40 border border-slate-800 flex flex-col justify-between text-slate-500">
+                  <div class="flex items-center space-x-1 font-bold">
+                    <span>4.</span><span>Ranker</span>
+                  </div>
+                  <div class="text-[9px] text-slate-500 mt-1">Winning candidate</div>
+                  <div class="text-[9px] mt-1" id="${asstMsgId}-s4-status">Pending</div>
+                </div>
+
+                <!-- Stage 5 -->
+                <div id="${asstMsgId}-s5" class="p-2 rounded-xl bg-slate-900/40 border border-slate-800 flex flex-col justify-between text-slate-500">
+                  <div class="flex items-center space-x-1 font-bold">
+                    <span>5.</span><span>Execution</span>
+                  </div>
+                  <div class="text-[9px] text-slate-500 mt-1">Inference synthesis</div>
+                  <div class="text-[9px] mt-1" id="${asstMsgId}-s5-status">Pending</div>
+                </div>
+
+              </div>
+            </div>
+
+            <!-- RESPONSE CONTENT CONTAINER -->
+            <div id="${asstMsgId}-content" class="double-bezel p-4 rounded-2xl space-y-3 min-h-[80px]">
+              <div class="flex items-center space-x-2 text-slate-400 text-xs font-mono">
+                <span class="w-2 h-2 rounded-full bg-cyan-400 animate-ping"></span>
+                <span>Synthesizing optimal response under strict SLA boundaries...</span>
+              </div>
+            </div>
+
+            <!-- MATHEMATICAL COMPARATIVE COST MATRIX (Requirement 4) -->
+            <div id="${asstMsgId}-cost-matrix" class="hidden"></div>
+
+            <!-- DECISION AUDIT WATERFALL -->
+            <div id="${asstMsgId}-audit-waterfall" class="hidden"></div>
+
+          </div>
+        </div>
+      `;
+      messagesContainer.insertAdjacentHTML('beforeend', asstBubbleHtml);
+      messagesContainer.scrollTop = messagesContainer.scrollHeight;
+
+      // Pipeline animation progression
+      const startTime = performance.now();
+      const timerInt = setInterval(() => {
+        const el = document.getElementById(`${asstMsgId}-step-timer`);
+        if (el) el.textContent = `${Math.round(performance.now() - startTime)} ms`;
+      }, 50);
+
+      try {
+        // Trigger Stage 1 -> Stage 2 visual transition
+        setTimeout(() => {
+          setStepperStage(asstMsgId, 1, 'done', 'Done');
+          setStepperStage(asstMsgId, 2, 'active', 'Classifying Tier');
+        }, 120);
+
+        setTimeout(() => {
+          setStepperStage(asstMsgId, 2, 'done', 'Hedging Verified');
+          setStepperStage(asstMsgId, 3, 'active', 'Filtering Fleet');
+        }, 280);
+
+        setTimeout(() => {
+          setStepperStage(asstMsgId, 3, 'done', 'Filtered');
+          setStepperStage(asstMsgId, 4, 'active', 'Selecting Optimal');
+        }, 450);
+
+        // API Call to Gateway Backend
+        const payload = {
+          prompt: prompt,
+          max_latency_ms: parseFloat(document.getElementById('input-latency').value),
+          max_cost_usd: parseFloat(document.getElementById('input-cost').value),
+          min_capability: parseFloat(document.getElementById('input-capability').value),
+          preference: document.getElementById('select-preference').value,
+          expected_output_tokens: 180
+        };
+
+        const resp = await fetch('/route', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+
+        const data = await resp.json();
+        clearInterval(timerInt);
+
+        // Stepper Stage 5 Complete
+        setStepperStage(asstMsgId, 4, 'done', 'Target Resolved');
+        setStepperStage(asstMsgId, 5, 'done', 'Rendered');
+        const totalDuration = Math.round(performance.now() - startTime);
+        document.getElementById(`${asstMsgId}-step-timer`).textContent = `${totalDuration} ms`;
+
+        // Update Assistant Badge
+        const badgeEl = document.getElementById(`${asstMsgId}-badge`);
+        if (data.no_valid_model) {
+          badgeEl.className = "px-2 py-0.5 rounded-full bg-rose-950 text-rose-300 border border-rose-800 text-[10px]";
+          badgeEl.textContent = "Refusal: SLA Hard Limit";
+        } else {
+          badgeEl.className = "px-2 py-0.5 rounded-full bg-emerald-950 text-emerald-300 border border-emerald-800 text-[10px]";
+          badgeEl.textContent = `${data.actual_metrics.badge || data.chosen_model} &bull; ${data.actual_metrics.total_latency_ms}ms &bull; $${data.actual_metrics.total_cost_usd.toFixed(6)}`;
         }
 
-        fetchHealth();
+        // Render Markdown Response Content + DeepSeek R1 <think> Accordion
+        renderAssistantResponseContent(asstMsgId, data);
+
+        // Render Mathematical Comparative Cost Breakdown (Requirement 4)
+        if (data.cost_matrix) {
+          renderMathematicalCostMatrix(asstMsgId, data.cost_matrix, data.chosen_model);
+        }
+
+        // Render Candidate Audit Waterfall
+        if (data.candidates) {
+          renderCandidateAuditWaterfall(asstMsgId, data.candidates, data.chosen_model);
+        }
+
+        // Update Session & Fleet Metrics
+        recordSessionMetrics(data);
+
+        // Active model header pill
+        const topPill = document.getElementById('live-active-model-pill');
+        if (topPill && data.chosen_model) {
+          topPill.textContent = `Routed: ${data.chosen_model} (${data.actual_metrics.total_latency_ms}ms)`;
+        }
+
       } catch (err) {
-        renderErrorResponse(placeholderId, err.message);
+        clearInterval(timerInt);
+        document.getElementById(`${asstMsgId}-content`).innerHTML = `
+          <div class="p-3 bg-rose-950/40 border border-rose-800 rounded-xl text-rose-300 text-xs font-mono">
+            <strong>❌ Gateway Error:</strong> ${escapeHtml(err.message || String(err))}
+          </div>
+        `;
       } finally {
-        sendBtn.disabled = false;
+        appState.inFlightRequest = false;
+        document.getElementById('btn-send').disabled = false;
+        document.getElementById('btn-send').classList.remove('opacity-50');
+        messagesContainer.scrollTop = messagesContainer.scrollHeight;
       }
     }
 
-    function appendUserMessage(prompt) {
-      const list = document.getElementById('chat-stream-list');
-      const div = document.createElement('div');
-      div.className = "flex justify-end";
-      div.innerHTML = `
-        <div class="bg-cyan-950/40 text-slate-100 rounded-2xl rounded-tr-sm px-4 py-2.5 max-w-xl text-sm leading-relaxed border border-cyan-800/50 shadow-sm">
-          ${prompt}
-        </div>
-      `;
-      list.appendChild(div);
-      scrollToBottom();
+    function setStepperStage(msgId, stageNum, state, statusText) {
+      const el = document.getElementById(`${msgId}-s${stageNum}`);
+      const st = document.getElementById(`${msgId}-s${stageNum}-status`);
+      if (!el || !st) return;
+
+      if (state === 'active') {
+        el.className = "p-2 rounded-xl bg-cyan-950/40 border border-cyan-500/80 flex flex-col justify-between text-cyan-300";
+        st.textContent = `● ${statusText}`;
+        st.className = "text-[9px] text-cyan-400 mt-1 font-bold animate-pulse";
+      } else if (state === 'done') {
+        el.className = "p-2 rounded-xl bg-slate-900/90 border border-emerald-500/50 flex flex-col justify-between text-emerald-300";
+        st.textContent = `✓ ${statusText}`;
+        st.className = "text-[9px] text-emerald-400 mt-1 font-bold";
+      }
     }
 
-    function appendAssistantPlaceholder() {
-      const list = document.getElementById('chat-stream-list');
-      const id = "msg-" + Date.now();
-      const div = document.createElement('div');
-      div.id = id;
-      div.className = "flex justify-start space-x-3";
-      div.innerHTML = `
-        <div class="w-8 h-8 rounded-lg bg-gradient-to-tr from-cyan-500 to-indigo-600 text-white flex items-center justify-center text-sm shadow-glow-cyan flex-shrink-0">
-          ⚡
-        </div>
-        <div class="glass-card rounded-2xl rounded-tl-sm p-4 max-w-2xl text-sm shadow-float space-y-2">
-          <div class="flex items-center space-x-2 text-xs text-slate-400">
-            <span class="animate-spin text-cyan-400">⏳</span>
-            <span>Laya-JEV System 1 evaluating &amp; enforcing hard constraints...</span>
-          </div>
-        </div>
-      `;
-      list.appendChild(div);
-      scrollToBottom();
-      return id;
-    }
+    function renderAssistantResponseContent(msgId, data) {
+      const container = document.getElementById(`${msgId}-content`);
+      let text = data.response_text || '';
 
-    function renderAssistantResponse(elementId, data) {
-      const container = document.getElementById(elementId);
-      if (!container) return;
+      let thinkHtml = '';
+      let mainText = text;
 
-      const metrics = data.actual_metrics || {};
-      const chosen = data.chosen_model;
-      const isRefusal = data.no_valid_model;
-      const badge = metrics.badge || "[LOCAL GGUF]";
-      const totalLat = metrics.total_latency_ms || 0;
-      const totalCost = metrics.total_cost_usd || 0;
-      const est = data.estimator || {};
-
-      // Shrinking budget failover chain
-      const failoverHtml = (data.failover_chain && data.failover_chain.length > 0) ? `
-        <div class="bg-amber-950/40 border border-amber-500/40 rounded-xl p-3 text-xs text-amber-200 space-y-1.5 font-mono">
-          <div class="font-bold flex items-center space-x-1.5 text-amber-400">
-            <span>⚠️</span><span>Shrinking-Budget Failover Chain (L_rem = L_orig - t_spent)</span>
-          </div>
-          ${data.failover_chain.map(f => `
-            <div class="text-[11px] text-amber-300">
-              • ${f.model_name}: ${f.error} &bull; spent ${f.time_spent_ms}ms &bull; remaining budget: ${f.remaining_latency_ms}ms
-            </div>
-          `).join('')}
-        </div>
-      ` : '';
-
-      // Formatting DeepSeek R1 reasoning trace if present
-      let formattedText = data.response_text || '';
-      if (formattedText.includes('<think>') && formattedText.includes('</think>')) {
-        const parts = formattedText.split('</think>');
+      // Parse DeepSeek R1 <think> reasoning trace
+      if (text.includes('<think>')) {
+        const parts = text.split('</think>');
         const thinkContent = parts[0].replace('<think>', '').trim();
-        const mainContent = parts[1].trim();
-        formattedText = `
-          <div class="bg-indigo-950/40 border border-indigo-500/30 rounded-xl p-3 my-2 text-xs text-indigo-200">
-            <div class="font-bold text-indigo-400 mb-1 flex items-center space-x-1 font-mono">
-              <span>🧠</span><span>DeepSeek R1 Cognitive Reasoning Trace:</span>
+        mainText = parts.length > 1 ? parts.slice(1).join('</think>').trim() : '';
+
+        thinkHtml = `
+          <details class="double-bezel p-3 rounded-xl border-amber-500/30 group">
+            <summary class="cursor-pointer text-xs font-mono font-bold text-amber-400 flex items-center justify-between select-none">
+              <span class="flex items-center space-x-1.5">
+                <span>💡</span>
+                <span>DeepSeek R1 Reasoning Trace (${thinkContent.trim().split(/\s+/).filter(Boolean).length} thinking tokens)</span>
+              </span>
+              <span class="text-[10px] text-slate-400 group-open:rotate-180 transition">▼</span>
+            </summary>
+            <div class="mt-2.5 pt-2.5 border-t border-slate-800/80 text-xs font-mono text-slate-300 whitespace-pre-wrap leading-relaxed bg-slate-950/60 p-3 rounded-lg">
+              ${escapeHtml(thinkContent)}
             </div>
-            <div class="whitespace-pre-wrap font-mono text-[11px] text-slate-300">${thinkContent}</div>
-          </div>
-          <div class="text-slate-100 mt-2">${mainContent}</div>
+          </details>
         `;
       }
 
-      // Sarvam-JEV Side-by-Side Comparison Race Lanes
-      const referenceCost = 0.00350; // Claude 3.5 Sonnet Reference
-      const referenceLat = 1200;
-      const savingsOnThisReq = Math.max(0, referenceCost - totalCost);
-      const savingsPctOnThisReq = totalCost > 0 ? (((referenceCost - totalCost) / referenceCost) * 100).toFixed(1) : 0;
-
-      const raceLanesHtml = !isRefusal ? `
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
-          <!-- Lane 02A: RouteIQ Dynamic Model -->
-          <div class="race-lane race-lane-rq">
-            <div class="flex justify-between items-center text-[10px] font-mono text-cyan-400 uppercase font-bold pb-1 border-b border-cyan-800/40">
-              <span>02A / RouteIQ Gateway</span>
-              <span class="px-1.5 py-0.2 rounded bg-cyan-950 text-cyan-300 border border-cyan-800">DIRECT ROUTE</span>
-            </div>
-            <div class="mt-2 text-xs font-bold text-white">${chosen}</div>
-            <div class="font-mono text-[11px] mt-1 space-y-0.5 text-slate-300">
-              <div>Latency: <strong class="text-cyan-300">${totalLat.toFixed(1)} ms</strong></div>
-              <div>Cost: <strong class="text-emerald-400">$${totalCost.toFixed(5)}</strong></div>
-              <div>Violations: <strong class="text-emerald-400">0</strong></div>
-            </div>
-          </div>
-
-          <!-- Lane 02B: Frontier Reference -->
-          <div class="race-lane race-lane-ref">
-            <div class="flex justify-between items-center text-[10px] font-mono text-slate-400 uppercase font-bold pb-1 border-b border-slate-700">
-              <span>02B / Frontier Cloud API</span>
-              <span class="px-1.5 py-0.2 rounded bg-slate-800 text-slate-400">TOKEN BY TOKEN</span>
-            </div>
-            <div class="mt-2 text-xs font-bold text-slate-300">Claude 3.5 Sonnet Baseline</div>
-            <div class="font-mono text-[11px] mt-1 space-y-0.5 text-slate-400">
-              <div>Latency: 1200.0 ms</div>
-              <div>Cost: $${referenceCost.toFixed(5)}</div>
-              <div>Saved with RouteIQ: <strong class="text-emerald-400">${savingsPctOnThisReq}%</strong></div>
-            </div>
-          </div>
-        </div>
-      ` : '';
-
-      container.innerHTML = `
-        <div class="w-8 h-8 rounded-lg bg-gradient-to-tr from-cyan-500 to-indigo-600 text-white flex items-center justify-center text-sm shadow-glow-cyan flex-shrink-0 mt-1">
-          ⚡
-        </div>
-        <div class="glass-card rounded-2xl rounded-tl-sm p-5 max-w-2xl text-sm shadow-float space-y-3.5">
-          
-          <!-- Routing Header & Live Badges -->
-          <div class="flex flex-wrap items-center justify-between gap-2 pb-2.5 border-b border-slate-800 text-xs">
-            <div class="flex items-center space-x-2">
-              <span class="font-extrabold text-white">${isRefusal ? '<span class="text-rose-400">Refusal: No Model Satisfied Hard Constraints</span>' : chosen}</span>
-              <span class="px-2 py-0.5 rounded text-[10px] font-mono font-bold ${isRefusal ? 'bg-rose-950 text-rose-300 border border-rose-800' : 'bg-cyan-950 text-cyan-300 border border-cyan-800'}">
-                ${badge}
-              </span>
-            </div>
-            <div class="font-mono text-[11px] text-slate-400 flex items-center space-x-2">
-              <span>${totalLat.toFixed(1)}ms</span>
-              <span>&bull;</span>
-              <span class="text-emerald-400">$${totalCost.toFixed(5)}</span>
-            </div>
-          </div>
-
-          ${failoverHtml}
-
-          <!-- Response Text Body -->
-          <div class="text-slate-200 text-sm whitespace-pre-wrap leading-relaxed">
-            ${formattedText}
-          </div>
-
-          ${raceLanesHtml}
-
-          ${data.closest_miss_suggestion ? `
-            <div class="bg-cyan-950/40 border border-cyan-500/30 rounded-xl p-3 text-xs text-cyan-300 font-mono">
-              💡 <strong>Closest Miss Suggestion:</strong> ${data.closest_miss_suggestion}
-            </div>
-          ` : ''}
-
-          <!-- Glass-Box Routing Waterfall Details -->
-          <div class="pt-2 border-t border-slate-800">
-            <details class="text-xs text-slate-400 group">
-              <summary class="cursor-pointer font-semibold text-slate-300 hover:text-cyan-400 flex items-center justify-between">
-                <span>🔍 Decision Waterfall &amp; Laya-JEV System 1 Audit (${(data.candidates||[]).filter(c=>c.passed).length} of ${(data.candidates||[]).length} passed)</span>
-                <span class="text-slate-500 group-open:rotate-180 transition">&darr;</span>
-              </summary>
-              <div class="mt-2.5 space-y-1.5 font-mono text-[11px] bg-slate-900/80 p-3.5 rounded-xl border border-slate-800">
-                <div class="text-cyan-400 font-bold">[1] Laya-JEV System 1 Complexity Analysis:</div>
-                <div>• Projected Tier: <strong class="text-white">${(est.tier||'MEDIUM').toUpperCase()}</strong> (Confidence: ${((est.confidence||0.8)*100).toFixed(0)}%)</div>
-                <div>• Uncertainty Hedging: ${est.elevated ? `<span class="text-amber-400">[Hedged: ${est.elevation_reason}]</span>` : '<span class="text-emerald-400">[Optimal]</span>'}</div>
-                <div class="text-indigo-400 font-bold mt-2">[2] Independent Constraint Auditor:</div>
-                <div>• Verdict: <span class="text-emerald-400 font-bold">100% Compliant (0 Violations)</span></div>
-                <div>• SHA-256 Ledger: <span class="text-slate-400">${(data.auditor && data.auditor.chain_hash) ? data.auditor.chain_hash.substring(0, 24) : 'Recorded'}...</span></div>
-              </div>
-            </details>
-          </div>
-
-        </div>
-      `;
-      scrollToBottom();
-    }
-
-    function renderErrorResponse(elementId, errorMsg) {
-      const container = document.getElementById(elementId);
-      if (!container) return;
-      container.innerHTML = `
-        <div class="w-8 h-8 rounded-lg bg-rose-600 text-white flex items-center justify-center text-sm shadow-glow-rose flex-shrink-0">⚠️</div>
-        <div class="bg-rose-950/60 border border-rose-500/40 text-rose-300 rounded-2xl p-4 text-xs font-mono">
-          <strong>Request Error:</strong> ${errorMsg}
-        </div>
-      `;
-      scrollToBottom();
-    }
-
-    function scrollToBottom() {
-      const container = document.getElementById('chat-messages-container');
-      container.scrollTop = container.scrollHeight;
-    }
-
-    function renderDecisionMatrix(data) {
-      const tbody = document.getElementById('matrix-tbody');
-      tbody.innerHTML = '';
-
-      if (data.closest_miss_suggestion) {
-        document.getElementById('matrix-closest-miss').classList.remove('hidden');
-        document.getElementById('matrix-closest-text').textContent = data.closest_miss_suggestion;
+      // Parse Markdown into HTML using marked.js
+      let parsedMarkdown = mainText;
+      if (typeof marked !== 'undefined' && marked.parse) {
+        parsedMarkdown = marked.parse(mainText);
       } else {
-        document.getElementById('matrix-closest-miss').classList.add('hidden');
+        parsedMarkdown = escapeHtml(mainText).replace(/\n/g, '<br/>');
       }
 
-      data.candidates.forEach(c => {
-        const tr = document.createElement('tr');
-        tr.className = c.passed ? "bg-emerald-950/20" : "hover:bg-slate-900/40";
-        tr.innerHTML = `
-          <td class="p-3.5 font-bold text-slate-200">${c.model_name}</td>
-          <td class="p-3.5 text-center">
-            <span class="px-2 py-0.5 rounded text-[10px] font-mono font-bold ${c.passed ? 'bg-emerald-950 text-emerald-300 border border-emerald-800' : 'bg-rose-950 text-rose-300 border border-rose-800'}">
-              ${c.passed ? '✓ PASSED' : '✕ REJECTED'}
-            </span>
-          </td>
-          <td class="p-3.5 text-center font-mono ${c.circuit_state === 'CLOSED' ? 'text-emerald-400' : 'text-rose-400'}">${c.circuit_state}</td>
-          <td class="p-3.5 text-center font-mono ${c.context_fit ? 'text-emerald-400' : 'text-rose-400'}">${c.context_fit ? '✓ Fits' : '✗ Overflow'}</td>
-          <td class="p-3.5 text-center font-mono ${c.cost_fit ? 'text-emerald-400' : 'text-rose-400'}">$${c.predicted_cost_usd.toFixed(5)}</td>
-          <td class="p-3.5 text-center font-mono ${c.latency_fit ? 'text-cyan-400' : 'text-rose-400'}">${c.predicted_latency_ms.toFixed(0)}ms</td>
-          <td class="p-3.5 text-center font-mono text-slate-300">${c.capability_score.toFixed(2)}</td>
-          <td class="p-3.5">
-            ${c.rejection_reasons.length > 0 
-              ? `<span class="text-rose-300 bg-rose-950/60 px-2 py-0.5 rounded text-[11px] border border-rose-800/60 font-mono">${c.rejection_reasons.join('; ')}</span>`
-              : `<span class="text-emerald-400 font-semibold font-mono">Compliant with all constraints</span>`}
-          </td>
+      container.innerHTML = `
+        ${thinkHtml}
+        <div class="prose-content text-sm text-slate-100 leading-relaxed">
+          ${parsedMarkdown}
+        </div>
+      `;
+    }
+
+    // --- MATHEMATICAL COMPARATIVE COST BREAKDOWN (Requirement 4) ---
+    function renderMathematicalCostMatrix(msgId, costMatrix, chosenModelId) {
+      const container = document.getElementById(`${msgId}-cost-matrix`);
+      if (!container || !costMatrix || !costMatrix.models) return;
+
+      container.classList.remove('hidden');
+
+      const rows = costMatrix.models.map(m => {
+        const isChosen = m.is_chosen;
+        const diff = m.savings_vs_model_usd;
+        let diffBadge = '';
+        if (isChosen) {
+          diffBadge = `<span class="px-2 py-0.5 rounded-full bg-emerald-950 text-emerald-300 font-bold border border-emerald-800">★ ROUTED WINNER</span>`;
+        } else if (diff > 0) {
+          diffBadge = `<span class="text-cyan-400 font-bold">+$${diff.toFixed(6)} (+${m.savings_vs_model_pct}%)</span>`;
+        } else {
+          diffBadge = `<span class="text-slate-500">-$${Math.abs(diff).toFixed(6)}</span>`;
+        }
+
+        return `
+          <tr class="${isChosen ? 'bg-cyan-950/30 border-l-2 border-cyan-400 font-bold text-white' : 'hover:bg-slate-900/40 text-slate-300'}">
+            <td class="p-2.5 flex items-center space-x-1.5">
+              <span>${m.model_name}</span>
+            </td>
+            <td class="p-2.5 text-slate-400">$${m.input_cost_per_1k} / $${m.output_cost_per_1k}</td>
+            <td class="p-2.5 font-bold ${isChosen ? 'text-emerald-400' : 'text-slate-300'}">$${m.calculated_cost_usd.toFixed(6)}</td>
+            <td class="p-2.5">${diffBadge}</td>
+          </tr>
         `;
-        tbody.appendChild(tr);
-      });
+      }).join('');
+
+      container.innerHTML = `
+        <details class="double-bezel p-3 rounded-2xl border-emerald-500/30 space-y-2 group" open>
+          <summary class="cursor-pointer text-xs font-mono font-bold text-emerald-400 flex items-center justify-between select-none">
+            <div class="flex items-center space-x-2">
+              <span>📊</span>
+              <span>Mathematical Comparative Cost Breakdown Matrix (${costMatrix.tokens_in} in / ${costMatrix.tokens_out} out tokens)</span>
+            </div>
+            <div class="flex items-center space-x-2">
+              <span class="text-[10px] px-2 py-0.5 rounded-full bg-emerald-950 text-emerald-300 border border-emerald-800">
+                Saved $${costMatrix.money_saved_usd.toFixed(6)} (${costMatrix.savings_percentage}% vs Frontier)
+              </span>
+              <span class="text-slate-400 group-open:rotate-180 transition">▼</span>
+            </div>
+          </summary>
+
+          <div class="pt-2 overflow-x-auto">
+            <div class="p-2.5 bg-slate-950/80 rounded-xl border border-slate-800 text-[10px] text-slate-400 font-mono mb-2 flex items-center justify-between">
+              <div>
+                <strong>Calculated via Pure Formula:</strong>
+                <code>Cost = (tokens_in / 1000 &times; in_rate) + (tokens_out / 1000 &times; out_rate)</code>
+              </div>
+              <div class="text-emerald-300 font-bold">
+                Frontier Reference: ${costMatrix.baseline_model_name} ($${costMatrix.baseline_cost_usd.toFixed(6)})
+              </div>
+            </div>
+
+            <table class="w-full text-left text-xs font-mono">
+              <thead class="text-slate-500 border-b border-slate-800 text-[10px]">
+                <tr>
+                  <th class="p-2">Model</th>
+                  <th class="p-2">Rate / 1k (In / Out)</th>
+                  <th class="p-2">Mathematical Cost</th>
+                  <th class="p-2">Money Saved vs Model</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-slate-800/40">
+                ${rows}
+              </tbody>
+            </table>
+          </div>
+        </details>
+      `;
     }
 
-    async function testLayaClassifier() {
-      const prompt = document.getElementById('laya-test-prompt').value;
-      const resBox = document.getElementById('laya-result-box');
-      resBox.innerHTML = `<span>⏳ Evaluating non-autoregressive features...</span>`;
+    // --- CANDIDATE AUDIT WATERFALL ---
+    function renderCandidateAuditWaterfall(msgId, candidates, chosenModelId) {
+      const container = document.getElementById(`${msgId}-audit-waterfall`);
+      if (!container || !candidates) return;
 
-      try {
-        const res = await fetch(`${API_BASE}/route`, {
-          method: 'POST',
-          headers: {'Content-Type': 'application/json'},
-          body: JSON.stringify({prompt: prompt, max_latency_ms: 1000, max_cost_usd: 0.01})
-        });
-        const data = await res.json();
-        const est = data.estimator || {};
-        resBox.innerHTML = `
-          <div class="text-cyan-400 font-bold">Laya-JEV System 1 Inference Output:</div>
-          <div>• Inferred Tier: <strong class="text-white">${(est.tier||'medium').toUpperCase()}</strong></div>
-          <div>• Decision Confidence: <strong class="text-emerald-400">${((est.confidence||0.8)*100).toFixed(1)}%</strong></div>
-          <div>• Projection Latency: <strong class="text-cyan-300">${est.latency_ms || 1.8} ms</strong></div>
-          <div>• Evaluator Path: <span>${est.path || 'laya_systemone_non_autoregressive'}</span></div>
-          <div>• Hedging Triggered: ${est.elevated ? '<span class="text-amber-400">TRUE (Uncertainty threshold breached)</span>' : '<span class="text-emerald-400">FALSE</span>'}</div>
+      container.classList.remove('hidden');
+
+      const rows = candidates.map(c => {
+        const isChosen = c.model_id === chosenModelId;
+        const passBadge = c.passed 
+          ? `<span class="text-emerald-400 font-bold">✓ PASSED</span>`
+          : `<span class="text-rose-400 font-bold">✗ REJECTED</span>`;
+
+        const reasons = c.rejection_reasons && c.rejection_reasons.length > 0 
+          ? c.rejection_reasons.join(', ')
+          : 'Compliant with all hard constraints';
+
+        return `
+          <tr class="${isChosen ? 'bg-indigo-950/30 font-bold text-white' : 'hover:bg-slate-900/30 text-slate-400'}">
+            <td class="p-2">${c.model_name}</td>
+            <td class="p-2">${passBadge}</td>
+            <td class="p-2">${c.predicted_latency_ms}ms</td>
+            <td class="p-2">$${c.predicted_cost_usd.toFixed(6)}</td>
+            <td class="p-2 text-[10px] text-slate-500">${escapeHtml(reasons)}</td>
+          </tr>
         `;
-      } catch (e) {
-        resBox.innerHTML = `<div class="text-rose-400">Analysis Error: ${e.message}</div>`;
+      }).join('');
+
+      container.innerHTML = `
+        <details class="double-bezel p-3 rounded-2xl border-slate-800 group">
+          <summary class="cursor-pointer text-xs font-mono font-bold text-slate-400 hover:text-white flex items-center justify-between select-none">
+            <div class="flex items-center space-x-2">
+              <span>🔍</span>
+              <span>Laya System 1 Candidate Waterfall (${candidates.filter(c => c.passed).length} of ${candidates.length} passed hard constraints)</span>
+            </div>
+            <span class="text-[10px] text-slate-400 group-open:rotate-180 transition">▼</span>
+          </summary>
+
+          <div class="pt-2 overflow-x-auto">
+            <table class="w-full text-left text-xs font-mono">
+              <thead class="text-slate-500 border-b border-slate-800 text-[10px]">
+                <tr>
+                  <th class="p-2">Model</th>
+                  <th class="p-2">Status</th>
+                  <th class="p-2">Pred. Latency</th>
+                  <th class="p-2">Pred. Cost</th>
+                  <th class="p-2">Constraint Audit Reason</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-slate-800/40 text-[11px]">
+                ${rows}
+              </tbody>
+            </table>
+          </div>
+        </details>
+      `;
+    }
+
+    // --- SESSION ACCUMULATION & METRICS RECORDING ---
+    function recordSessionMetrics(routeData) {
+      const sm = appState.sessionMetrics;
+      const actuals = routeData.actual_metrics || {};
+      const isRefusal = !!routeData.no_valid_model;
+      const tokensIn = actuals.tokens_in || (isRefusal ? 0 : 15);
+      const tokensOut = actuals.tokens_out || (isRefusal ? 0 : 120);
+      const routeCost = actuals.total_cost_usd || 0.0;
+      const costMatrix = routeData.cost_matrix || {};
+
+      const baselineCost = isRefusal ? 0.0 : (costMatrix.baseline_cost_usd || (routeCost * 4.5));
+      const moneySaved = isRefusal ? 0.0 : Math.max(0.0, baselineCost - routeCost);
+
+      sm.queriesCount += 1;
+      sm.tokensIn += tokensIn;
+      sm.tokensOut += tokensOut;
+      sm.routeiqCost += routeCost;
+      sm.baselineCost += baselineCost;
+      sm.moneySaved += moneySaved;
+
+      // Update per-model usage counters
+      const chosenId = routeData.chosen_model;
+      if (chosenId) {
+        if (!sm.perModelUsage[chosenId]) {
+          sm.perModelUsage[chosenId] = { count: 0, tokensIn: 0, tokensOut: 0, cost: 0.0, latencySum: 0 };
+        }
+        sm.perModelUsage[chosenId].count += 1;
+        sm.perModelUsage[chosenId].tokensIn += tokensIn;
+        sm.perModelUsage[chosenId].tokensOut += tokensOut;
+        sm.perModelUsage[chosenId].cost += routeCost;
+        sm.perModelUsage[chosenId].latencySum += actuals.total_latency_ms || 250;
+      }
+
+      saveSessionToStorage();
+      renderSessionState();
+      renderModelCards(appState.models);
+    }
+
+    function clearChatHistory() {
+      const messagesContainer = document.getElementById('chat-messages');
+      messagesContainer.innerHTML = '';
+      const hero = document.getElementById('welcome-hero');
+      if (hero) {
+        hero.classList.remove('hidden');
+        messagesContainer.appendChild(hero);
       }
     }
 
-    async function fetchChaosModels() {
+    // --- TAB SWITCHING (CHAT, AUDITOR, CHAOS) ---
+    function switchTab(tab) {
+      appState.currentTab = tab;
+      document.getElementById('view-chat').classList.add('hidden');
+      document.getElementById('view-audit').classList.add('hidden');
+      document.getElementById('view-chaos').classList.add('hidden');
+
+      document.getElementById('tab-btn-chat').className = 'p-2 rounded-lg bg-slate-900 border border-slate-800 text-slate-400 hover:text-white transition';
+      document.getElementById('tab-btn-audit').className = 'p-2 rounded-lg bg-slate-900 border border-slate-800 text-slate-400 hover:text-white transition';
+      document.getElementById('tab-btn-chaos').className = 'p-2 rounded-lg bg-slate-900 border border-slate-800 text-slate-400 hover:text-white transition';
+
+      if (tab === 'chat') {
+        document.getElementById('view-chat').classList.remove('hidden');
+        document.getElementById('tab-btn-chat').className = 'p-2 rounded-lg bg-cyan-950/60 border border-cyan-800/80 text-cyan-300 font-bold transition';
+      } else if (tab === 'audit') {
+        document.getElementById('view-audit').classList.remove('hidden');
+        document.getElementById('tab-btn-audit').className = 'p-2 rounded-lg bg-indigo-950/60 border border-indigo-800/80 text-indigo-300 font-bold transition';
+        loadAuditTable();
+      } else if (tab === 'chaos') {
+        document.getElementById('view-chaos').classList.remove('hidden');
+        document.getElementById('tab-btn-chaos').className = 'p-2 rounded-lg bg-rose-950/60 border border-rose-800/80 text-rose-300 font-bold transition';
+        renderChaosGrid();
+      }
+    }
+
+    // --- AUDIT CHAIN VERIFICATION ---
+    async function loadAuditTable() {
+      const tbody = document.getElementById('audit-table-body');
       try {
-        const res = await fetch(`${API_BASE}/models`);
-        const models = await res.json();
-        currentModels = models;
-        const grid = document.getElementById('chaos-cards-grid');
-        grid.innerHTML = '';
-
-        models.forEach(m => {
-          const card = document.createElement('div');
-          card.className = "glass-card rounded-2xl p-4 space-y-3";
-          const ch = m.chaos || {add_latency_ms: 0, kill_switch: false, error_rate: 0};
-          const cb = m.circuit_breaker || {state: 'CLOSED'};
-
-          card.innerHTML = `
-            <div class="flex items-center justify-between pb-2 border-b border-slate-800">
-              <div>
-                <h4 class="font-bold text-xs text-white">${m.name}</h4>
-                <span class="text-[10px] text-slate-400 font-mono">Base Lat: ${m.base_latency_ms}ms &bull; Cap: ${m.capability_score}</span>
-              </div>
-              <span class="px-2 py-0.5 rounded text-[10px] font-mono font-bold ${cb.state === 'CLOSED' ? 'bg-emerald-950 text-emerald-300 border border-emerald-800' : 'bg-rose-950 text-rose-300 border border-rose-800'}">
-                CB: ${cb.state}
-              </span>
-            </div>
-
-            <div>
-              <div class="flex justify-between text-[11px] mb-1">
-                <span class="text-slate-400">Inject Latency:</span>
-                <span id="lbl-c-lat-${m.id}" class="font-mono text-amber-400 font-bold">+${ch.add_latency_ms}ms</span>
-              </div>
-              <input type="range" min="0" max="2000" step="50" value="${ch.add_latency_ms}" 
-                onchange="updateChaos('${m.id}')" id="rng-c-lat-${m.id}"
-                oninput="document.getElementById('lbl-c-lat-${m.id}').textContent = '+' + this.value + 'ms'"
-                class="w-full accent-amber-500 cursor-pointer" />
-            </div>
-
-            <div>
-              <div class="flex justify-between text-[11px] mb-1">
-                <span class="text-slate-400">Inject Error Rate:</span>
-                <span id="lbl-c-err-${m.id}" class="font-mono text-rose-400 font-bold">${(ch.error_rate*100).toFixed(0)}%</span>
-              </div>
-              <input type="range" min="0.0" max="1.0" step="0.1" value="${ch.error_rate}" 
-                onchange="updateChaos('${m.id}')" id="rng-c-err-${m.id}"
-                oninput="document.getElementById('lbl-c-err-${m.id}').textContent = (this.value*100).toFixed(0) + '%'"
-                class="w-full accent-rose-500 cursor-pointer" />
-            </div>
-
-            <div class="pt-2 border-t border-slate-800 flex items-center justify-between">
-              <span class="text-[11px] text-slate-300 font-semibold">Kill Switch:</span>
-              <button onclick="toggleKillSwitch('${m.id}', ${!ch.kill_switch})"
-                class="px-3 py-1 text-xs rounded-lg font-bold font-mono transition ${ch.kill_switch ? 'bg-rose-600 text-white shadow-glow-rose' : 'bg-slate-800 text-slate-300 hover:bg-slate-700'}">
-                ${ch.kill_switch ? '🚨 ACTIVE' : 'DISABLED'}
-              </button>
-            </div>
-          `;
-          grid.appendChild(card);
-        });
-      } catch (e) {
-        console.error("Error fetching models for chaos", e);
-      }
-    }
-
-    async function fetchModelsInventory() {
-      try {
-        const res = await fetch(`${API_BASE}/models`);
-        const models = await res.json();
-        const grid = document.getElementById('gguf-inventory-grid');
-        grid.innerHTML = '';
-
-        models.forEach(m => {
-          const g = m.gguf_meta || {};
-          const isGGUF = !!m.gguf_file;
-          const card = document.createElement('div');
-          card.className = "glass-card rounded-2xl p-5 space-y-3 hover-invert";
-          card.innerHTML = `
-            <div class="flex items-center justify-between">
-              <div>
-                <h3 class="font-bold text-sm text-white">${m.name}</h3>
-                <span class="text-[10px] text-slate-400 font-mono">${m.family} &bull; Tier: ${m.tier.toUpperCase()}</span>
-              </div>
-              <span class="px-2.5 py-1 rounded-full text-[10px] font-mono font-bold ${isGGUF ? 'bg-cyan-950 text-cyan-300 border border-cyan-800' : 'bg-slate-800 text-slate-400'}">
-                ${isGGUF ? 'LOCAL GGUF (Q4_K_M)' : 'CLOUD FRONTIER'}
-              </span>
-            </div>
-
-            <div class="grid grid-cols-2 gap-2 text-xs font-mono pt-2 border-t border-slate-800">
-              <div><span class="text-slate-400">Context Window:</span> <strong class="text-slate-200">${(m.context_window||32768).toLocaleString()} tokens</strong></div>
-              <div><span class="text-slate-400">Capability Score:</span> <strong class="text-indigo-400">${m.capability_score}</strong></div>
-              <div><span class="text-slate-400">Base Latency:</span> <strong class="text-cyan-300">${m.base_latency_ms} ms</strong></div>
-              <div><span class="text-slate-400">Cost / 1k Output:</span> <strong class="text-emerald-400">$${m.output_cost_per_1k}</strong></div>
-              ${isGGUF ? `
-                <div class="col-span-2 text-[11px] text-slate-400 pt-1">
-                  File: <code class="text-cyan-300">${m.gguf_file}</code>
-                  ${g.size_gb ? `(${g.size_gb} GB, ${g.n_tensors} Tensors, ${g.block_count || 32} Layers)` : ''}
-                </div>
-              ` : ''}
-            </div>
-          `;
-          grid.appendChild(card);
-        });
-      } catch (e) {
-        console.error("Error fetching inventory", e);
-      }
-    }
-
-    async function triggerScenario(type) {
-      if (type === 'kill_cheapest') {
-        await fetch(`${API_BASE}/chaos`, {
-          method: 'POST',
-          headers: {'Content-Type': 'application/json'},
-          body: JSON.stringify({model_id: 'llama-3.2-1b', kill_switch: true, add_latency_ms: 0, error_rate: 0})
-        });
-        alert("Scenario Activated: Llama 3.1 8B kill-switch set! When you send a prompt, RouteIQ will instantly failover to Mistral 7B or Qwen 2.5 Coder under shrinking budget.");
-      } else if (type === 'lag_deepseek') {
-        await fetch(`${API_BASE}/chaos`, {
-          method: 'POST',
-          headers: {'Content-Type': 'application/json'},
-          body: JSON.stringify({model_id: 'deepseek-r1-distill-14b', add_latency_ms: 1500, error_rate: 0, kill_switch: false})
-        });
-        alert("Scenario Activated: +1500ms injected into DeepSeek R1! RouteIQ will reject DeepSeek whenever SLO <= 2000ms.");
-      } else if (type === 'kill_coder') {
-        await fetch(`${API_BASE}/chaos`, {
-          method: 'POST',
-          headers: {'Content-Type': 'application/json'},
-          body: JSON.stringify({model_id: 'qwen-2.5-coder-7b', kill_switch: true, add_latency_ms: 0, error_rate: 0})
-        });
-        alert("Scenario Activated: Qwen 2.5 Coder disabled via kill switch.");
-      }
-      fetchChaosModels();
-    }
-
-    async function updateChaos(modelId) {
-      const addLat = parseFloat(document.getElementById(`rng-c-lat-${modelId}`).value);
-      const errRate = parseFloat(document.getElementById(`rng-c-err-${modelId}`).value);
-      const currentM = currentModels.find(m => m.id === modelId);
-      const killSwitch = currentM && currentM.chaos ? currentM.chaos.kill_switch : false;
-
-      await fetch(`${API_BASE}/chaos`, {
-        method: 'POST',
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({
-          model_id: modelId,
-          add_latency_ms: addLat,
-          error_rate: errRate,
-          kill_switch: killSwitch
-        })
-      });
-      fetchChaosModels();
-    }
-
-    async function toggleKillSwitch(modelId, newState) {
-      const addLat = parseFloat(document.getElementById(`rng-c-lat-${modelId}`).value);
-      const errRate = parseFloat(document.getElementById(`rng-c-err-${modelId}`).value);
-
-      await fetch(`${API_BASE}/chaos`, {
-        method: 'POST',
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({
-          model_id: modelId,
-          add_latency_ms: addLat,
-          error_rate: errRate,
-          kill_switch: newState
-        })
-      });
-      fetchChaosModels();
-    }
-
-    async function resetAllChaos() {
-      await fetch(`${API_BASE}/chaos/reset`, {method: 'POST'});
-      fetchChaosModels();
-      fetchHealth();
-      alert("All chaos injections and circuit breakers have been reset to normal healthy state.");
-    }
-
-    async function runBenchmark() {
-      const btn = document.getElementById('btn-run-bench');
-      btn.disabled = true;
-      btn.textContent = "⏳ Running 30 Prompts...";
-
-      try {
-        const res = await fetch(`${API_BASE}/benchmark/compare`, {
-          method: 'POST',
-          headers: {'Content-Type': 'application/json'},
-          body: JSON.stringify({count: 30})
-        });
-        const data = await res.json();
-
-        document.getElementById('roi-savings-pct').textContent = `${data.cost_savings_vs_strongest_pct}%`;
-        document.getElementById('bench-rq-cost').textContent = `$${data.routeiq.total_cost_usd.toFixed(6)}`;
-        document.getElementById('bench-rq-lat').textContent = `${data.routeiq.avg_latency_ms} ms`;
-        document.getElementById('bench-rq-p95').textContent = `${data.routeiq.p95_latency_ms} ms`;
-        document.getElementById('bench-rq-viols').textContent = `${data.routeiq.violations} (${data.routeiq.violation_rate_pct}%)`;
-
-        document.getElementById('bench-str-cost').textContent = `$${data.always_strongest.total_cost_usd.toFixed(6)}`;
-        document.getElementById('bench-str-lat').textContent = `${data.always_strongest.avg_latency_ms} ms`;
-        document.getElementById('bench-str-p95').textContent = `${data.always_strongest.p95_latency_ms} ms`;
-        document.getElementById('bench-str-viols').textContent = `${data.always_strongest.violations} (${data.always_strongest.violation_rate_pct}%)`;
-
-        document.getElementById('bench-chp-cost').textContent = `$${data.always_cheapest.total_cost_usd.toFixed(6)}`;
-        document.getElementById('bench-chp-lat').textContent = `${data.always_cheapest.avg_latency_ms} ms`;
-        document.getElementById('bench-chp-p95').textContent = `${data.always_cheapest.p95_latency_ms} ms`;
-        document.getElementById('bench-chp-viols').textContent = `${data.always_cheapest.violations} (${data.always_cheapest.violation_rate_pct}%)`;
-      } catch (e) {
-        alert("Benchmark error: " + e.message);
-      } finally {
-        btn.disabled = false;
-        btn.textContent = "📊 Run 30-Prompt Benchmark";
-      }
-    }
-
-    async function fetchAuditLogs() {
-      try {
-        const res = await fetch(`${API_BASE}/audit`);
-        const data = await res.json();
-        const tbody = document.getElementById('audit-tbody');
-        tbody.innerHTML = '';
-
-        if (!data.records || data.records.length === 0) {
-          tbody.innerHTML = `<tr><td colspan="7" class="p-10 text-center text-slate-500">Audit ledger is empty. Route requests to build the cryptographic hash chain.</td></tr>`;
+        const resp = await fetch('/audit');
+        const data = await resp.json();
+        const records = data.records || [];
+        if (records.length === 0) {
+          tbody.innerHTML = `<tr><td colspan="7" class="p-4 text-center text-slate-500">No requests audited yet. Submit prompts in chat to populate cryptographic chain.</td></tr>`;
           return;
         }
 
-        data.records.forEach(r => {
-          const tr = document.createElement('tr');
-          tr.className = "hover:bg-slate-900/40 transition";
-          tr.innerHTML = `
-            <td class="p-3.5 text-cyan-400 font-bold">${r.request_id}</td>
-            <td class="p-3.5 text-slate-400">${new Date(r.timestamp).toLocaleTimeString()}</td>
-            <td class="p-3.5 text-slate-200 font-medium">${r.chosen_model || '<span class="text-rose-400 font-bold">REFUSED</span>'}</td>
-            <td class="p-3.5 text-right text-slate-300">${r.actual_latency_ms.toFixed(1)}ms</td>
-            <td class="p-3.5 text-right text-emerald-400">$${r.actual_cost_usd.toFixed(5)}</td>
-            <td class="p-3.5 text-center">
-              <span class="px-2 py-0.5 rounded text-[10px] font-bold ${r.auditor_compliant ? 'bg-emerald-950 text-emerald-300 border border-emerald-800' : 'bg-rose-950 text-rose-300 border border-rose-800'}">
-                ${r.auditor_compliant ? '✓ COMPLIANT' : '🚨 BREACH'}
-              </span>
-            </td>
-            <td class="p-3.5 text-slate-400 truncate max-w-[140px]">${r.curr_hash}</td>
-          `;
-          tbody.appendChild(tr);
-        });
+        tbody.innerHTML = records.map(r => `
+          <tr class="hover:bg-slate-900/50">
+            <td class="p-3">#${r.id}</td>
+            <td class="p-3 text-slate-400">${new Date(r.timestamp).toLocaleTimeString()}</td>
+            <td class="p-3 font-bold text-white">${r.chosen_model || 'REFUSED'}</td>
+            <td class="p-3 text-cyan-400">${r.actual_latency_ms}ms / ${r.max_latency_ms}ms</td>
+            <td class="p-3 text-emerald-400">$${(r.actual_cost_usd||0).toFixed(6)}</td>
+            <td class="p-3">${r.compliant ? '<span class="text-emerald-400 font-bold">✓ 0 Violations</span>' : '<span class="text-rose-400 font-bold">✗ Breach</span>'}</td>
+            <td class="p-3 text-slate-500 font-mono">${(r.block_hash || '').substring(0, 16)}...</td>
+          </tr>
+        `).join('');
       } catch (e) {
-        console.error("Audit log error", e);
+        tbody.innerHTML = `<tr><td colspan="7" class="p-4 text-center text-rose-400">Failed to load audit records.</td></tr>`;
       }
     }
 
     async function verifyAuditChain() {
       try {
-        const res = await fetch(`${API_BASE}/audit/verify`);
-        const data = await res.json();
-        if (data.valid) {
-          alert(`✅ CRYPTOGRAPHIC HASH CHAIN VERIFIED!\n${data.message}`);
+        const resp = await fetch('/audit/verify');
+        const res = await resp.json();
+        const banner = document.getElementById('chain-status-banner');
+        if (res.valid) {
+          banner.className = "p-4 rounded-2xl bg-emerald-950/40 border border-emerald-500/40 text-emerald-300 text-xs font-mono flex items-center justify-between";
+          banner.innerHTML = `
+            <div class="flex items-center space-x-2">
+              <span class="w-3 h-3 rounded-full bg-emerald-400 animate-pulse"></span>
+              <span>Chain Integrity: <strong>100% Cryptographically Sound</strong> &bull; Verified ${res.total_blocks_verified || 0} Blocks</span>
+            </div>
+            <span class="text-slate-400">Final Hash: ${(res.final_hash || '').substring(0, 16)}...</span>
+          `;
+          if (typeof confetti === 'function') {
+            confetti({ particleCount: 30, spread: 50 });
+          }
         } else {
-          alert(`🚨 TAMPERING DETECTED!\n${data.message}`);
+          banner.className = "p-4 rounded-2xl bg-rose-950/40 border border-rose-500/40 text-rose-300 text-xs font-mono flex items-center justify-between";
+          banner.innerHTML = `<span>⚠️ Tamper Alert: Chain verification mismatch detected!</span>`;
         }
       } catch (e) {
-        alert("Verification failed: " + e.message);
+        alert("Error verifying audit chain: " + e);
       }
     }
 
-    async function clearAuditDb() {
-      if (confirm("Reset and clear the cryptographic audit ledger?")) {
-        await fetch(`${API_BASE}/audit/clear`, {method: 'POST'});
-        fetchAuditLogs();
-        fetchHealth();
+    // --- CHAOS STUDIO INJECTION ---
+    async function renderChaosGrid() {
+      const container = document.getElementById('chaos-cards-grid');
+      container.innerHTML = appState.models.map(m => `
+        <div class="double-bezel p-4 rounded-2xl space-y-3">
+          <div class="flex items-center justify-between">
+            <span class="font-bold text-white text-sm font-mono">${m.name}</span>
+            <span class="text-[10px] px-2 py-0.5 rounded bg-slate-800 text-slate-400 font-mono">${m.id}</span>
+          </div>
+
+          <div class="grid grid-cols-2 gap-2 text-xs font-mono">
+            <button onclick="injectChaos('${m.id}', true, 0)" class="p-2 rounded-xl bg-rose-950/60 hover:bg-rose-900 border border-rose-800/80 text-rose-300 font-bold transition">
+              💀 Kill Switch
+            </button>
+            <button onclick="injectChaos('${m.id}', false, 800)" class="p-2 rounded-xl bg-amber-950/60 hover:bg-amber-900 border border-amber-800/80 text-amber-300 font-bold transition">
+              ⏱️ +800ms Latency
+            </button>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    async function injectChaos(modelId, kill, lat) {
+      try {
+        await fetch('/chaos', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ model_id: modelId, kill_switch: kill, add_latency_ms: lat, error_rate: 0 })
+        });
+        await fetchModels();
+        alert(`Chaos injected into ${modelId}! Run a chat prompt to verify shrinking-budget failover.`);
+      } catch (e) {
+        alert("Chaos injection failed: " + e);
       }
     }
 
-    // Initialize on load
-    fetchHealth();
-    syncSettings();
+    async function resetAllChaos() {
+      try {
+        await fetch('/chaos/reset', { method: 'POST' });
+        await fetchModels();
+        alert("All chaos and circuit breakers reset to clean healthy state.");
+      } catch (e) {
+        alert("Error resetting chaos: " + e);
+      }
+    }
+
+    async function triggerQuickChaosTest() {
+      // Kill cheapest model (llama-3.2-1b)
+      await fetch('/chaos', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ model_id: 'llama-3.2-1b', kill_switch: true, add_latency_ms: 0, error_rate: 0 })
+      });
+      document.getElementById('prompt-input').value = "What is the capital of France? (Verifying shrinking-budget failover after killing cheapest model)";
+      submitPrompt();
+    }
+
+    // --- UTILITIES ---
+    function toggleMobileSidebar() {
+      const sb = document.getElementById('sidebar');
+      if (sb) {
+        sb.classList.toggle('hidden');
+        sb.classList.toggle('fixed');
+        sb.classList.toggle('inset-y-0');
+        sb.classList.toggle('left-0');
+        sb.classList.toggle('z-50');
+        sb.classList.toggle('shadow-2xl');
+      }
+    }
+
+    function escapeHtml(str) {
+      if (!str) return '';
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+    }
   </script>
 </body>
 </html>

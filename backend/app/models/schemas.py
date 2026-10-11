@@ -45,6 +45,7 @@ if HAS_PYDANTIC:
         actual_metrics: Dict[str, Any]
         auditor: Dict[str, Any]
         timestamp: str
+        cost_matrix: Optional[Dict[str, Any]] = None
 
     class ChaosSetting(BaseModel):
         model_id: str
@@ -135,7 +136,8 @@ else:
             failover_chain: List[Dict[str, Any]],
             actual_metrics: Dict[str, Any],
             auditor: Dict[str, Any],
-            timestamp: str
+            timestamp: str,
+            cost_matrix: Optional[Dict[str, Any]] = None
         ):
             self.request_id = request_id
             self.chosen_model = chosen_model
@@ -148,6 +150,7 @@ else:
             self.actual_metrics = actual_metrics
             self.auditor = auditor
             self.timestamp = timestamp
+            self.cost_matrix = cost_matrix
 
         def model_dump(self) -> Dict[str, Any]:
             d = dict(self.__dict__)

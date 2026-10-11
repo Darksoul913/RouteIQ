@@ -3,6 +3,7 @@ from pathlib import Path
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 APP_DIR = Path(__file__).resolve().parent
+PROJECT_DIR = BASE_DIR.parent
 
 DATA_DIR = BASE_DIR / "data"
 MODELS_REGISTRY_PATH = APP_DIR / "models" / "registry.json"
@@ -11,7 +12,21 @@ ESTIMATOR_MODEL_PATH = DATA_DIR / "estimator_tfidf.joblib"
 PROMPTS_PATH = DATA_DIR / "prompts_300.json"
 BENCHMARK_PATH = DATA_DIR / "benchmark_30.json"
 
-OLLAMA_BASE_URL = os.environ.get("OLLAMA_BASE_URL", "http://localhost:11434")
+# Auto-load .env if present
+env_file = PROJECT_DIR / ".env"
+if env_file.exists():
+    try:
+        with open(env_file, "r", encoding="utf-8") as f:
+            for line in f:
+                line = line.strip()
+                if line and not line.startswith("#") and "=" in line:
+                    k, v = line.split("=", 1)
+                    k = k.strip()
+                    v = v.strip().strip("'\"")
+                    if k and k not in os.environ:
+                        os.environ[k] = v
+    except Exception:
+        pass
 
 # Hard Rule & Circuit Breaker Thresholds
 CIRCUIT_BREAKER_FAILURE_THRESHOLD = 3
@@ -29,7 +44,10 @@ TIER_CAPABILITY_MAP = {
     "hard": 0.85
 }
 
-# Free / Low-Cost Online API Providers (Optional Zero-Cost Cloud Routing)
+# Free / Low-Cost Online API Providers
 GROQ_BASE_URL = os.environ.get("GROQ_BASE_URL", "https://api.groq.com/openai/v1")
 OPENROUTER_BASE_URL = os.environ.get("OPENROUTER_BASE_URL", "https://openrouter.ai/api/v1")
 GEMINI_BASE_URL = os.environ.get("GEMINI_BASE_URL", "https://generativelanguage.googleapis.com/v1beta/openai")
+ANTHROPIC_BASE_URL = os.environ.get("ANTHROPIC_BASE_URL", "https://api.anthropic.com/v1")
+OPENAI_BASE_URL = os.environ.get("OPENAI_BASE_URL", "https://api.openai.com/v1")
+DEEPSEEK_BASE_URL = os.environ.get("DEEPSEEK_BASE_URL", "https://api.deepseek.com")

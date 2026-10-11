@@ -22,9 +22,8 @@ class GGUFEngine:
     Directly interfaces with quantized GGUF weights in the local `model/` repository.
     Supports multi-backend execution:
       1. Hardware-accelerated local inference via llama_cpp (Metal on Apple Silicon) when installed.
-      2. Local Ollama runner daemon if active on localhost.
-      3. Zero-cost / Free cloud APIs (Groq, OpenRouter, Gemini) when API keys are configured.
-      4. Native high-fidelity Apple Silicon inference engine with dynamic prompt-aware synthesis.
+      2. Zero-cost / Free cloud APIs (Groq, OpenRouter, Gemini, Anthropic) when API keys are configured.
+      3. Native high-fidelity Apple Silicon inference engine with dynamic prompt-aware synthesis.
     """
     def __init__(self, model_dir: Optional[str] = None):
         if model_dir:
