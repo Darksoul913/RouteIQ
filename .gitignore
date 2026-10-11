@@ -41,6 +41,11 @@ frontend/dist/*
 !frontend/dist/index.html
 *.local
 
+# Large Model Weights (GGUF)
+*.gguf
+model/*.gguf
+model/
+
 # Database & Runtime artifacts
 *.sqlite3
 *.db

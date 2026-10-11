@@ -34,9 +34,11 @@ export PYTHONPATH=".:$PYTHONPATH"
 # 2. Command Line Arguments Dispatcher
 case "$1" in
     --test)
-        echo "🧪 Running RouteIQ Test Suite (T1-T8 Acceptance + 1,000 Property Invariants)..."
+        echo "🧪 Running RouteIQ Test Suite (T1-T12 Acceptance + GGUF Integration + 1,000 Invariants)..."
         echo "------------------------------------------------------------------"
         $PYTHON_BIN -m unittest backend/tests/test_acceptance.py -v
+        echo ""
+        $PYTHON_BIN -m unittest backend/tests/test_gguf_integration.py -v
         echo ""
         $PYTHON_BIN -m unittest backend/tests/test_property_1000.py -v
         echo "------------------------------------------------------------------"

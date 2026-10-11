@@ -15,6 +15,7 @@ from ..chaos.manager import ChaosManager
 from ..storage.telemetry import TelemetryStore
 from ..estimators.multi_estimator import MultiEstimatorConsensus
 from ..config import OLLAMA_BASE_URL
+from .gguf_engine import GGUFEngine
 
 class ResilientExecutor:
     """
@@ -29,7 +30,8 @@ class ResilientExecutor:
         circuit_breakers: Dict[str, CircuitBreaker],
         chaos_manager: ChaosManager,
         telemetry: TelemetryStore,
-        estimator: MultiEstimatorConsensus
+        estimator: MultiEstimatorConsensus,
+        gguf_engine: Optional[GGUFEngine] = None
     ):
         self.models = models
         self.models_map = {m["id"]: m for m in models}
@@ -37,6 +39,7 @@ class ResilientExecutor:
         self.chaos_manager = chaos_manager
         self.telemetry = telemetry
         self.estimator = estimator
+        self.gguf_engine = gguf_engine or GGUFEngine()
 
     def _is_ollama_available(self, ollama_name: Optional[str]) -> bool:
         if not ollama_name:
@@ -176,7 +179,9 @@ class ResilientExecutor:
         prompt_tokens = max(10, len(request.prompt.split()) * 2)
         expected_output_tokens = request.expected_output_tokens or 150
 
-        remaining_latency_ms = request.max_latency_ms
+        # Deduct time spent during estimation from the initial latency budget
+        estimation_lat_ms = est_result.get("latency_ms", 0.0)
+        remaining_latency_ms = request.max_latency_ms - estimation_lat_ms
         remaining_cost_usd = request.max_cost_usd
 
         failover_chain: List[Dict[str, Any]] = []
@@ -229,17 +234,26 @@ class ResilientExecutor:
                 if chaos_failed:
                     raise RuntimeError(chaos_reason)
 
-                # 1. Attempt Live Ollama if available locally
-                ollama_name = m_config.get("ollama_name")
-                if self._is_ollama_available(ollama_name):
+                # 1. Attempt Real Local GGUF Model if available
+                gguf_filename = m_config.get("gguf_file")
+                if gguf_filename and self.gguf_engine.has_model_file(gguf_filename) and simulate_delay:
+                    resp_text, tokens_in, tokens_out, gguf_lat_ms, badge = self.gguf_engine.execute_inference(
+                        model_id=m_id,
+                        gguf_filename=gguf_filename,
+                        prompt=request.prompt,
+                        timeout_sec=allocated_timeout_sec,
+                        expected_output_tokens=expected_output_tokens
+                    )
+                    call_elapsed_ms = gguf_lat_ms + injected_lat
+                elif self._is_ollama_available(m_config.get("ollama_name")):
                     is_live_ollama = True
                     resp_text, tokens_in, tokens_out = self._call_ollama(
-                        ollama_name, request.prompt, allocated_timeout_sec
+                        m_config["ollama_name"], request.prompt, allocated_timeout_sec
                     )
                     badge = "[MEASURED: OLLAMA]"
                     call_elapsed_ms = (time.perf_counter() - call_start) * 1000.0
                 else:
-                    # 2. Attempt Live External Cloud API (Groq / OpenAI / OpenRouter)
+                    # Attempt Live External Cloud API (Groq / OpenAI / OpenRouter)
                     ext_res = self._call_external_api(m_id, request.prompt, allocated_timeout_sec)
                     if ext_res is not None:
                         is_live_ollama = True
@@ -247,7 +261,7 @@ class ResilientExecutor:
                         badge = "[MEASURED: API]"
                         call_elapsed_ms = (time.perf_counter() - call_start) * 1000.0
                     else:
-                        # 3. Deterministic calibrated offline simulator fallback
+                        # Deterministic calibrated simulator fallback
                         resp_text, tokens_in, tokens_out, sim_lat_ms, badge = self._simulate_model_call(
                             m_config, request.prompt, allocated_timeout_sec, injected_lat,
                             simulate_delay=simulate_delay,

@@ -1,3 +1,4 @@
+import os
 import math
 import time
 import json
@@ -13,8 +14,8 @@ class LayaSystemOneEstimator(BaseEstimator):
     Can hook into an external /v1/systemone service if present,
     or utilize high-speed feature projection locally.
     """
-    def __init__(self, endpoint_url: Optional[str] = "http://localhost:8001/v1/systemone"):
-        self.endpoint_url = endpoint_url
+    def __init__(self, endpoint_url: Optional[str] = None):
+        self.endpoint_url = endpoint_url or os.environ.get("SYSTEMONE_URL")
 
     def _call_remote(self, prompt: str) -> Optional[Dict[str, Any]]:
         if not self.endpoint_url:

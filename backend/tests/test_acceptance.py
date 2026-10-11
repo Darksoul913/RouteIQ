@@ -15,7 +15,7 @@ from backend.app.engine.executor import ResilientExecutor
 
 class TestRouteIQAcceptanceCriteria(unittest.TestCase):
     """
-    Formal Acceptance Tests for RouteIQ: T1 through T8.
+    Formal Acceptance Tests for RouteIQ: T1 through T12.
     Verifies all mathematical invariants and problem statement guarantees.
     """
     def setUp(self):

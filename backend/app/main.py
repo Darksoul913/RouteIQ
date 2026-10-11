@@ -15,7 +15,7 @@ try:
     from .engine.circuit_breaker import CircuitBreaker
     from .chaos.manager import ChaosManager
     from .storage.telemetry import TelemetryStore
-    from .storage.db import AuditDatabase
+    from .storage.db import AuditDatabase, GENESIS_HASH
     from .engine.auditor import IndependentAuditor
     from .engine.executor import ResilientExecutor
 except (ImportError, ValueError):
@@ -25,7 +25,7 @@ except (ImportError, ValueError):
     from backend.app.engine.circuit_breaker import CircuitBreaker
     from backend.app.chaos.manager import ChaosManager
     from backend.app.storage.telemetry import TelemetryStore
-    from backend.app.storage.db import AuditDatabase
+    from backend.app.storage.db import AuditDatabase, GENESIS_HASH
     from backend.app.engine.auditor import IndependentAuditor
     from backend.app.engine.executor import ResilientExecutor
 
@@ -49,14 +49,14 @@ EXECUTOR = ResilientExecutor(
 
 def handle_route_request(req_data: Dict[str, Any]) -> Dict[str, Any]:
     prompt = req_data.get("prompt", "")
-    max_lat = float(req_data.get("max_latency_ms", 1000.0))
-    max_cost = float(req_data.get("max_cost_usd", 0.01))
-    min_cap = float(req_data.get("min_capability", 0.0))
+    max_lat = float(req_data.get("max_latency_ms") if req_data.get("max_latency_ms") is not None else 1000.0)
+    max_cost = float(req_data.get("max_cost_usd") if req_data.get("max_cost_usd") is not None else 0.01)
+    min_cap = float(req_data.get("min_capability") if req_data.get("min_capability") is not None else 0.0)
     req_ctx = req_data.get("required_context")
     if req_ctx is not None:
         req_ctx = int(req_ctx)
     pref = req_data.get("preference", "lowest_cost")
-    exp_tokens = int(req_data.get("expected_output_tokens", 150))
+    exp_tokens = int(req_data.get("expected_output_tokens") if req_data.get("expected_output_tokens") is not None else 150)
 
     route_req = RouteRequest(
         prompt=prompt,
@@ -155,7 +155,8 @@ def run_workload_comparison(num_requests: int = 30) -> Dict[str, Any]:
             max_latency_ms=max_lat,
             max_cost_usd=max_cost,
             min_capability=min_cap,
-            preference="lowest_cost"
+            preference="lowest_cost",
+            expected_output_tokens=tokens_out
         ), simulate_delay=False)
         actuals = r_resp.actual_metrics
         results["routeiq"]["cost"] += actuals.get("total_cost_usd", 0.0)
@@ -227,6 +228,7 @@ class RouteIQHandler(BaseHTTPRequestHandler):
 
         if path == "/health":
             violations, total = AUDIT_DB.get_violation_counts()
+            chain_status = AUDIT_DB.verify_chain_integrity()
             self._send_json(200, {
                 "status": "ok",
                 "service": "RouteIQ AI Gateway",
@@ -234,21 +236,26 @@ class RouteIQHandler(BaseHTTPRequestHandler):
                 "models_registered": len(MODELS_REGISTRY),
                 "auditor_violations": violations,
                 "total_audited_requests": total,
-                "genesis_hash": AUDIT_DB.verify_chain_integrity().get("valid", True)
+                "chain_valid": chain_status.get("valid", True),
+                "genesis_hash": GENESIS_HASH
             })
 
         elif path == "/models":
             models_list = []
+            gguf_cat = EXECUTOR.gguf_engine.get_catalog()
             for m in MODELS_REGISTRY:
                 m_id = m["id"]
                 cb = CIRCUIT_BREAKERS.get(m_id)
                 ch = CHAOS_MANAGER.get_chaos(m_id)
                 stats = TELEMETRY_STORE.get_stats(m_id)
+                g_file = m.get("gguf_file")
+                g_meta = gguf_cat.get(g_file, {}) if g_file else {}
                 models_list.append({
                     **m,
                     "circuit_breaker": cb.get_info() if cb else {},
                     "chaos": ch,
-                    "telemetry": stats
+                    "telemetry": stats,
+                    "gguf_meta": g_meta
                 })
             self._send_json(200, models_list)
 
@@ -403,6 +410,7 @@ try:
     @app.get("/health")
     async def api_health():
         violations, total = AUDIT_DB.get_violation_counts()
+        chain_status = AUDIT_DB.verify_chain_integrity()
         return {
             "status": "ok",
             "service": "RouteIQ AI Gateway",
@@ -410,22 +418,27 @@ try:
             "models_registered": len(MODELS_REGISTRY),
             "auditor_violations": violations,
             "total_audited_requests": total,
-            "genesis_hash": AUDIT_DB.verify_chain_integrity().get("valid", True)
+            "chain_valid": chain_status.get("valid", True),
+            "genesis_hash": GENESIS_HASH
         }
 
     @app.get("/models")
     async def api_models():
         models_list = []
+        gguf_cat = EXECUTOR.gguf_engine.get_catalog()
         for m in MODELS_REGISTRY:
             m_id = m["id"]
             cb = CIRCUIT_BREAKERS.get(m_id)
             ch = CHAOS_MANAGER.get_chaos(m_id)
             stats = TELEMETRY_STORE.get_stats(m_id)
+            g_file = m.get("gguf_file")
+            g_meta = gguf_cat.get(g_file, {}) if g_file else {}
             models_list.append({
                 **m,
                 "circuit_breaker": cb.get_info() if cb else {},
                 "chaos": ch,
-                "telemetry": stats
+                "telemetry": stats,
+                "gguf_meta": g_meta
             })
         return models_list
 
