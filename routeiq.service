@@ -1,0 +1,26 @@
+[Unit]
+Description=RouteIQ Intelligent Cost-, Latency- & Quality-Aware AI Inference Gateway
+After=network.target network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=ubuntu
+WorkingDirectory=/home/ubuntu/RouteLLM
+Environment="PYTHONPATH=/home/ubuntu/RouteLLM"
+Environment="PORT=8000"
+Environment="HOST=0.0.0.0"
+ExecStart=/home/ubuntu/RouteLLM/venv/bin/python -m backend.app.main --host 0.0.0.0 --port 8000
+
+# Crash Recovery: Auto-restart after 5 seconds
+Restart=always
+RestartSec=5
+
+# Resource limits & logging
+LimitNOFILE=65536
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=routeiq
+
+[Install]
+WantedBy=multi-user.target

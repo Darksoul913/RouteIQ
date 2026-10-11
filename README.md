@@ -133,6 +133,16 @@ Runs a side-by-side simulation comparing RouteIQ against Always Strongest and Al
 ```
 Evaluates all 30 checkable benchmark tasks across models and reports pass rate, latency, and cost.
 
+### 5. Automated AWS EC2 Instance Deployment
+```bash
+# Initial Setup & Deploy (Installs Nginx, Systemd service with auto-restart, port-forwarding):
+chmod +x ec2_setup.sh && sudo ./ec2_setup.sh
+
+# Fetch Latest Commits from GitHub & Restart:
+chmod +x ec2_update.sh && ./ec2_update.sh
+```
+`ec2_setup.sh` automatically installs system packages, builds the virtual environment, installs `/etc/systemd/system/routeiq.service` with `RestartSec=5` crash recovery, configures Nginx reverse proxy (Port 80 -> 8000) with SSE streaming support, and enables all daemons.
+
 ---
 
 ## 🎯 Verification Matrix: Acceptance Tests (T1 to T12)
