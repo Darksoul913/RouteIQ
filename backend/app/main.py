@@ -200,6 +200,7 @@ def run_workload_comparison(num_requests: int = 30) -> Dict[str, Any]:
 
 class ThreadedHTTPServer(ThreadingMixIn, HTTPServer):
     daemon_threads = True
+    allow_reuse_address = True
 
 class RouteIQHandler(BaseHTTPRequestHandler):
     def _send_cors_headers(self):
@@ -485,5 +486,9 @@ def run_server(host: str = "0.0.0.0", port: int = 8000):
         server.server_close()
 
 if __name__ == "__main__":
-    port = int(os.environ.get("PORT", 8000))
-    run_server(port=port)
+    import argparse
+    parser = argparse.ArgumentParser(description="RouteIQ Gateway")
+    parser.add_argument("--port", type=int, default=int(os.environ.get("PORT", 8000)), help="Port number")
+    parser.add_argument("--host", type=str, default=os.environ.get("HOST", "0.0.0.0"), help="Host address")
+    args, _ = parser.parse_known_args()
+    run_server(host=args.host, port=args.port)
