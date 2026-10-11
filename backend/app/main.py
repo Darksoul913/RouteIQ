@@ -7,15 +7,26 @@ from http.server import HTTPServer, BaseHTTPRequestHandler
 from socketserver import ThreadingMixIn
 from typing import Dict, Any, Optional
 
-from .config import MODELS_REGISTRY_PATH, DB_PATH, BENCHMARK_PATH
-from .models.schemas import RouteRequest, RouteResponse
-from .estimators.multi_estimator import MultiEstimatorConsensus
-from .engine.circuit_breaker import CircuitBreaker
-from .chaos.manager import ChaosManager
-from .storage.telemetry import TelemetryStore
-from .storage.db import AuditDatabase
-from .engine.auditor import IndependentAuditor
-from .engine.executor import ResilientExecutor
+try:
+    from .config import MODELS_REGISTRY_PATH, DB_PATH, BENCHMARK_PATH
+    from .models.schemas import RouteRequest, RouteResponse
+    from .estimators.multi_estimator import MultiEstimatorConsensus
+    from .engine.circuit_breaker import CircuitBreaker
+    from .chaos.manager import ChaosManager
+    from .storage.telemetry import TelemetryStore
+    from .storage.db import AuditDatabase
+    from .engine.auditor import IndependentAuditor
+    from .engine.executor import ResilientExecutor
+except (ImportError, ValueError):
+    from backend.app.config import MODELS_REGISTRY_PATH, DB_PATH, BENCHMARK_PATH
+    from backend.app.models.schemas import RouteRequest, RouteResponse
+    from backend.app.estimators.multi_estimator import MultiEstimatorConsensus
+    from backend.app.engine.circuit_breaker import CircuitBreaker
+    from backend.app.chaos.manager import ChaosManager
+    from backend.app.storage.telemetry import TelemetryStore
+    from backend.app.storage.db import AuditDatabase
+    from backend.app.engine.auditor import IndependentAuditor
+    from backend.app.engine.executor import ResilientExecutor
 
 # Initialize Core Singletons
 with open(MODELS_REGISTRY_PATH, "r", encoding="utf-8") as f:

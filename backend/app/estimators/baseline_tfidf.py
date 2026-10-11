@@ -66,15 +66,12 @@ class BaselineTfidfEstimator(BaseEstimator):
         t0 = time.perf_counter()
 
         if self.pipeline is None or not HAS_SKLEARN:
-            # Fallback path if model not trained
-            latency = (time.perf_counter() - t0) * 1000.0
-            return {
-                "tier": "medium",
-                "confidence": 0.50,
-                "path": "baseline_tfidf_fallback",
-                "latency_ms": max(0.1, round(latency, 2)),
-                "probabilities": {"easy": 0.33, "medium": 0.34, "hard": 0.33}
-            }
+            # Fallback path if model not trained: utilize heuristic safety net
+            from .heuristic import HeuristicEstimator
+            heur = HeuristicEstimator()
+            res = heur.predict(prompt)
+            res["path"] = "baseline_tfidf_fallback_heuristic"
+            return res
 
         probs = self.pipeline.predict_proba([prompt])[0]
         prob_dict = {str(cls): float(p) for cls, p in zip(self.classes_, probs)}
