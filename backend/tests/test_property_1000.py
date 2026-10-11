@@ -85,7 +85,6 @@ class TestProperty1000Invariants(unittest.TestCase):
             # Audit response strictly
             req_dict = req.model_dump() if hasattr(req, "model_dump") else req.dict()
             actuals = resp.actual_metrics
-            actuals["no_valid_model"] = resp.no_valid_model
 
             verdict = IndependentAuditor.audit_record(req_dict, actuals)
             if not verdict["compliant"]:

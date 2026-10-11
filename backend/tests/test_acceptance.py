@@ -228,7 +228,6 @@ class TestRouteIQAcceptanceCriteria(unittest.TestCase):
             resp = self.executor.execute_request(req, simulate_delay=False)
             req_dict = req.model_dump() if hasattr(req, "model_dump") else req.dict()
             actuals = resp.actual_metrics
-            actuals["no_valid_model"] = resp.no_valid_model
 
             verdict = IndependentAuditor.audit_record(req_dict, actuals)
             self.assertTrue(
@@ -236,6 +235,123 @@ class TestRouteIQAcceptanceCriteria(unittest.TestCase):
                 f"Auditor reported violation for prompt '{req.prompt}': {verdict['violations']}"
             )
             self.assertEqual(len(verdict["violations"]), 0)
+
+    def test_T9_api_gateway_refusal_auditor_records_zero_violations(self):
+        """
+        T9: End-to-end API Gateway:
+        When a request is refused under impossible constraints via handle_route_request,
+        the Independent Auditor verifies compliance and the SQLite Ledger records 0 violations.
+        """
+        from backend.app.main import handle_route_request, AUDIT_DB
+        AUDIT_DB.clear()
+
+        # Impossible SLA request
+        res = handle_route_request({
+            "prompt": "Explain quantum teleportation.",
+            "max_latency_ms": 30.0,
+            "max_cost_usd": 0.000001,
+            "min_capability": 0.99
+        })
+
+        self.assertTrue(res["no_valid_model"])
+        self.assertTrue(res["auditor"]["compliant"])
+        self.assertEqual(len(res["auditor"]["violations"]), 0)
+
+        violations, total = AUDIT_DB.get_violation_counts()
+        self.assertEqual(violations, 0)
+        self.assertEqual(total, 1)
+
+    def test_T10_tamper_detection_in_hash_chain(self):
+        """
+        T10: Cryptographic Tamper-Evidence:
+        Modifying any historic audit record immediately corrupts the SHA-256 hash chain
+        and is flagged by verify_chain_integrity().
+        """
+        from backend.app.main import handle_route_request, AUDIT_DB
+        AUDIT_DB.clear()
+
+        # Insert 3 compliant records
+        for i in range(3):
+            handle_route_request({
+                "prompt": f"Audit test query {i}",
+                "max_latency_ms": 1000.0,
+                "max_cost_usd": 0.01,
+                "min_capability": 0.35
+            })
+
+        status_before = AUDIT_DB.verify_chain_integrity()
+        self.assertTrue(status_before["valid"])
+        self.assertEqual(status_before["total_records"], 3)
+
+        records = AUDIT_DB.get_audit_records()
+        self.assertEqual(len(records), 3)
+        target_id = records[1]["id"]  # The middle record
+
+        # Programmatically tamper with that record
+        with AUDIT_DB._lock, AUDIT_DB._get_connection() as conn:
+            cursor = conn.cursor()
+            cursor.execute("UPDATE audit_logs SET actual_latency_ms = 9999.0 WHERE id = ?", (target_id,))
+            conn.commit()
+            self.assertEqual(cursor.rowcount, 1)
+
+        status_after = AUDIT_DB.verify_chain_integrity()
+        self.assertFalse(status_after["valid"])
+        self.assertEqual(status_after["broken_at_id"], target_id)
+        self.assertIn("Tampering detected", status_after["message"])
+
+        # Clean up
+        AUDIT_DB.clear()
+
+    def test_T11_genuine_breach_detection(self):
+        """
+        T11: Independent Auditor Sensitivity:
+        When actual execution metrics genuine violate user constraints,
+        the auditor accurately detects and itemizes the breaches.
+        """
+        req_constraints = {
+            "max_latency_ms": 300.0,
+            "max_cost_usd": 0.0005,
+            "min_capability": 0.70,
+            "required_context": 16000
+        }
+        # Injected breached actuals
+        breached_actuals = {
+            "total_latency_ms": 450.0,  # > 300 + 5
+            "total_cost_usd": 0.0020,   # > 0.0005 * 1.01
+            "model_capability": 0.42,   # < 0.70
+            "model_context": 8192,      # < 16000
+            "no_valid_model": False
+        }
+        verdict = IndependentAuditor.audit_record(req_constraints, breached_actuals)
+        self.assertFalse(verdict["compliant"])
+        self.assertEqual(len(verdict["violations"]), 4)
+        self.assertTrue(any("Latency breach" in v for v in verdict["violations"]))
+        self.assertTrue(any("Cost breach" in v for v in verdict["violations"]))
+        self.assertTrue(any("Capability breach" in v for v in verdict["violations"]))
+        self.assertTrue(any("Context breach" in v for v in verdict["violations"]))
+
+    def test_T12_output_token_budget_preservation(self):
+        """
+        T12: Output Token Budget Preservation:
+        When a user specifies expected_output_tokens, the executor honors the budget
+        and does not trigger cost SLA breaches.
+        """
+        req = RouteRequest(
+            prompt="What is the capital of France?",
+            max_latency_ms=1000.0,
+            max_cost_usd=0.00005,
+            min_capability=0.35,
+            expected_output_tokens=15,
+            preference="lowest_cost"
+        )
+        resp = self.executor.execute_request(req, simulate_delay=False)
+        self.assertFalse(resp.no_valid_model)
+        self.assertLessEqual(resp.actual_metrics["tokens_out"], 15)
+        self.assertLessEqual(resp.actual_metrics["total_cost_usd"], req.max_cost_usd)
+
+        verdict = IndependentAuditor.audit_record(req.model_dump(), resp.actual_metrics)
+        self.assertTrue(verdict["compliant"])
+        self.assertEqual(len(verdict["violations"]), 0)
 
 if __name__ == "__main__":
     unittest.main()
