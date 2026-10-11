@@ -6,11 +6,13 @@ APP_DIR = Path(__file__).resolve().parent
 PROJECT_DIR = BASE_DIR.parent
 
 DATA_DIR = BASE_DIR / "data"
+DATA_DIR.mkdir(parents=True, exist_ok=True)
 MODELS_REGISTRY_PATH = APP_DIR / "models" / "registry.json"
 DB_PATH = DATA_DIR / "routeiq_audit.db"
 ESTIMATOR_MODEL_PATH = DATA_DIR / "estimator_tfidf.joblib"
 PROMPTS_PATH = DATA_DIR / "prompts_300.json"
 BENCHMARK_PATH = DATA_DIR / "benchmark_30.json"
+MODEL_DIR = Path(os.environ.get("MODEL_DIR", str(PROJECT_DIR / "model")))
 
 # Auto-load .env if present
 env_file = PROJECT_DIR / ".env"
@@ -39,9 +41,9 @@ AUDITOR_COST_TOLERANCE_RATIO = 1.01
 
 # System 1 / Laya Decision Engine Mapping
 TIER_CAPABILITY_MAP = {
-    "easy": 0.35,
+    "easy": 0.30,
     "medium": 0.65,
-    "hard": 0.85
+    "hard": 0.80
 }
 
 # Free / Low-Cost Online API Providers

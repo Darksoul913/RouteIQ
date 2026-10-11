@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>RouteIQ — SLA-Guaranteed AI Inference Gateway &bull; Laya System 1 Decision Engine</title>
+  <title>RouteIQ — Intelligent Cost-, Latency- & Quality-Aware AI Gateway</title>
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
   <!-- Marked.js for pristine Markdown parsing -->
@@ -381,11 +381,207 @@
     }
   </style>
 </head>
-<body class="h-screen flex overflow-hidden">
+<body class="min-h-screen bg-[#F8FAFC] text-slate-900 transition-colors duration-200 overflow-x-hidden font-sans">
 
   <!-- ========================================================================= -->
   <!-- LEFT SIDEBAR: PROFILE, SESSION TELEMETRY, REAL-TIME MODEL USAGE & SLAS    -->
   <!-- ========================================================================= -->
+  
+  <!-- ========================================================================= -->
+  <!-- VIEW 1: CLEAN HERO LANDING PAGE                                           -->
+  <!-- ========================================================================= -->
+  <div id="view-landing" class="min-h-screen flex flex-col relative overflow-hidden bg-slate-50 transition-colors">
+
+    <!-- High-Tech AI Routing Network Background Graphic -->
+    <div class="absolute inset-0 pointer-events-none z-0 overflow-hidden opacity-90">
+      <!-- Ambient Gradient Glows -->
+      <div class="absolute -top-32 left-1/2 -translate-x-1/2 w-[700px] h-[400px] bg-gradient-to-b from-indigo-200/50 via-violet-100/30 to-transparent rounded-full blur-3xl"></div>
+      <div class="absolute top-1/3 -right-24 w-96 h-96 bg-cyan-100/40 rounded-full blur-3xl"></div>
+      <div class="absolute top-2/3 -left-24 w-96 h-96 bg-indigo-100/40 rounded-full blur-3xl"></div>
+
+      <!-- High-Tech Circuit & Routing Topology Vector Grid -->
+      <svg class="absolute inset-0 w-full h-full text-indigo-500/[0.07]" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">
+        <defs>
+          <pattern id="routing-grid" width="48" height="48" patternUnits="userSpaceOnUse">
+            <path d="M 48 0 L 0 0 0 48" fill="none" stroke="currentColor" stroke-width="1" />
+            <circle cx="48" cy="0" r="1.5" fill="currentColor" />
+          </pattern>
+          <linearGradient id="stream-grad-1" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#4F46E5" stop-opacity="0.3" />
+            <stop offset="100%" stop-color="#7C3AED" stop-opacity="0" />
+          </linearGradient>
+        </defs>
+        <rect width="100%" height="100%" fill="url(#routing-grid)" />
+        <path d="M 100 200 C 300 150, 400 350, 700 220 S 1000 400, 1400 280" fill="none" stroke="url(#stream-grad-1)" stroke-width="2" stroke-dasharray="6 6" />
+        <path d="M 50 450 C 250 400, 500 550, 800 420 S 1200 600, 1500 480" fill="none" stroke="url(#stream-grad-1)" stroke-width="1.5" stroke-dasharray="4 4" />
+      </svg>
+    </div>
+
+    <!-- Top Navigation Bar -->
+    <header class="border-b border-slate-200 bg-white/80 backdrop-blur-md sticky top-0 z-40 transition-colors">
+      <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+        
+        <!-- Brand Logo & Tag -->
+        <div class="flex items-center space-x-3">
+          <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-indigo-600 via-indigo-500 to-violet-600 flex items-center justify-center font-black text-lg shadow-md shadow-indigo-500/20 text-white font-display">
+            RQ
+          </div>
+          <div>
+            <div class="flex items-center space-x-2">
+              <span class="font-extrabold text-lg tracking-tight text-slate-900 font-display">RouteIQ</span>
+              <span class="text-[10px] px-2 py-0.5 rounded-full bg-indigo-50 text-indigo-700 border border-indigo-200 font-mono font-semibold">
+                VORTEXA 3.0
+              </span>
+            </div>
+            <p class="text-[10px] text-slate-500 font-mono">Domain 2: AI Systems &amp; Infrastructure (A-01)</p>
+          </div>
+        </div>
+
+        <!-- Live Network Status Pill -->
+        <div class="hidden md:flex items-center space-x-3 text-xs font-mono">
+          <div class="flex items-center space-x-2 px-3 py-1.5 rounded-full bg-emerald-50 border border-emerald-200 text-emerald-800">
+            <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+            <span class="font-semibold">Fleet Online &bull; 0 SLA Violations</span>
+          </div>
+
+          <div class="flex items-center space-x-1.5 px-3 py-1.5 rounded-full bg-slate-100 border border-slate-200 text-slate-700">
+            <span>Audit Trail:</span>
+            <span class="font-bold text-indigo-600 font-mono">Active</span>
+          </div>
+        </div>
+
+        <!-- Header Actions -->
+        <div class="flex items-center space-x-3">
+          <button onclick="toggleTheme()" class="px-2.5 py-1.5 rounded-xl border border-slate-200 bg-white text-slate-600 hover:text-slate-900 hover:bg-slate-50 transition shadow-sm text-xs font-mono font-bold" title="Toggle Light / Dark Mode">
+            Theme
+          </button>
+
+          <button onclick="openApiKeysModal()" class="hidden sm:flex items-center space-x-1.5 px-3 py-1.5 rounded-xl border border-slate-200 bg-white hover:bg-slate-50 text-slate-700 text-xs font-mono font-medium transition shadow-sm">
+            <span>API Keys</span>
+          </button>
+
+          <button onclick="enterWorkspace()" class="px-4 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs shadow-md shadow-indigo-600/25 transition-all transform hover:-translate-y-0.5 flex items-center space-x-1.5">
+            <span>Enter Gateway</span>
+            <span class="font-bold">&rarr;</span>
+          </button>
+        </div>
+
+      </div>
+    </header>
+
+    <!-- Clean Hero Section -->
+    <main class="flex-1 flex flex-col justify-center max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16 text-center relative z-10 space-y-12">
+      
+      <!-- Headline & 2-3 Line Description -->
+      <div class="max-w-3xl mx-auto space-y-4">
+        <div class="inline-flex items-center space-x-2 px-3.5 py-1 rounded-full bg-indigo-50 border border-indigo-200 text-indigo-700 text-xs font-semibold">
+          <span class="w-1.5 h-1.5 rounded-full bg-indigo-600"></span>
+          <span>Intelligent ModelRouter Gateway</span>
+        </div>
+
+        <h1 class="text-5xl sm:text-6xl font-black text-slate-900 tracking-tight font-display leading-[1.1]">
+          RouteIQ
+        </h1>
+        <p class="text-lg sm:text-xl font-bold text-indigo-600">
+          Dynamic Cost-, Latency- &amp; Quality-Aware AI Inference Gateway
+        </p>
+        <p class="text-base text-slate-600 leading-relaxed max-w-2xl mx-auto">
+          RouteIQ is an intelligent inference router that dynamically directs every prompt to the optimal AI model under strict cost, latency, and capability constraints. It saves up to 75% on inference expenditure while mathematically guaranteeing zero SLA violations and seamless failover.
+        </p>
+
+        <!-- CTA Buttons -->
+        <div class="pt-4 flex flex-wrap items-center justify-center gap-4">
+          <button onclick="enterWorkspace()" class="px-8 py-3.5 rounded-2xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-base shadow-lg shadow-indigo-600/25 transition-all transform hover:-translate-y-0.5 flex items-center space-x-2">
+            <span>Open Gateway Workspace</span>
+            <span class="font-bold">&rarr;</span>
+          </button>
+
+          <button onclick="enterWorkspaceAndTab('audit')" class="px-6 py-3.5 rounded-2xl bg-white hover:bg-slate-50 border border-slate-300 text-slate-700 font-bold text-sm shadow-sm transition">
+            View Execution Audit Trail
+          </button>
+        </div>
+      </div>
+
+      <!-- 3 Core USP Boxes -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto text-left">
+        
+        <!-- USP Box 1 -->
+        <div class="p-6 rounded-3xl space-y-3 border border-slate-200 hover:border-indigo-400 cursor-pointer transition bg-white/90 backdrop-blur-sm shadow-sm" onclick="enterWorkspace()">
+          <div class="flex items-center justify-between">
+            <span class="text-[11px] font-mono font-bold px-2.5 py-1 rounded-full bg-indigo-50 text-indigo-700 border border-indigo-200">
+              USP 1
+            </span>
+            <span class="text-xs text-indigo-600 font-mono font-bold">Hard Constraints</span>
+          </div>
+          <h3 class="text-lg font-bold text-slate-900 font-display">Mathematical SLA Enforcement</h3>
+          <p class="text-xs text-slate-600 leading-relaxed">
+            Every candidate model is filtered through hard latency, cost, context, and capability gates before inference. Any model violating a constraint is rejected. If no model qualifies, RouteIQ cleanly refuses with explainable recommendations.
+          </p>
+          <div class="pt-2 text-xs font-bold text-indigo-600 flex items-center space-x-1">
+            <span>Open Interactive Gateway &rarr;</span>
+          </div>
+        </div>
+
+        <!-- USP Box 2 -->
+        <div class="p-6 rounded-3xl space-y-3 border border-slate-200 hover:border-emerald-400 cursor-pointer transition bg-white/90 backdrop-blur-sm shadow-sm" onclick="enterWorkspace()">
+          <div class="flex items-center justify-between">
+            <span class="text-[11px] font-mono font-bold px-2.5 py-1 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200">
+              USP 2
+            </span>
+            <span class="text-xs text-emerald-600 font-mono font-bold">Zero-Creep Failover</span>
+          </div>
+          <h3 class="text-lg font-bold text-slate-900 font-display">Shrinking-Budget Failover</h3>
+          <p class="text-xs text-slate-600 leading-relaxed">
+            When an endpoint slows down or fails, RouteIQ deducts elapsed time from the user's budget ($L_{\text{rem}} = L_{\text{orig}} - t_{\text{spent}}$) and fails over to an alternative compliant model without ever relaxing constraints or breaching SLAs.
+          </p>
+          <div class="pt-2 text-xs font-bold text-emerald-600 flex items-center space-x-1">
+            <span>Test Failover Invariants &rarr;</span>
+          </div>
+        </div>
+
+        <!-- USP Box 3 -->
+        <div class="p-6 rounded-3xl space-y-3 border border-slate-200 hover:border-violet-400 cursor-pointer transition bg-white/90 backdrop-blur-sm shadow-sm" onclick="enterWorkspace()">
+          <div class="flex items-center justify-between">
+            <span class="text-[11px] font-mono font-bold px-2.5 py-1 rounded-full bg-violet-50 text-violet-700 border border-violet-200">
+              USP 3
+            </span>
+            <span class="text-xs text-violet-600 font-mono font-bold">&lt; 2.4ms Decision</span>
+          </div>
+          <h3 class="text-lg font-bold text-slate-900 font-display">Laya System 1 Decision Engine</h3>
+          <p class="text-xs text-slate-600 leading-relaxed">
+            An ultra-fast non-autoregressive complexity estimator classifies incoming queries into easy, medium, or hard tiers. Rule 4 Uncertainty Hedging automatically elevates tiers when ambiguity is detected, preserving answer quality.
+          </p>
+          <div class="pt-2 text-xs font-bold text-violet-600 flex items-center space-x-1">
+            <span>Explore Routing System &rarr;</span>
+          </div>
+        </div>
+
+      </div>
+
+    </main>
+  </div><!-- END #view-dashboard -->
+
+    <!-- Clean Minimal Footer -->
+    <footer class="border-t border-slate-200 bg-white/80 backdrop-blur-md py-6 transition-colors">
+      <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500 font-mono">
+        <div>
+          <strong>Team PaniPuri Paglus</strong> &bull; VORTEXA 3.0 &bull; DIT Pimpri, Pune
+        </div>
+        <div class="flex items-center space-x-4">
+          <button onclick="enterWorkspace()" class="text-indigo-600 hover:text-indigo-800 font-bold">
+            Enter Gateway Workspace &rarr;
+          </button>
+        </div>
+      </div>
+    </footer>
+
+  </div>
+
+  <!-- ========================================================================= -->
+  <!-- VIEW 2: COMPLETE GATEWAY DASHBOARD WORKSPACE                              -->
+  <!-- ========================================================================= -->
+  <div id="view-dashboard" class="h-screen flex overflow-hidden hidden bg-[#F8FAFC]">
+
   <aside id="sidebar" class="w-80 md:w-88 flex-shrink-0 bg-[#090D18]/95 border-r border-slate-800/80 flex flex-col justify-between z-30 transition-all duration-300 hidden md:flex">
     
     <!-- Top Section: Brand & User Profile -->
@@ -395,7 +591,7 @@
       <div class="flex items-center justify-between">
         <div class="flex items-center space-x-2.5">
           <div class="w-8 h-8 rounded-xl bg-gradient-to-tr from-cyan-500 via-indigo-600 to-violet-500 flex items-center justify-center text-white font-black text-sm shadow-glow-cyan">
-            ⚡
+            
           </div>
           <div>
             <div class="flex items-center space-x-1.5">
@@ -412,10 +608,10 @@
 
         <div class="flex items-center space-x-1.5">
           <button onclick="openApiKeysModal()" title="Configure API Keys (Groq, Gemini, OpenRouter, OpenAI, DeepSeek, Anthropic)" class="p-1.5 rounded-lg bg-slate-800/80 hover:bg-slate-700 text-slate-300 border border-slate-700/60 transition text-xs flex items-center space-x-1">
-            <span>🔑</span>
+            <span></span>
             <span class="text-[10px] font-mono font-semibold" id="api-status-badge">API</span>
           </button>
-          <button onclick="toggleMobileSidebar()" class="md:hidden p-1.5 rounded-lg bg-slate-800 text-slate-300 hover:text-white text-xs">✕</button>
+          <button onclick="toggleMobileSidebar()" class="md:hidden p-1.5 rounded-lg bg-slate-800 text-slate-300 hover:text-white text-xs">X</button>
         </div>
       </div>
 
@@ -436,14 +632,14 @@
           </div>
         </div>
         <div class="text-slate-400 group-hover:text-cyan-400 text-xs px-2 transition">
-          ✏️
+          
         </div>
       </div>
 
       <!-- Prominent "Start Session" / "Reset Session" Action -->
       <div>
         <button id="btn-session-toggle" onclick="toggleSessionState()" class="w-full py-2.5 px-4 rounded-xl font-bold text-xs flex items-center justify-center space-x-2 transition-all shadow-glow-emerald bg-gradient-to-r from-emerald-500 via-teal-500 to-cyan-500 text-slate-950 hover:brightness-110 active:scale-[0.98]">
-          <span id="session-btn-icon">🚀</span>
+          <span id="session-btn-icon"></span>
           <span id="session-btn-text">START SESSION</span>
         </button>
       </div>
@@ -513,27 +709,27 @@
         <div class="space-y-1">
           <div class="flex justify-between text-[11px] font-mono">
             <span class="text-slate-400">Max Latency:</span>
-            <span class="text-cyan-400 font-bold" id="val-max-latency">1000 ms</span>
+            <span class="text-cyan-400 font-bold" id="val-max-latency">2000 ms</span>
           </div>
-          <input type="range" id="input-latency" min="150" max="3000" step="50" value="1000" oninput="updateConstraintLabels()" class="w-full accent-cyan-500 cursor-pointer h-1.5 bg-slate-800 rounded-lg" />
+          <input type="range" id="input-latency" min="200" max="4000" step="50" value="2000" oninput="updateConstraintLabels()" class="w-full accent-cyan-500 cursor-pointer h-1.5 bg-slate-800 rounded-lg" />
         </div>
 
         <!-- Cost Budget Slider -->
         <div class="space-y-1">
           <div class="flex justify-between text-[11px] font-mono">
             <span class="text-slate-400">Budget Ceiling:</span>
-            <span class="text-emerald-400 font-bold" id="val-max-cost">$0.0100</span>
+            <span class="text-emerald-400 font-bold" id="val-max-cost">$0.0200</span>
           </div>
-          <input type="range" id="input-cost" min="0.0002" max="0.0300" step="0.0002" value="0.0100" oninput="updateConstraintLabels()" class="w-full accent-emerald-500 cursor-pointer h-1.5 bg-slate-800 rounded-lg" />
+          <input type="range" id="input-cost" min="0.0005" max="0.0500" step="0.0005" value="0.0200" oninput="updateConstraintLabels()" class="w-full accent-emerald-500 cursor-pointer h-1.5 bg-slate-800 rounded-lg" />
         </div>
 
         <!-- Capability Slider -->
         <div class="space-y-1">
           <div class="flex justify-between text-[11px] font-mono">
             <span class="text-slate-400">Min Capability:</span>
-            <span class="text-indigo-400 font-bold" id="val-min-cap">0.35</span>
+            <span class="text-indigo-400 font-bold" id="val-min-cap">0.00</span>
           </div>
-          <input type="range" id="input-capability" min="0.0" max="0.99" step="0.05" value="0.35" oninput="updateConstraintLabels()" class="w-full accent-indigo-500 cursor-pointer h-1.5 bg-slate-800 rounded-lg" />
+          <input type="range" id="input-capability" min="0.00" max="0.95" step="0.05" value="0.00" oninput="updateConstraintLabels()" class="w-full accent-violet-500 cursor-pointer h-1.5 bg-slate-800 rounded-lg" />
         </div>
 
         <!-- Preference Selector -->
@@ -552,16 +748,14 @@
 
     <!-- Bottom Sidebar Footer: System Diagnostics & View Switcher -->
     <div class="p-3 border-t border-slate-800/80 bg-[#070A11] space-y-2">
-      <div class="grid grid-cols-3 gap-1.5 text-[10px] font-mono text-center">
+      <div class="grid grid-cols-2 gap-2 text-[10px] font-mono text-center">
         <button onclick="switchTab('chat')" id="tab-btn-chat" class="p-2 rounded-lg bg-cyan-950/60 border border-cyan-800/80 text-cyan-300 font-bold transition">
-          💬 Chat
+           Chat
         </button>
         <button onclick="switchTab('audit')" id="tab-btn-audit" class="p-2 rounded-lg bg-slate-900 border border-slate-800 text-slate-400 hover:text-white transition">
-          🛡️ Proofs
+           Proofs
         </button>
-        <button onclick="switchTab('chaos')" id="tab-btn-chaos" class="p-2 rounded-lg bg-slate-900 border border-slate-800 text-slate-400 hover:text-white transition">
-          ⚡ Chaos
-        </button>
+        
       </div>
       <div class="text-[9px] text-center text-slate-400 font-mono">
         Invariant: Rules decide &bull; AI advises &bull; 0 SLA Violations
@@ -580,8 +774,11 @@
       
       <!-- Left: Mobile Toggle & Active routing breadcrumb -->
       <div class="flex items-center space-x-2 md:space-x-3">
+        <button onclick="returnToLanding()" class="px-2.5 py-1 rounded-lg border border-slate-700 bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-mono font-medium transition shadow-sm" title="Return to Landing Page">
+          Home
+        </button>
         <button onclick="toggleMobileSidebar()" class="md:hidden p-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 text-xs" title="Toggle Fleet & SLA Settings">
-          ☰
+          Menu
         </button>
         <span class="text-xs font-bold text-slate-200 uppercase tracking-wider font-mono flex items-center space-x-1.5">
           <span class="w-2 h-2 rounded-full bg-cyan-400"></span>
@@ -596,22 +793,20 @@
       <!-- Right: Live Savings Badge & Quick Actions -->
       <div class="flex items-center space-x-3">
         <div class="hidden sm:flex items-center space-x-2 px-3 py-1 rounded-full bg-emerald-950/50 border border-emerald-500/30 text-emerald-300 text-xs font-mono">
-          <span>💰 Net Saved:</span>
+          <span> Net Saved:</span>
           <strong id="top-saved-val" class="text-white">$0.00000</strong>
         </div>
 
-        <button onclick="triggerQuickChaosTest()" class="text-xs px-3 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 transition font-mono flex items-center space-x-1" title="Simulate model kill switch to test shrinking-budget failover">
-          <span>💥 Failover Test</span>
-        </button>
+        
 
         <!-- Theme Toggle Button -->
         <button id="theme-toggle-btn" onclick="toggleTheme()" class="text-xs px-2.5 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 transition font-mono flex items-center space-x-1.5 cursor-pointer shadow-sm" title="Toggle Light / Dark Theme">
-          <span id="theme-icon">🌙</span>
+          <span id="theme-icon"></span>
           <span id="theme-text" class="hidden sm:inline">Dark</span>
         </button>
 
         <button onclick="clearChatHistory()" class="text-xs px-2.5 py-1 rounded-lg bg-slate-800/80 hover:bg-slate-700 text-slate-400 hover:text-white border border-slate-700/60 transition font-mono">
-          🧹 Clear
+           Clear
         </button>
       </div>
 
@@ -631,7 +826,7 @@
           <!-- Welcome Hero (Shown if no messages exist) -->
           <div id="welcome-hero" class="max-w-3xl mx-auto py-12 text-center space-y-6">
             <div class="w-16 h-16 rounded-3xl bg-gradient-to-tr from-cyan-500 via-indigo-600 to-violet-500 mx-auto flex items-center justify-center text-3xl shadow-glow-cyan">
-              ⚡
+              
             </div>
             <div class="space-y-2">
               <h2 class="text-2xl md:text-3xl font-extrabold text-white tracking-tight">
@@ -644,30 +839,30 @@
 
             <!-- Suggestion Chips -->
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 max-w-xl mx-auto pt-4 text-left">
-              <div onclick="applySuggestion('Explain Quantum Entanglement and Bell Theorem step-by-step with formal mathematical equations.', 1200, 0.015, 0.85)" class="double-bezel p-3 rounded-xl cursor-pointer hover:border-cyan-500/50 hover:bg-slate-900/80 transition group">
+              <div onclick="applySuggestion('Explain Quantum Entanglement and Bell Theorem step-by-step with formal mathematical equations.', 1800, 0.020, 0.85)" class="double-bezel p-3 rounded-xl cursor-pointer hover:border-cyan-500/50 hover:bg-slate-900/80 transition group">
                 <div class="flex items-center space-x-2 text-cyan-400 text-xs font-bold font-mono">
-                  <span>🧠 Reasoning (DeepSeek R1)</span>
+                  <span> Reasoning (DeepSeek R1)</span>
                 </div>
                 <div class="text-xs text-slate-300 mt-1">Explain Quantum Entanglement &amp; Bell's theorem with formal proofs.</div>
               </div>
 
-              <div onclick="applySuggestion('Implement an async LRU Cache in Python using doubly linked list and asyncio locks with O(1) complexity.', 800, 0.005, 0.70)" class="double-bezel p-3 rounded-xl cursor-pointer hover:border-indigo-500/50 hover:bg-slate-900/80 transition group">
+              <div onclick="applySuggestion('Implement an async LRU Cache in Python using doubly linked list and asyncio locks with O(1) complexity.', 1400, 0.015, 0.70)" class="double-bezel p-3 rounded-xl cursor-pointer hover:border-indigo-500/50 hover:bg-slate-900/80 transition group">
                 <div class="flex items-center space-x-2 text-indigo-400 text-xs font-bold font-mono">
-                  <span>💻 Code (Qwen 2.5 Coder)</span>
+                  <span> Code (Qwen 2.5 Coder)</span>
                 </div>
                 <div class="text-xs text-slate-300 mt-1">Implement an async LRU Cache in Python with O(1) amortized speed.</div>
               </div>
 
               <div onclick="applySuggestion('What is the capital of Australia and what are its three largest cities by population?', 350, 0.002, 0.35)" class="double-bezel p-3 rounded-xl cursor-pointer hover:border-emerald-500/50 hover:bg-slate-900/80 transition group">
                 <div class="flex items-center space-x-2 text-emerald-400 text-xs font-bold font-mono">
-                  <span>⚡ Quick Answer (Llama 3.1 8B)</span>
+                  <span> Quick Answer (Llama 3.1 8B)</span>
                 </div>
                 <div class="text-xs text-slate-300 mt-1">What is the capital of Australia and its 3 largest cities?</div>
               </div>
 
               <div onclick="applySuggestion('Analyze the architectural tradeoffs between microservices and modular monoliths for financial ledger services under strict latency and compliance constraints.', 900, 0.008, 0.75)" class="double-bezel p-3 rounded-xl cursor-pointer hover:border-purple-500/50 hover:bg-slate-900/80 transition group">
                 <div class="flex items-center space-x-2 text-purple-400 text-xs font-bold font-mono">
-                  <span>🌐 High Versatility (Groq / Gemini)</span>
+                  <span> High Versatility (Groq / Gemini)</span>
                 </div>
                 <div class="text-xs text-slate-300 mt-1">Tradeoffs between microservices and monoliths for financial ledgers.</div>
               </div>
@@ -736,11 +931,11 @@
         <div class="max-w-5xl mx-auto space-y-6">
           <div class="flex items-center justify-between border-b border-slate-800 pb-4">
             <div>
-              <h2 class="text-xl font-bold text-white">Cryptographic SHA-256 Audit Trail</h2>
+              <h2 class="text-xl font-bold text-white">Execution Audit Trail & Compliance Log</h2>
               <p class="text-xs text-slate-400">Post-hoc decoupled verification of all SLA constraints and tamper-evidence proof.</p>
             </div>
             <button onclick="verifyAuditChain()" class="px-4 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-mono font-bold transition flex items-center space-x-2">
-              <span>🔍 Verify Chain Proof</span>
+              <span>Verify Audit Proof</span>
             </button>
           </div>
 
@@ -775,26 +970,7 @@
         </div>
       </div>
 
-      <!-- ===================================================================== -->
-      <!-- VIEW 3: CHAOS STUDIO (KILL SWITCHES & INJECTED LATENCIES)             -->
-      <!-- ===================================================================== -->
-      <div id="view-chaos" class="flex-1 overflow-y-auto p-6 space-y-6 hidden">
-        <div class="max-w-5xl mx-auto space-y-6">
-          <div class="flex items-center justify-between border-b border-slate-800 pb-4">
-            <div>
-              <h2 class="text-xl font-bold text-white">Judge Chaos Studio &amp; Circuit Breakers</h2>
-              <p class="text-xs text-slate-400">Test shrinking-budget failover $L_{rem} = L_{orig} - t_{spent}$ by injecting live hardware faults.</p>
-            </div>
-            <button onclick="resetAllChaos()" class="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-white text-xs font-mono font-bold transition">
-              🔄 Reset All Chaos
-            </button>
-          </div>
 
-          <div id="chaos-cards-grid" class="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <!-- Populated dynamically -->
-          </div>
-        </div>
-      </div>
 
     </div>
 
@@ -807,7 +983,7 @@
     <div class="double-bezel max-w-md w-full p-6 rounded-3xl space-y-5 shadow-float">
       <div class="flex items-center justify-between border-b border-slate-800 pb-3">
         <h3 class="text-base font-bold text-white flex items-center space-x-2">
-          <span>👤</span>
+          <span></span>
           <span>User Profile &amp; Identity</span>
         </h3>
         <button onclick="closeProfileModal()" class="text-slate-400 hover:text-white text-lg">&times;</button>
@@ -850,7 +1026,7 @@
       <div class="flex items-center justify-between border-b border-slate-800 pb-3">
         <div>
           <h3 class="text-base font-bold text-white flex items-center space-x-2">
-            <span>🔑</span>
+            <span></span>
             <span>Online API Model Keys</span>
           </h3>
           <p class="text-[11px] text-slate-400">Configure free or low-cost API keys to expand RouteIQ's catalog beyond local GGUF models.</p>
@@ -859,7 +1035,7 @@
       </div>
 
       <div class="p-3 rounded-xl bg-indigo-950/40 border border-indigo-700/40 text-indigo-300 text-[11px] leading-relaxed">
-        <strong>💡 Note:</strong> If no API keys are provided, RouteIQ runs seamlessly using local Apple Silicon GGUF models or high-fidelity simulation without failing!
+        <strong> Note:</strong> If no API keys are provided, RouteIQ runs seamlessly using local Apple Silicon GGUF models or high-fidelity simulation without failing!
       </div>
 
       <div class="space-y-4 text-xs font-mono">
@@ -981,12 +1157,12 @@
       if (theme === 'dark') {
         html.classList.remove('light');
         html.classList.add('dark');
-        if (themeIcon) themeIcon.textContent = '☀️';
+        if (themeIcon) themeIcon.textContent = '';
         if (themeText) themeText.textContent = 'Light';
       } else {
         html.classList.remove('dark');
         html.classList.add('light');
-        if (themeIcon) themeIcon.textContent = '🌙';
+        if (themeIcon) themeIcon.textContent = '';
         if (themeText) themeText.textContent = 'Dark';
       }
     }
@@ -1125,13 +1301,13 @@
       if (appState.sessionActive) {
         btn.className = "w-full py-2.5 px-4 rounded-xl font-bold text-xs flex items-center justify-center space-x-2 transition-all shadow-glow-rose bg-gradient-to-r from-rose-500 via-pink-500 to-amber-500 text-white hover:brightness-110 active:scale-[0.98]";
         btnText.textContent = "RESET SESSION";
-        btnIcon.textContent = "⏹️";
+        btnIcon.textContent = "";
         indicator.textContent = "Session: Active";
         indicator.className = "text-[10px] font-mono uppercase tracking-wider text-emerald-400 font-bold";
       } else {
         btn.className = "w-full py-2.5 px-4 rounded-xl font-bold text-xs flex items-center justify-center space-x-2 transition-all shadow-glow-emerald bg-gradient-to-r from-emerald-500 via-teal-500 to-cyan-500 text-slate-950 hover:brightness-110 active:scale-[0.98]";
         btnText.textContent = "START SESSION";
-        btnIcon.textContent = "🚀";
+        btnIcon.textContent = "";
         indicator.textContent = "Session: Idle";
         indicator.className = "text-[10px] font-mono uppercase tracking-wider text-slate-500 font-bold";
       }
@@ -1229,12 +1405,12 @@
       const topBadge = document.getElementById('api-status-badge');
 
       let configuredCount = 0;
-      if (keys.GROQ_API_KEY) { if (gBadge) { gBadge.textContent = '✅ Configured'; gBadge.className = 'text-[10px] text-emerald-400 font-bold'; } configuredCount++; }
-      if (keys.GEMINI_API_KEY) { if (mBadge) { mBadge.textContent = '✅ Configured'; mBadge.className = 'text-[10px] text-emerald-400 font-bold'; } configuredCount++; }
-      if (keys.OPENROUTER_API_KEY) { if (oBadge) { oBadge.textContent = '✅ Configured'; oBadge.className = 'text-[10px] text-emerald-400 font-bold'; } configuredCount++; }
-      if (keys.OPENAI_API_KEY) { if (openAiBadge) { openAiBadge.textContent = '✅ Configured'; openAiBadge.className = 'text-[10px] text-emerald-400 font-bold'; } configuredCount++; }
-      if (keys.DEEPSEEK_API_KEY) { if (dsBadge) { dsBadge.textContent = '✅ Configured'; dsBadge.className = 'text-[10px] text-emerald-400 font-bold'; } configuredCount++; }
-      if (keys.ANTHROPIC_API_KEY) { if (aBadge) { aBadge.textContent = '✅ Configured'; aBadge.className = 'text-[10px] text-emerald-400 font-bold'; } configuredCount++; }
+      if (keys.GROQ_API_KEY) { if (gBadge) { gBadge.textContent = 'Verified Configured'; gBadge.className = 'text-[10px] text-emerald-400 font-bold'; } configuredCount++; }
+      if (keys.GEMINI_API_KEY) { if (mBadge) { mBadge.textContent = 'Verified Configured'; mBadge.className = 'text-[10px] text-emerald-400 font-bold'; } configuredCount++; }
+      if (keys.OPENROUTER_API_KEY) { if (oBadge) { oBadge.textContent = 'Verified Configured'; oBadge.className = 'text-[10px] text-emerald-400 font-bold'; } configuredCount++; }
+      if (keys.OPENAI_API_KEY) { if (openAiBadge) { openAiBadge.textContent = 'Verified Configured'; openAiBadge.className = 'text-[10px] text-emerald-400 font-bold'; } configuredCount++; }
+      if (keys.DEEPSEEK_API_KEY) { if (dsBadge) { dsBadge.textContent = 'Verified Configured'; dsBadge.className = 'text-[10px] text-emerald-400 font-bold'; } configuredCount++; }
+      if (keys.ANTHROPIC_API_KEY) { if (aBadge) { aBadge.textContent = 'Verified Configured'; aBadge.className = 'text-[10px] text-emerald-400 font-bold'; } configuredCount++; }
 
       if (topBadge) {
         topBadge.textContent = configuredCount > 0 ? `API (${configuredCount})` : 'API';
@@ -1303,9 +1479,9 @@
     }
 
     function resetConstraints() {
-      document.getElementById('input-latency').value = 1000;
-      document.getElementById('input-cost').value = 0.0100;
-      document.getElementById('input-capability').value = 0.35;
+      document.getElementById('input-latency').value = 2000;
+      document.getElementById('input-cost').value = 0.0200;
+      document.getElementById('input-capability').value = 0.00;
       document.getElementById('select-preference').value = 'lowest_cost';
       updateConstraintLabels();
     }
@@ -1382,7 +1558,7 @@
       const asstBubbleHtml = `
         <div id="${asstMsgId}" class="flex space-x-3 max-w-4xl mr-auto">
           <div class="w-8 h-8 rounded-xl bg-gradient-to-tr from-cyan-500 to-indigo-600 flex items-center justify-center text-white font-black text-xs flex-shrink-0 shadow-glow-cyan">
-            ⚡
+            
           </div>
           <div class="space-y-3 flex-1 min-w-0">
             
@@ -1397,7 +1573,7 @@
             <!-- ANIMATED VISUAL PROCESS STEPPER (Requirement 5) -->
             <div id="${asstMsgId}-stepper" class="double-bezel p-3 rounded-2xl space-y-2 border-cyan-500/30">
               <div class="flex items-center justify-between text-[11px] font-mono text-cyan-400 font-bold">
-                <span>🔄 Visual Decision Pipeline</span>
+                <span> Visual Decision Pipeline</span>
                 <span id="${asstMsgId}-step-timer" class="text-slate-400">0 ms</span>
               </div>
               
@@ -1557,7 +1733,7 @@
         clearInterval(timerInt);
         document.getElementById(`${asstMsgId}-content`).innerHTML = `
           <div class="p-3 bg-rose-950/40 border border-rose-800 rounded-xl text-rose-300 text-xs font-mono">
-            <strong>❌ Gateway Error:</strong> ${escapeHtml(err.message || String(err))}
+            <strong>Error: Gateway Error:</strong> ${escapeHtml(err.message || String(err))}
           </div>
         `;
       } finally {
@@ -1579,7 +1755,7 @@
         st.className = "text-[9px] text-cyan-400 mt-1 font-bold animate-pulse";
       } else if (state === 'done') {
         el.className = "p-2 rounded-xl bg-slate-900/90 border border-emerald-500/50 flex flex-col justify-between text-emerald-300";
-        st.textContent = `✓ ${statusText}`;
+        st.textContent = `[PASS] ${statusText}`;
         st.className = "text-[9px] text-emerald-400 mt-1 font-bold";
       }
     }
@@ -1601,7 +1777,7 @@
           <details class="double-bezel p-3 rounded-xl border-amber-500/30 group">
             <summary class="cursor-pointer text-xs font-mono font-bold text-amber-400 flex items-center justify-between select-none">
               <span class="flex items-center space-x-1.5">
-                <span>💡</span>
+                <span></span>
                 <span>DeepSeek R1 Reasoning Trace (${thinkContent.trim().split(/\s+/).filter(Boolean).length} thinking tokens)</span>
               </span>
               <span class="text-[10px] text-slate-400 group-open:rotate-180 transition">▼</span>
@@ -1641,7 +1817,7 @@
         const diff = m.savings_vs_model_usd;
         let diffBadge = '';
         if (isChosen) {
-          diffBadge = `<span class="px-2 py-0.5 rounded-full bg-emerald-950 text-emerald-300 font-bold border border-emerald-800">★ ROUTED WINNER</span>`;
+          diffBadge = `<span class="px-2 py-0.5 rounded-full bg-emerald-950 text-emerald-300 font-bold border border-emerald-800"> ROUTED WINNER</span>`;
         } else if (diff > 0) {
           diffBadge = `<span class="text-cyan-400 font-bold">+$${diff.toFixed(6)} (+${m.savings_vs_model_pct}%)</span>`;
         } else {
@@ -1664,7 +1840,7 @@
         <details class="double-bezel p-3 rounded-2xl border-emerald-500/30 space-y-2 group" open>
           <summary class="cursor-pointer text-xs font-mono font-bold text-emerald-400 flex items-center justify-between select-none">
             <div class="flex items-center space-x-2">
-              <span>📊</span>
+              <span></span>
               <span>Mathematical Comparative Cost Breakdown Matrix (${costMatrix.tokens_in} in / ${costMatrix.tokens_out} out tokens)</span>
             </div>
             <div class="flex items-center space-x-2">
@@ -1714,8 +1890,8 @@
       const rows = candidates.map(c => {
         const isChosen = c.model_id === chosenModelId;
         const passBadge = c.passed 
-          ? `<span class="text-emerald-400 font-bold">✓ PASSED</span>`
-          : `<span class="text-rose-400 font-bold">✗ REJECTED</span>`;
+          ? `<span class="text-emerald-400 font-bold">[PASS] PASSED</span>`
+          : `<span class="text-rose-400 font-bold">[FAIL] REJECTED</span>`;
 
         const reasons = c.rejection_reasons && c.rejection_reasons.length > 0 
           ? c.rejection_reasons.join(', ')
@@ -1736,7 +1912,7 @@
         <details class="double-bezel p-3 rounded-2xl border-slate-800 group">
           <summary class="cursor-pointer text-xs font-mono font-bold text-slate-400 hover:text-white flex items-center justify-between select-none">
             <div class="flex items-center space-x-2">
-              <span>🔍</span>
+              <span></span>
               <span>Laya System 1 Candidate Waterfall (${candidates.filter(c => c.passed).length} of ${candidates.length} passed hard constraints)</span>
             </div>
             <span class="text-[10px] text-slate-400 group-open:rotate-180 transition">▼</span>
@@ -1810,28 +1986,47 @@
       }
     }
 
-    // --- TAB SWITCHING (CHAT, AUDITOR, CHAOS) ---
-    function switchTab(tab) {
-      appState.currentTab = tab;
-      document.getElementById('view-chat').classList.add('hidden');
-      document.getElementById('view-audit').classList.add('hidden');
-      document.getElementById('view-chaos').classList.add('hidden');
+    
+    // --- VIEW ROUTING (LANDING vs WORKSPACE) ---
+    function enterWorkspace() {
+      document.getElementById('view-landing').classList.add('hidden');
+      document.getElementById('view-dashboard').classList.remove('hidden');
+      switchTab('chat');
+    }
 
-      document.getElementById('tab-btn-chat').className = 'p-2 rounded-lg bg-slate-900 border border-slate-800 text-slate-400 hover:text-white transition';
-      document.getElementById('tab-btn-audit').className = 'p-2 rounded-lg bg-slate-900 border border-slate-800 text-slate-400 hover:text-white transition';
-      document.getElementById('tab-btn-chaos').className = 'p-2 rounded-lg bg-slate-900 border border-slate-800 text-slate-400 hover:text-white transition';
+    function enterWorkspaceAndTab(tab) {
+      document.getElementById('view-landing').classList.add('hidden');
+      document.getElementById('view-dashboard').classList.remove('hidden');
+      switchTab(tab);
+    }
+
+    function returnToLanding() {
+      document.getElementById('view-landing').classList.remove('hidden');
+      document.getElementById('view-dashboard').classList.add('hidden');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // --- TAB SWITCHING (CHAT, AUDIT TRAIL) ---
+    function switchTab(tab) {
+      appState.activeTab = tab;
+      const chatView = document.getElementById('view-chat');
+      const auditView = document.getElementById('view-audit');
+      const chatBtn = document.getElementById('tab-btn-chat');
+      const auditBtn = document.getElementById('tab-btn-audit');
+
+      if (chatView) chatView.classList.add('hidden');
+      if (auditView) auditView.classList.add('hidden');
+
+      if (chatBtn) chatBtn.className = 'p-2 rounded-lg bg-slate-900 border border-slate-800 text-slate-400 hover:text-white transition';
+      if (auditBtn) auditBtn.className = 'p-2 rounded-lg bg-slate-900 border border-slate-800 text-slate-400 hover:text-white transition';
 
       if (tab === 'chat') {
-        document.getElementById('view-chat').classList.remove('hidden');
-        document.getElementById('tab-btn-chat').className = 'p-2 rounded-lg bg-cyan-950/60 border border-cyan-800/80 text-cyan-300 font-bold transition';
+        if (chatView) chatView.classList.remove('hidden');
+        if (chatBtn) chatBtn.className = 'p-2 rounded-lg bg-cyan-950/60 border border-cyan-800/80 text-cyan-300 font-bold transition';
       } else if (tab === 'audit') {
-        document.getElementById('view-audit').classList.remove('hidden');
-        document.getElementById('tab-btn-audit').className = 'p-2 rounded-lg bg-indigo-950/60 border border-indigo-800/80 text-indigo-300 font-bold transition';
+        if (auditView) auditView.classList.remove('hidden');
+        if (auditBtn) auditBtn.className = 'p-2 rounded-lg bg-cyan-950/60 border border-cyan-800/80 text-cyan-300 font-bold transition';
         loadAuditTable();
-      } else if (tab === 'chaos') {
-        document.getElementById('view-chaos').classList.remove('hidden');
-        document.getElementById('tab-btn-chaos').className = 'p-2 rounded-lg bg-rose-950/60 border border-rose-800/80 text-rose-300 font-bold transition';
-        renderChaosGrid();
       }
     }
 
@@ -1854,7 +2049,7 @@
             <td class="p-3 font-bold text-white">${r.chosen_model || 'REFUSED'}</td>
             <td class="p-3 text-cyan-400">${r.actual_latency_ms}ms / ${r.max_latency_ms}ms</td>
             <td class="p-3 text-emerald-400">$${(r.actual_cost_usd||0).toFixed(6)}</td>
-            <td class="p-3">${r.compliant ? '<span class="text-emerald-400 font-bold">✓ 0 Violations</span>' : '<span class="text-rose-400 font-bold">✗ Breach</span>'}</td>
+            <td class="p-3">${r.compliant ? '<span class="text-emerald-400 font-bold">[PASS] 0 Violations</span>' : '<span class="text-rose-400 font-bold">[FAIL] Breach</span>'}</td>
             <td class="p-3 text-slate-500 font-mono">${(r.block_hash || '').substring(0, 16)}...</td>
           </tr>
         `).join('');
@@ -1882,69 +2077,14 @@
           }
         } else {
           banner.className = "p-4 rounded-2xl bg-rose-950/40 border border-rose-500/40 text-rose-300 text-xs font-mono flex items-center justify-between";
-          banner.innerHTML = `<span>⚠️ Tamper Alert: Chain verification mismatch detected!</span>`;
+          banner.innerHTML = `<span>Alert: Tamper Alert: Chain verification mismatch detected!</span>`;
         }
       } catch (e) {
         alert("Error verifying audit chain: " + e);
       }
     }
 
-    // --- CHAOS STUDIO INJECTION ---
-    async function renderChaosGrid() {
-      const container = document.getElementById('chaos-cards-grid');
-      container.innerHTML = appState.models.map(m => `
-        <div class="double-bezel p-4 rounded-2xl space-y-3">
-          <div class="flex items-center justify-between">
-            <span class="font-bold text-white text-sm font-mono">${m.name}</span>
-            <span class="text-[10px] px-2 py-0.5 rounded bg-slate-800 text-slate-400 font-mono">${m.id}</span>
-          </div>
 
-          <div class="grid grid-cols-2 gap-2 text-xs font-mono">
-            <button onclick="injectChaos('${m.id}', true, 0)" class="p-2 rounded-xl bg-rose-950/60 hover:bg-rose-900 border border-rose-800/80 text-rose-300 font-bold transition">
-              💀 Kill Switch
-            </button>
-            <button onclick="injectChaos('${m.id}', false, 800)" class="p-2 rounded-xl bg-amber-950/60 hover:bg-amber-900 border border-amber-800/80 text-amber-300 font-bold transition">
-              ⏱️ +800ms Latency
-            </button>
-          </div>
-        </div>
-      `).join('');
-    }
-
-    async function injectChaos(modelId, kill, lat) {
-      try {
-        await fetch('/chaos', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ model_id: modelId, kill_switch: kill, add_latency_ms: lat, error_rate: 0 })
-        });
-        await fetchModels();
-        alert(`Chaos injected into ${modelId}! Run a chat prompt to verify shrinking-budget failover.`);
-      } catch (e) {
-        alert("Chaos injection failed: " + e);
-      }
-    }
-
-    async function resetAllChaos() {
-      try {
-        await fetch('/chaos/reset', { method: 'POST' });
-        await fetchModels();
-        alert("All chaos and circuit breakers reset to clean healthy state.");
-      } catch (e) {
-        alert("Error resetting chaos: " + e);
-      }
-    }
-
-    async function triggerQuickChaosTest() {
-      // Kill cheapest model (llama-3.2-1b)
-      await fetch('/chaos', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ model_id: 'llama-3.2-1b', kill_switch: true, add_latency_ms: 0, error_rate: 0 })
-      });
-      document.getElementById('prompt-input').value = "What is the capital of France? (Verifying shrinking-budget failover after killing cheapest model)";
-      submitPrompt();
-    }
 
     // --- UTILITIES ---
     function toggleMobileSidebar() {

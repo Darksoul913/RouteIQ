@@ -21,7 +21,8 @@ class TestGGUFIntegration(unittest.TestCase):
     def setUp(self):
         self.gguf_engine = GGUFEngine()
         with open(MODELS_REGISTRY_PATH, "r", encoding="utf-8") as f:
-            self.models = json.load(f)
+            all_models = json.load(f)
+            self.models = [m for m in all_models if m.get("endpoint_type") == "local_gguf"]
 
         self.circuit_breakers = {m["id"]: CircuitBreaker() for m in self.models}
         self.chaos_manager = ChaosManager()

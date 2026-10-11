@@ -535,7 +535,8 @@ class ResilientExecutor:
                     "model_name": m_config["name"],
                     "error": str(exc),
                     "time_spent_ms": round(call_elapsed_ms, 1),
-                    "remaining_latency_ms": max(0.0, round(remaining_latency_ms, 1))
+                    "remaining_latency_ms": max(0.0, round(remaining_latency_ms, 1)),
+                    "remaining_cost_usd": max(0.0, round(remaining_cost_usd, 6))
                 })
 
         # No valid model can satisfy remaining constraints -> Return structured refusal
