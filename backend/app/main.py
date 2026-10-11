@@ -340,6 +340,10 @@ class RouteIQHandler(BaseHTTPRequestHandler):
                     content_type = "application/json"
                 elif file_path.suffix == ".svg":
                     content_type = "image/svg+xml"
+                elif file_path.suffix in (".jpg", ".jpeg"):
+                    content_type = "image/jpeg"
+                elif file_path.suffix == ".png":
+                    content_type = "image/png"
 
                 with open(file_path, "rb") as f:
                     content = f.read()
@@ -590,6 +594,15 @@ try:
             with open(index_file, "r", encoding="utf-8") as f:
                 return f.read()
         return "<html><body><h1>RouteIQ AI Gateway</h1><p>Online. Dashboard assets missing.</p></body></html>"
+
+    @app.get("/landing_bg.jpg")
+    async def api_landing_bg():
+        bg_file = dist_dir / "landing_bg.jpg"
+        if bg_file.exists():
+            from fastapi.responses import FileResponse
+            return FileResponse(bg_file, media_type="image/jpeg")
+        from fastapi import Response
+        return Response(status_code=404)
 except ImportError:
     app = None
 
