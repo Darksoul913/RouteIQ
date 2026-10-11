@@ -122,7 +122,7 @@ def run_workload_comparison(num_requests: int = 30) -> Dict[str, Any]:
     tasks = bench_data[:num_requests]
 
     # Model specs
-    strongest_model = next((m for m in MODELS_REGISTRY if m["id"] == "claude-3.5-sonnet-sim"), MODELS_REGISTRY[-1])
+    strongest_model = max(MODELS_REGISTRY, key=lambda m: m.get("capability_score", 0.0))
     cheapest_model = next((m for m in MODELS_REGISTRY if m["id"] == "llama-3.2-1b"), MODELS_REGISTRY[0])
 
     # Simulation accumulators
@@ -410,7 +410,7 @@ class RouteIQHandler(BaseHTTPRequestHandler):
             self._send_json(200, comp_res)
 
         elif path == "/keys":
-            for k in ["GROQ_API_KEY", "GEMINI_API_KEY", "OPENROUTER_API_KEY", "OPENAI_API_KEY", "DEEPSEEK_API_KEY", "ANTHROPIC_API_KEY"]:
+            for k in ["GROQ_API_KEY", "GEMINI_API_KEY", "OPENROUTER_API_KEY", "OPENAI_API_KEY", "DEEPSEEK_API_KEY"]:
                 if k in req_data:
                     v = str(req_data[k]).strip()
                     if v:
@@ -418,7 +418,7 @@ class RouteIQHandler(BaseHTTPRequestHandler):
             try:
                 env_p = Path(__file__).resolve().parent.parent.parent / ".env"
                 lines = []
-                for k in ["GROQ_API_KEY", "GEMINI_API_KEY", "OPENROUTER_API_KEY", "OPENAI_API_KEY", "DEEPSEEK_API_KEY", "ANTHROPIC_API_KEY"]:
+                for k in ["GROQ_API_KEY", "GEMINI_API_KEY", "OPENROUTER_API_KEY", "OPENAI_API_KEY", "DEEPSEEK_API_KEY"]:
                     if os.environ.get(k):
                         lines.append(f"{k}={os.environ.get(k)}\n")
                 with open(env_p, "w", encoding="utf-8") as f:
@@ -433,7 +433,6 @@ class RouteIQHandler(BaseHTTPRequestHandler):
                     "OPENROUTER_API_KEY": bool(os.environ.get("OPENROUTER_API_KEY")),
                     "OPENAI_API_KEY": bool(os.environ.get("OPENAI_API_KEY")),
                     "DEEPSEEK_API_KEY": bool(os.environ.get("DEEPSEEK_API_KEY")),
-                    "ANTHROPIC_API_KEY": bool(os.environ.get("ANTHROPIC_API_KEY")),
                 }
             })
 
@@ -554,12 +553,11 @@ try:
             "OPENROUTER_API_KEY": bool(os.environ.get("OPENROUTER_API_KEY")),
             "OPENAI_API_KEY": bool(os.environ.get("OPENAI_API_KEY")),
             "DEEPSEEK_API_KEY": bool(os.environ.get("DEEPSEEK_API_KEY")),
-            "ANTHROPIC_API_KEY": bool(os.environ.get("ANTHROPIC_API_KEY")),
         }
 
     @app.post("/keys")
     async def api_post_keys(req_data: Dict[str, Any]):
-        for k in ["GROQ_API_KEY", "GEMINI_API_KEY", "OPENROUTER_API_KEY", "OPENAI_API_KEY", "DEEPSEEK_API_KEY", "ANTHROPIC_API_KEY"]:
+        for k in ["GROQ_API_KEY", "GEMINI_API_KEY", "OPENROUTER_API_KEY", "OPENAI_API_KEY", "DEEPSEEK_API_KEY"]:
             if k in req_data:
                 v = str(req_data[k]).strip()
                 if v:
@@ -567,7 +565,7 @@ try:
         try:
             env_p = Path(__file__).resolve().parent.parent.parent / ".env"
             lines = []
-            for k in ["GROQ_API_KEY", "GEMINI_API_KEY", "OPENROUTER_API_KEY", "OPENAI_API_KEY", "DEEPSEEK_API_KEY", "ANTHROPIC_API_KEY"]:
+            for k in ["GROQ_API_KEY", "GEMINI_API_KEY", "OPENROUTER_API_KEY", "OPENAI_API_KEY", "DEEPSEEK_API_KEY"]:
                 if os.environ.get(k):
                     lines.append(f"{k}={os.environ.get(k)}\n")
             with open(env_p, "w", encoding="utf-8") as f:
@@ -582,7 +580,6 @@ try:
                 "OPENROUTER_API_KEY": bool(os.environ.get("OPENROUTER_API_KEY")),
                 "OPENAI_API_KEY": bool(os.environ.get("OPENAI_API_KEY")),
                 "DEEPSEEK_API_KEY": bool(os.environ.get("DEEPSEEK_API_KEY")),
-                "ANTHROPIC_API_KEY": bool(os.environ.get("ANTHROPIC_API_KEY")),
             }
         }
     dist_dir = Path(__file__).resolve().parent.parent.parent / "frontend" / "dist"

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" class="light">
+<html lang="en" class="dark">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -54,26 +54,10 @@
     
     :root {
       font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-      color-scheme: light;
-    }
-    
-    html.dark {
       color-scheme: dark;
     }
-
-    /* Light Theme (Default) */
-    html.light body, html:not(.dark) body {
-      background-color: #F8FAFC !important;
-      color: #0F172A !important;
-      background-image: 
-        radial-gradient(at 15% 15%, rgba(99, 102, 241, 0.05) 0px, transparent 40%),
-        radial-gradient(at 85% 85%, rgba(6, 182, 212, 0.04) 0px, transparent 40%),
-        radial-gradient(at 50% 50%, rgba(139, 92, 246, 0.03) 0px, transparent 60%) !important;
-      background-attachment: fixed;
-    }
-
-    /* Dark Theme Body */
-    html.dark body {
+    
+    html, body {
       background-color: #070A11 !important;
       color: #E2E8F0 !important;
       background-image: 
@@ -81,192 +65,6 @@
         radial-gradient(at 85% 85%, rgba(6, 182, 212, 0.10) 0px, transparent 40%),
         radial-gradient(at 50% 50%, rgba(139, 92, 246, 0.05) 0px, transparent 60%) !important;
       background-attachment: fixed;
-    }
-
-    /* Light Theme Surfaces & Overrides */
-    html.light aside, html:not(.dark) aside {
-      background-color: #FFFFFF !important;
-      border-color: #E2E8F0 !important;
-    }
-
-    html.light header, html:not(.dark) header {
-      background-color: rgba(255, 255, 255, 0.95) !important;
-      border-color: #E2E8F0 !important;
-    }
-
-    html.light main, html:not(.dark) main {
-      background-color: #F8FAFC !important;
-    }
-
-    html.light .double-bezel, html:not(.dark) .double-bezel {
-      background: #FFFFFF !important;
-      border: 1px solid #E2E8F0 !important;
-      box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.05), 0 1px 2px -1px rgba(0, 0, 0, 0.04) !important;
-      color: #0F172A !important;
-    }
-
-    html.light .double-bezel:hover, html:not(.dark) .double-bezel:hover {
-      border-color: #CBD5E1 !important;
-      box-shadow: 0 4px 12px -2px rgba(0, 0, 0, 0.06), 0 2px 4px -2px rgba(0, 0, 0, 0.04) !important;
-    }
-
-    /* Typography overrides for light mode */
-    html.light .text-white, html:not(.dark) .text-white {
-      color: #0F172A !important;
-    }
-    html.light .text-slate-100, html:not(.dark) .text-slate-100,
-    html.light .text-slate-200, html:not(.dark) .text-slate-200,
-    html.light .text-slate-300, html:not(.dark) .text-slate-300 {
-      color: #1E293B !important;
-    }
-    html.light .text-slate-400, html:not(.dark) .text-slate-400 {
-      color: #475569 !important;
-    }
-    html.light .text-slate-500, html:not(.dark) .text-slate-500 {
-      color: #64748B !important;
-    }
-
-    /* Background containers */
-    html.light .bg-slate-950, html:not(.dark) .bg-slate-950,
-    html.light .bg-slate-950\/80, html:not(.dark) .bg-slate-950\/80,
-    html.light .bg-slate-900, html:not(.dark) .bg-slate-900,
-    html.light .bg-slate-900\/80, html:not(.dark) .bg-slate-900\/80,
-    html.light .bg-slate-900\/90, html:not(.dark) .bg-slate-900\/90,
-    html.light .bg-slate-900\/40, html:not(.dark) .bg-slate-900\/40,
-    html.light .bg-slate-900\/60, html:not(.dark) .bg-slate-900\/60,
-    html.light .bg-\[\#070A11\], html:not(.dark) .bg-\[\#070A11\],
-    html.light .bg-\[\#090D18\], html:not(.dark) .bg-\[\#090D18\],
-    html.light .bg-\[\#090D18\]\/80, html:not(.dark) .bg-\[\#090D18\]\/80,
-    html.light .bg-\[\#090D18\]\/95, html:not(.dark) .bg-\[\#090D18\]\/95,
-    html.light .bg-\[\#0D1322\], html:not(.dark) .bg-\[\#0D1322\] {
-      background-color: #F8FAFC !important;
-    }
-
-    html.light .bg-slate-800, html:not(.dark) .bg-slate-800,
-    html.light .bg-slate-800\/80, html:not(.dark) .bg-slate-800\/80 {
-      background-color: #F1F5F9 !important;
-      color: #1E293B !important;
-    }
-
-    html.light .border-slate-800, html:not(.dark) .border-slate-800,
-    html.light .border-slate-800\/80, html:not(.dark) .border-slate-800\/80,
-    html.light .border-slate-800\/60, html:not(.dark) .border-slate-800\/60,
-    html.light .border-slate-800\/90, html:not(.dark) .border-slate-800\/90,
-    html.light .border-slate-700, html:not(.dark) .border-slate-700,
-    html.light .border-slate-700\/60, html:not(.dark) .border-slate-700\/60 {
-      border-color: #E2E8F0 !important;
-    }
-
-    /* Badges & Metrics in Light Theme */
-    html.light .bg-emerald-950, html:not(.dark) .bg-emerald-950,
-    html.light .bg-emerald-950\/50, html:not(.dark) .bg-emerald-950\/50,
-    html.light .bg-emerald-950\/80, html:not(.dark) .bg-emerald-950\/80,
-    html.light .bg-emerald-900\/60, html:not(.dark) .bg-emerald-900\/60 {
-      background-color: #ECFDF5 !important;
-      border-color: #A7F3D0 !important;
-    }
-    html.light .text-emerald-400, html:not(.dark) .text-emerald-400,
-    html.light .text-emerald-300, html:not(.dark) .text-emerald-300 {
-      color: #059669 !important;
-    }
-
-    html.light .bg-cyan-950, html:not(.dark) .bg-cyan-950,
-    html.light .bg-cyan-950\/60, html:not(.dark) .bg-cyan-950\/60,
-    html.light .bg-cyan-950\/80, html:not(.dark) .bg-cyan-950\/80,
-    html.light .bg-cyan-900\/60, html:not(.dark) .bg-cyan-900\/60 {
-      background-color: #F0F9FF !important;
-      border-color: #BAE6FD !important;
-    }
-    html.light .text-cyan-400, html:not(.dark) .text-cyan-400,
-    html.light .text-cyan-300, html:not(.dark) .text-cyan-300 {
-      color: #0284C7 !important;
-    }
-
-    html.light .bg-indigo-950\/40, html:not(.dark) .bg-indigo-950\/40,
-    html.light .bg-indigo-950\/60, html:not(.dark) .bg-indigo-950\/60,
-    html.light .bg-indigo-950\/80, html:not(.dark) .bg-indigo-950\/80 {
-      background-color: #EEF2FF !important;
-      border-color: #C7D2FE !important;
-    }
-    html.light .text-indigo-400, html:not(.dark) .text-indigo-400,
-    html.light .text-indigo-300, html:not(.dark) .text-indigo-300 {
-      color: #4F46E5 !important;
-    }
-
-    html.light .bg-rose-950\/80, html:not(.dark) .bg-rose-950\/80 {
-      background-color: #FFF1F2 !important;
-      border-color: #FECDD3 !important;
-    }
-    html.light .text-rose-400, html:not(.dark) .text-rose-400 {
-      color: #E11D48 !important;
-    }
-
-    html.light .bg-amber-950\/80, html:not(.dark) .bg-amber-950\/80 {
-      background-color: #FFFBEB !important;
-      border-color: #FDE68A !important;
-    }
-    html.light .text-amber-400, html:not(.dark) .text-amber-400 {
-      color: #D97706 !important;
-    }
-
-    /* Form Controls */
-    html.light input[type="text"], html:not(.dark) input[type="text"],
-    html.light input[type="password"], html:not(.dark) input[type="password"],
-    html.light textarea, html:not(.dark) textarea,
-    html.light select, html:not(.dark) select {
-      background-color: #FFFFFF !important;
-      color: #0F172A !important;
-      border-color: #CBD5E1 !important;
-    }
-    html.light input::placeholder, html:not(.dark) input::placeholder,
-    html.light textarea::placeholder, html:not(.dark) textarea::placeholder {
-      color: #94A3B8 !important;
-    }
-
-    html.light input[type="range"], html:not(.dark) input[type="range"] {
-      background-color: #E2E8F0 !important;
-    }
-
-    /* Modals in Light Mode */
-    html.light #modal-api-keys, html:not(.dark) #modal-api-keys,
-    html.light #modal-profile, html:not(.dark) #modal-profile {
-      background-color: rgba(15, 23, 42, 0.45) !important;
-    }
-
-    /* Scrollbars in Light Mode */
-    html.light ::-webkit-scrollbar-track, html:not(.dark) ::-webkit-scrollbar-track {
-      background: #F1F5F9;
-    }
-    html.light ::-webkit-scrollbar-thumb, html:not(.dark) ::-webkit-scrollbar-thumb {
-      background: #CBD5E1;
-    }
-    html.light ::-webkit-scrollbar-thumb:hover, html:not(.dark) ::-webkit-scrollbar-thumb:hover {
-      background: #94A3B8;
-    }
-
-    /* Prose / Markdown in Light Mode */
-    html.light .prose-content pre, html:not(.dark) .prose-content pre {
-      background: #0F172A !important;
-      color: #E2E8F0 !important;
-      border-color: #1E293B !important;
-    }
-    html.light .prose-content code, html:not(.dark) .prose-content code {
-      background: #EEF2FF !important;
-      color: #4F46E5 !important;
-      border: 1px solid #E0E7FF !important;
-    }
-    html.light .prose-content pre code, html:not(.dark) .prose-content pre code {
-      background: transparent !important;
-      color: inherit !important;
-      border: none !important;
-    }
-    html.light .prose-content h1, html:not(.dark) .prose-content h1,
-    html.light .prose-content h2, html:not(.dark) .prose-content h2,
-    html.light .prose-content h3, html:not(.dark) .prose-content h3 {
-      color: #0F172A !important;
-    }
-    html.light .prose-content strong, html:not(.dark) .prose-content strong {
-      color: #0F172A !important;
     }
 
     .font-mono {
@@ -423,11 +221,7 @@
 
         <!-- Header Actions -->
         <div class="flex items-center space-x-3">
-          <button onclick="toggleTheme()" class="px-2.5 py-1 rounded-lg border border-slate-800 bg-slate-900/90 text-slate-300 hover:text-white hover:bg-slate-800 transition shadow-sm text-xs font-mono font-bold" title="Toggle Light / Dark Mode">
-            Theme
-          </button>
-
-          <button onclick="openApiKeysModal()" class="hidden sm:flex items-center space-x-1.5 px-3 py-1 rounded-lg border border-slate-800 bg-slate-900/90 hover:bg-slate-800 text-slate-300 text-xs font-mono font-medium transition shadow-sm">
+          <button onclick="openApiKeysModal()" class="hidden sm:flex items-center space-x-1.5 px-3 py-1.5 rounded-lg border border-slate-800 bg-slate-900/90 hover:bg-slate-800 text-slate-300 text-xs font-mono font-medium transition shadow-sm">
             <span>API Keys</span>
           </button>
 
@@ -565,7 +359,7 @@
         </div>
 
         <div class="flex items-center space-x-1.5">
-          <button onclick="openApiKeysModal()" title="Configure API Keys (Groq, Gemini, OpenRouter, OpenAI, DeepSeek, Anthropic)" class="p-1.5 rounded-lg bg-slate-800/80 hover:bg-slate-700 text-slate-300 border border-slate-700/60 transition text-xs flex items-center space-x-1">
+          <button onclick="openApiKeysModal()" title="Configure API Keys (Groq, Gemini, OpenRouter, OpenAI, DeepSeek)" class="p-1.5 rounded-lg bg-slate-800/80 hover:bg-slate-700 text-slate-300 border border-slate-700/60 transition text-xs flex items-center space-x-1">
             <span></span>
             <span class="text-[10px] font-mono font-semibold" id="api-status-badge">API</span>
           </button>
@@ -756,12 +550,6 @@
         </div>
 
         
-
-        <!-- Theme Toggle Button -->
-        <button id="theme-toggle-btn" onclick="toggleTheme()" class="text-xs px-2.5 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 transition font-mono flex items-center space-x-1.5 cursor-pointer shadow-sm" title="Toggle Light / Dark Theme">
-          <span id="theme-icon"></span>
-          <span id="theme-text" class="hidden sm:inline">Dark</span>
-        </button>
 
         <button onclick="clearChatHistory()" class="text-xs px-2.5 py-1 rounded-lg bg-slate-800/80 hover:bg-slate-700 text-slate-400 hover:text-white border border-slate-700/60 transition font-mono">
            Clear
@@ -1068,16 +856,6 @@
           <input type="password" id="key-deepseek" placeholder="sk-..." class="w-full bg-slate-950 border border-slate-800 rounded-xl p-2.5 text-white font-mono focus:border-cyan-500 focus:outline-none" />
           <p class="text-[10px] text-slate-500">Ultra low-cost high capability. Get key at <a href="https://platform.deepseek.com/api_keys" target="_blank" class="text-cyan-400 underline">platform.deepseek.com</a></p>
         </div>
-
-        <!-- Anthropic Claude API Key -->
-        <div class="space-y-1">
-          <div class="flex justify-between">
-            <label class="text-slate-300 font-bold">6. ANTHROPIC_API_KEY (Claude 3.5 Sonnet)</label>
-            <span id="badge-key-anthropic" class="text-[10px] text-slate-500">Not configured</span>
-          </div>
-          <input type="password" id="key-anthropic" placeholder="sk-ant-..." class="w-full bg-slate-950 border border-slate-800 rounded-xl p-2.5 text-white font-mono focus:border-cyan-500 focus:outline-none" />
-          <p class="text-[10px] text-slate-500">Frontier reference intelligence. Get key at <a href="https://console.anthropic.com/" target="_blank" class="text-cyan-400 underline">console.anthropic.com</a></p>
-        </div>
       </div>
 
       <div class="flex justify-end space-x-2 pt-2 border-t border-slate-800">
@@ -1117,34 +895,19 @@
       inFlightRequest: false
     };
 
-    // --- THEME MANAGEMENT ---
+    // --- THEME MANAGEMENT (PERMANENT DARK MODE) ---
     function initTheme() {
-      const saved = localStorage.getItem('routeiq_theme') || 'light';
-      applyTheme(saved);
+      document.documentElement.classList.remove('light');
+      document.documentElement.classList.add('dark');
+      localStorage.setItem('routeiq_theme', 'dark');
     }
 
     function toggleTheme() {
-      const isDark = document.documentElement.classList.contains('dark');
-      const nextTheme = isDark ? 'light' : 'dark';
-      applyTheme(nextTheme);
-      localStorage.setItem('routeiq_theme', nextTheme);
+      initTheme();
     }
 
-    function applyTheme(theme) {
-      const html = document.documentElement;
-      const themeIcon = document.getElementById('theme-icon');
-      const themeText = document.getElementById('theme-text');
-      if (theme === 'dark') {
-        html.classList.remove('light');
-        html.classList.add('dark');
-        if (themeIcon) themeIcon.textContent = '';
-        if (themeText) themeText.textContent = 'Light';
-      } else {
-        html.classList.remove('dark');
-        html.classList.add('light');
-        if (themeIcon) themeIcon.textContent = '';
-        if (themeText) themeText.textContent = 'Dark';
-      }
+    function applyTheme() {
+      initTheme();
     }
 
     // Execute immediately to prevent flash
@@ -1381,7 +1144,6 @@
       const oBadge = document.getElementById('badge-key-openrouter');
       const openAiBadge = document.getElementById('badge-key-openai');
       const dsBadge = document.getElementById('badge-key-deepseek');
-      const aBadge = document.getElementById('badge-key-anthropic');
       const topBadge = document.getElementById('api-status-badge');
 
       let configuredCount = 0;
@@ -1390,7 +1152,6 @@
       if (keys.OPENROUTER_API_KEY) { if (oBadge) { oBadge.textContent = 'Verified Configured'; oBadge.className = 'text-[10px] text-emerald-400 font-bold'; } configuredCount++; }
       if (keys.OPENAI_API_KEY) { if (openAiBadge) { openAiBadge.textContent = 'Verified Configured'; openAiBadge.className = 'text-[10px] text-emerald-400 font-bold'; } configuredCount++; }
       if (keys.DEEPSEEK_API_KEY) { if (dsBadge) { dsBadge.textContent = 'Verified Configured'; dsBadge.className = 'text-[10px] text-emerald-400 font-bold'; } configuredCount++; }
-      if (keys.ANTHROPIC_API_KEY) { if (aBadge) { aBadge.textContent = 'Verified Configured'; aBadge.className = 'text-[10px] text-emerald-400 font-bold'; } configuredCount++; }
 
       if (topBadge) {
         topBadge.textContent = configuredCount > 0 ? `API (${configuredCount})` : 'API';
@@ -1414,13 +1175,11 @@
       const o = document.getElementById('key-openrouter')?.value.trim();
       const openAi = document.getElementById('key-openai')?.value.trim();
       const ds = document.getElementById('key-deepseek')?.value.trim();
-      const a = document.getElementById('key-anthropic')?.value.trim();
       if (g) payload.GROQ_API_KEY = g;
       if (m) payload.GEMINI_API_KEY = m;
       if (o) payload.OPENROUTER_API_KEY = o;
       if (openAi) payload.OPENAI_API_KEY = openAi;
       if (ds) payload.DEEPSEEK_API_KEY = ds;
-      if (a) payload.ANTHROPIC_API_KEY = a;
 
       try {
         const resp = await fetch('/keys', {

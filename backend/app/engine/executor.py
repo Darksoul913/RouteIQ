@@ -30,7 +30,7 @@ def compute_cost_matrix(
     Evaluates savings relative to the chosen model and frontier baseline.
     """
     breakdown = []
-    frontier_model = next((m for m in models if "sonnet" in m["id"] or m.get("endpoint_type") == "cloud_frontier"), None)
+    frontier_model = next((m for m in models if m.get("tier") == "hard"), None)
     if not frontier_model:
         frontier_model = max(models, key=lambda m: m.get("output_cost_per_1k", 0.0))
 
@@ -189,37 +189,7 @@ class ResilientExecutor:
             except Exception:
                 return None
 
-        # 4. Anthropic Claude API
-        anthropic_key = os.environ.get("ANTHROPIC_API_KEY")
-        if (provider == "anthropic" or "claude" in model_id) and anthropic_key:
-            target_model = api_model_name or "claude-3-5-sonnet-20241022"
-            try:
-                req_data = json.dumps({
-                    "model": target_model,
-                    "messages": [{"role": "user", "content": prompt}],
-                    "max_tokens": 300
-                }).encode("utf-8")
-                req = urllib.request.Request(
-                    "https://api.anthropic.com/v1/messages",
-                    data=req_data,
-                    headers={
-                        "Content-Type": "application/json",
-                        "x-api-key": anthropic_key,
-                        "anthropic-version": "2023-06-01"
-                    },
-                    method="POST"
-                )
-                with urllib.request.urlopen(req, timeout=timeout_sec) as resp:
-                    data = json.loads(resp.read().decode("utf-8"))
-                    choice = data["content"][0]["text"]
-                    usage = data.get("usage", {})
-                    t_in = usage.get("input_tokens", max(10, len(prompt.split()) * 2))
-                    t_out = usage.get("output_tokens", max(10, len(choice.split()) * 2))
-                    return choice, t_in, t_out, f"[LIVE API: ANTHROPIC ({target_model})]"
-            except Exception:
-                return None
-
-        # 5. OpenAI API
+        # 4. OpenAI API
         openai_key = os.environ.get("OPENAI_API_KEY")
         if (provider == "openai" or "openai" in model_id) and openai_key:
             target_model = api_model_name or "gpt-4o-mini"

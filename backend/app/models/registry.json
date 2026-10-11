@@ -134,21 +134,5 @@
     "api_model_name": "deepseek-chat",
     "env_key": "DEEPSEEK_API_KEY",
     "simulated": false
-  },
-  {
-    "id": "claude-3.5-sonnet-sim",
-    "name": "Claude 3.5 Sonnet (Frontier Reference)",
-    "family": "Anthropic",
-    "tier": "hard",
-    "context_window": 200000,
-    "capability_score": 0.98,
-    "input_cost_per_1k": 0.003,
-    "output_cost_per_1k": 0.015,
-    "base_latency_ms": 1200,
-    "endpoint_type": "cloud_frontier",
-    "api_provider": "anthropic",
-    "api_model_name": "claude-3-5-sonnet-20241022",
-    "env_key": "ANTHROPIC_API_KEY",
-    "simulated": true
   }
 ]
