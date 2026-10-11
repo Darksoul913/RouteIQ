@@ -122,9 +122,15 @@ Executes all 8 formal acceptance tests and 1,000 randomized property tests verif
 ```
 Runs a side-by-side simulation comparing RouteIQ against Always Strongest and Always Cheapest.
 
+### 4. Run Model Benchmark Capability Evaluator
+```bash
+./run.sh --eval
+```
+Evaluates all 30 checkable benchmark tasks across models and reports pass rate, latency, and cost.
+
 ---
 
-## 🎯 Verification Matrix: Acceptance Tests (T1 to T8)
+## 🎯 Verification Matrix: Acceptance Tests (T1 to T12)
 
 All acceptance tests are implemented in `backend/tests/test_acceptance.py`:
 
@@ -138,6 +144,10 @@ All acceptance tests are implemented in `backend/tests/test_acceptance.py`:
 | **T6** | `test_T6_low_confidence_raises_tier` | When estimator confidence < 0.70 or disagreement occurs, tier is safely elevated (`easy` $\to$ `medium`, min capability 0.65). | **PASSED** |
 | **T7** | `test_T7_deterministic_replay` | Identical prompt, parameters, and system state yield exact same candidates evaluation, ranking, and chosen model. | **PASSED** |
 | **T8** | `test_T8_independent_auditor_reports_zero_violations` | Decoupled auditor verifies latency, cost, capability, and context across requests; 0 violations reported. | **PASSED** |
+| **T9** | `test_T9_api_gateway_refusal_auditor_records_zero_violations` | End-to-end API gateway refusal correctly verified as compliant with 0 violations in the cryptographic SQLite ledger. | **PASSED** |
+| **T10** | `test_T10_tamper_detection_in_hash_chain` | Modifying any historic audit record immediately corrupts the SHA-256 hash chain and is flagged by `verify_chain_integrity()`. | **PASSED** |
+| **T11** | `test_T11_genuine_breach_detection` | Auditor sensitivity: genuine SLA breaches (latency > max+5, cost > max*1.01, etc.) are strictly flagged and itemized. | **PASSED** |
+| **T12** | `test_T12_output_token_budget_preservation` | Output token budget is respected by the executor, preventing artificial cost overruns under tight cost limits. | **PASSED** |
 
 ### 1,000 Randomized Property Invariant Tests (`backend/tests/test_property_1000.py`)
 ```
