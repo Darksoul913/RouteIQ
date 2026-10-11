@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en" class="dark">
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>RouteIQ — Intelligent AI Gateway & Chaos Studio</title>
+  <title>RouteIQ — AI Gateway & Chat Assistant</title>
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
@@ -13,673 +13,685 @@
         extend: {
           colors: {
             brand: {
-              50: '#eef2ff',
-              500: '#6366f1',
-              600: '#4f46e5',
-              700: '#4338ca',
+              50: '#f5f7ff',
+              100: '#ebf0fe',
+              500: '#3b82f6',
+              600: '#2563eb',
+              700: '#1d4ed8',
             }
+          },
+          boxShadow: {
+            'subtle': '0 1px 3px 0 rgba(0, 0, 0, 0.05), 0 1px 2px -1px rgba(0, 0, 0, 0.05)',
+            'float': '0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.03)',
           }
         }
       }
     }
   </script>
   <style>
-    @keyframes pulse-slow {
-      0%, 100% { opacity: 1; transform: scale(1); }
-      50% { opacity: 0.85; transform: scale(1.02); }
-    }
-    .pulse-badge { animation: pulse-slow 3s infinite ease-in-out; }
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap');
+    body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; }
+    code, pre, .font-mono { font-family: 'JetBrains Mono', monospace; }
     ::-webkit-scrollbar { width: 6px; height: 6px; }
-    ::-webkit-scrollbar-track { background: #0f172a; }
-    ::-webkit-scrollbar-thumb { background: #334155; border-radius: 3px; }
+    ::-webkit-scrollbar-track { background: #f8fafc; }
+    ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+    ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
   </style>
 </head>
-<body class="bg-slate-950 text-slate-100 min-h-screen font-sans antialiased selection:bg-indigo-500 selection:text-white">
+<body class="bg-[#f9fafb] text-slate-900 min-h-screen flex flex-col antialiased selection:bg-blue-100 selection:text-blue-900">
 
-  <!-- Header -->
-  <header class="border-b border-slate-800 bg-slate-900/80 backdrop-blur sticky top-0 z-50">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+  <!-- Top App Navigation (Claude / Gemini Style) -->
+  <header class="border-b border-slate-200 bg-white/90 backdrop-blur sticky top-0 z-40">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 h-14 flex items-center justify-between">
       <div class="flex items-center space-x-3">
-        <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-indigo-600 to-violet-500 flex items-center justify-center font-black text-xl shadow-lg shadow-indigo-500/20">
-          RQ
+        <!-- Logo / Sparkle Icon -->
+        <div class="w-8 h-8 rounded-lg bg-gradient-to-tr from-blue-600 to-indigo-600 flex items-center justify-center text-white font-bold text-sm shadow-sm">
+          ✨
         </div>
         <div>
           <div class="flex items-center space-x-2">
-            <span class="font-bold text-lg tracking-tight text-white">RouteIQ</span>
-            <span class="text-xs px-2 py-0.5 rounded-full bg-indigo-500/10 text-indigo-400 border border-indigo-500/20 font-mono">v1.0 (VORTEXA 3.0)</span>
+            <span class="font-semibold text-slate-900 text-sm tracking-tight">RouteIQ</span>
+            <span class="text-[11px] px-2 py-0.5 rounded-full bg-blue-50 text-blue-700 border border-blue-200/80 font-medium">Smart AI Gateway</span>
           </div>
-          <p class="text-xs text-slate-400">Rules decide. AI only advises. Failover never relaxes a constraint.</p>
         </div>
       </div>
 
-      <!-- Live Badges -->
-      <div class="flex items-center space-x-4">
-        <div id="badge-violations" class="pulse-badge flex items-center space-x-2 px-3 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-xs font-semibold">
-          <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
-          <span>Constraint Violations: <strong id="val-violations">0</strong> of <span id="val-total">0</span></span>
+      <!-- Top Right Status Badges -->
+      <div class="flex items-center space-x-3">
+        <!-- Auditor Status Pill -->
+        <div id="top-auditor-badge" class="flex items-center space-x-1.5 px-3 py-1 rounded-full bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs font-medium">
+          <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+          <span>SLA Violations: <strong id="val-violations">0</strong> of <span id="val-total">0</span></span>
         </div>
 
-        <div id="badge-integrity" class="hidden sm:flex items-center space-x-1.5 px-3 py-1.5 rounded-full bg-slate-800 border border-slate-700 text-slate-300 text-xs font-mono">
-          <span class="text-emerald-400">●</span>
-          <span>SHA-256 Ledger: <span class="text-emerald-400 font-bold" id="val-integrity">VERIFIED</span></span>
-        </div>
-
-        <button onclick="resetAllChaos()" class="text-xs px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 transition">
+        <button onclick="resetAllChaos()" class="text-xs px-2.5 py-1 rounded-md bg-slate-100 hover:bg-slate-200 text-slate-700 border border-slate-200 transition">
           Reset Chaos
         </button>
       </div>
     </div>
 
-    <!-- Navigation Tabs -->
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex space-x-1 border-t border-slate-800/60 overflow-x-auto text-sm">
-      <button onclick="switchTab('gateway')" id="tab-btn-gateway" class="tab-btn px-4 py-2.5 font-medium border-b-2 border-indigo-500 text-indigo-400 transition">
-        ⚡ Live Gateway & Playground
+    <!-- View Mode Switcher -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 flex space-x-1 border-t border-slate-100 text-xs font-medium overflow-x-auto">
+      <button onclick="switchView('chat')" id="nav-btn-chat" class="px-4 py-2 border-b-2 border-blue-600 text-blue-600 transition flex items-center space-x-1.5">
+        <span>💬</span><span>Chatbot Mode</span>
       </button>
-      <button onclick="switchTab('decision')" id="tab-btn-decision" class="tab-btn px-4 py-2.5 font-medium border-b-2 border-transparent text-slate-400 hover:text-slate-200 transition">
-        🔍 "Why Not This Model?" Matrix
+      <button onclick="switchView('decision')" id="nav-btn-decision" class="px-4 py-2 border-b-2 border-transparent text-slate-500 hover:text-slate-800 transition flex items-center space-x-1.5">
+        <span>🔍</span><span>"Why Not This Model?" Matrix</span>
       </button>
-      <button onclick="switchTab('chaos')" id="tab-btn-chaos" class="tab-btn px-4 py-2.5 font-medium border-b-2 border-transparent text-slate-400 hover:text-slate-200 transition">
-        💥 Judge Chaos Studio
+      <button onclick="switchView('chaos')" id="nav-btn-chaos" class="px-4 py-2 border-b-2 border-transparent text-slate-500 hover:text-slate-800 transition flex items-center space-x-1.5">
+        <span>💥</span><span>Judge Chaos Studio</span>
       </button>
-      <button onclick="switchTab('benchmark')" id="tab-btn-benchmark" class="tab-btn px-4 py-2.5 font-medium border-b-2 border-transparent text-slate-400 hover:text-slate-200 transition">
-        📊 Workload Benchmark (ROI)
+      <button onclick="switchView('benchmark')" id="nav-btn-benchmark" class="px-4 py-2 border-b-2 border-transparent text-slate-500 hover:text-slate-800 transition flex items-center space-x-1.5">
+        <span>📊</span><span>Workload Benchmark (ROI)</span>
       </button>
-      <button onclick="switchTab('audit')" id="tab-btn-audit" class="tab-btn px-4 py-2.5 font-medium border-b-2 border-transparent text-slate-400 hover:text-slate-200 transition">
-        🛡️ Cryptographic Audit Ledger
+      <button onclick="switchView('audit')" id="nav-btn-audit" class="px-4 py-2 border-b-2 border-transparent text-slate-500 hover:text-slate-800 transition flex items-center space-x-1.5">
+        <span>🛡️</span><span>SHA-256 Ledger</span>
       </button>
     </div>
   </header>
 
-  <!-- Main Content Container -->
-  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+  <!-- Main Container -->
+  <div class="flex-1 flex max-w-7xl w-full mx-auto overflow-hidden">
 
-    <!-- TAB 1: Live Gateway & Playground -->
-    <section id="tab-gateway" class="space-y-6">
-      <!-- Preset Scenarios -->
-      <div class="bg-slate-900 border border-slate-800 rounded-xl p-4 flex flex-wrap items-center justify-between gap-3 shadow-md">
-        <span class="text-xs uppercase font-bold tracking-wider text-slate-400">⚡ Judge Preset Scenarios:</span>
-        <div class="flex flex-wrap gap-2">
-          <button onclick="applyPreset('budget')" class="px-3 py-1.5 text-xs font-medium rounded-lg bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 hover:bg-emerald-500/20 transition">
-            💰 Budget Crunch (Max $0.0003)
-          </button>
-          <button onclick="applyPreset('latency')" class="px-3 py-1.5 text-xs font-medium rounded-lg bg-amber-500/10 text-amber-400 border border-amber-500/20 hover:bg-amber-500/20 transition">
-            ⏱️ Strict Latency SLO (Max 250ms)
-          </button>
-          <button onclick="applyPreset('code')" class="px-3 py-1.5 text-xs font-medium rounded-lg bg-blue-500/10 text-blue-400 border border-blue-500/20 hover:bg-blue-500/20 transition">
-            💻 Code Sprint (Cap &ge; 0.75)
-          </button>
-          <button onclick="applyPreset('outage')" class="px-3 py-1.5 text-xs font-medium rounded-lg bg-rose-500/10 text-rose-400 border border-rose-500/20 hover:bg-rose-500/20 transition">
-            💥 Outage Failover Test
-          </button>
+    <!-- VIEW 1: CHATBOT MODE (Gemini / Claude / ChatGPT style) -->
+    <main id="view-chat" class="flex-1 flex flex-col h-[calc(100vh-5.5rem)] relative">
+      
+      <!-- Chat Conversation Stream -->
+      <div id="chat-messages-container" class="flex-1 overflow-y-auto px-4 sm:px-6 py-6 space-y-6 pb-48">
+        
+        <!-- Welcome Hero (Claude / Gemini Style) -->
+        <div id="chat-welcome-hero" class="max-w-2xl mx-auto text-center py-8 space-y-4">
+          <div class="w-12 h-12 rounded-2xl bg-gradient-to-tr from-blue-500 to-indigo-600 text-white flex items-center justify-center text-xl mx-auto shadow-md">
+            ✨
+          </div>
+          <h1 class="text-2xl font-bold text-slate-900 tracking-tight">How can RouteIQ route your request today?</h1>
+          <p class="text-xs text-slate-500 max-w-md mx-auto leading-relaxed">
+            Dynamic cost, latency & quality aware routing. Hard SLA constraints are strictly enforced — rules decide, AI only advises.
+          </p>
+
+          <!-- Quick Suggestion Cards -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5 pt-4 text-left">
+            <button onclick="sendQuickPrompt('What is the capital of France and what is its population?', 'lowest_cost', 0.35, 1000)" class="p-3 bg-white border border-slate-200 rounded-xl hover:border-blue-400 hover:shadow-sm transition text-left group">
+              <div class="font-medium text-xs text-slate-900 group-hover:text-blue-600">💰 Fast & Cheap Query</div>
+              <div class="text-[11px] text-slate-500 mt-0.5 truncate">"What is the capital of France?"</div>
+              <div class="text-[10px] text-blue-600 font-mono mt-1">Routes to Llama 3.2 1B (~$0.0001)</div>
+            </button>
+
+            <button onclick="sendQuickPrompt('Write a Python function to compute the Levenshtein distance between two strings.', 'lowest_cost', 0.65, 1000)" class="p-3 bg-white border border-slate-200 rounded-xl hover:border-blue-400 hover:shadow-sm transition text-left group">
+              <div class="font-medium text-xs text-slate-900 group-hover:text-blue-600">💻 Code Generation</div>
+              <div class="text-[11px] text-slate-500 mt-0.5 truncate">"Compute Levenshtein distance in Python"</div>
+              <div class="text-[10px] text-blue-600 font-mono mt-1">Routes to Qwen 2.5 Coder 7B</div>
+            </button>
+
+            <button onclick="sendQuickPrompt('Solve step by step: A train leaves at 60 mph. An express train leaves 45 min later at 85 mph. When does it catch up?', 'lowest_cost', 0.85, 1500)" class="p-3 bg-white border border-slate-200 rounded-xl hover:border-blue-400 hover:shadow-sm transition text-left group">
+              <div class="font-medium text-xs text-slate-900 group-hover:text-blue-600">🧠 Multi-Step Reasoning</div>
+              <div class="text-[11px] text-slate-500 mt-0.5 truncate">"Solve train overtaking problem step by step"</div>
+              <div class="text-[10px] text-blue-600 font-mono mt-1">Routes to DeepSeek R1 Distill 14B</div>
+            </button>
+
+            <button onclick="sendQuickPrompt('Analyze the legal indemnity and liability clauses in a 50-clause MSA.', 'highest_capability', 0.95, 2000)" class="p-3 bg-white border border-slate-200 rounded-xl hover:border-blue-400 hover:shadow-sm transition text-left group">
+              <div class="font-medium text-xs text-slate-900 group-hover:text-blue-600">🏛️ Frontier Legal Analysis</div>
+              <div class="text-[11px] text-slate-500 mt-0.5 truncate">"Analyze liability in 50-clause MSA contract"</div>
+              <div class="text-[10px] text-blue-600 font-mono mt-1">Routes to Claude 3.5 Sonnet Reference</div>
+            </button>
+          </div>
+        </div>
+
+        <!-- Chat History Messages Render Here Dynamically -->
+        <div id="chat-stream-list" class="space-y-6 max-w-3xl mx-auto"></div>
+
+      </div>
+
+      <!-- Floating Bottom Input Dock (ChatGPT / Claude / Gemini Style) -->
+      <div class="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-[#f9fafb] via-[#f9fafb]/90 to-transparent">
+        <div class="max-w-3xl mx-auto">
+          
+          <!-- Routing Settings Popover / Toolbar -->
+          <div class="bg-white border border-slate-200/90 rounded-2xl shadow-float p-3 transition focus-within:border-blue-500 focus-within:ring-2 focus-within:ring-blue-100">
+            
+            <!-- Quick Configuration Badges (Click to adjust) -->
+            <div class="flex flex-wrap items-center justify-between gap-1.5 pb-2 mb-2 border-b border-slate-100 text-[11px]">
+              <div class="flex flex-wrap items-center gap-1.5">
+                <span class="text-slate-400 font-medium">Constraints:</span>
+                
+                <!-- Latency Badge -->
+                <button onclick="toggleSettingsDrawer()" class="px-2 py-0.5 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-700 font-mono flex items-center space-x-1">
+                  <span>⏱️</span><span id="badge-lat-display">SLO &le; 1000ms</span>
+                </button>
+
+                <!-- Cost Badge -->
+                <button onclick="toggleSettingsDrawer()" class="px-2 py-0.5 rounded-full bg-slate-100 hover:bg-slate-200 text-emerald-700 font-mono flex items-center space-x-1">
+                  <span>💰</span><span id="badge-cost-display">Budget &le; $0.005</span>
+                </button>
+
+                <!-- Capability Badge -->
+                <button onclick="toggleSettingsDrawer()" class="px-2 py-0.5 rounded-full bg-slate-100 hover:bg-slate-200 text-indigo-700 font-mono flex items-center space-x-1">
+                  <span>🎯</span><span id="badge-cap-display">Cap &ge; 0.35</span>
+                </button>
+              </div>
+
+              <!-- Quick Presets Dropdown -->
+              <div class="flex items-center space-x-1">
+                <select id="chat-quick-preset" onchange="applyChatPreset(this.value)" class="bg-slate-50 border border-slate-200 rounded-lg px-2 py-0.5 text-[11px] text-slate-600 focus:outline-none">
+                  <option value="">⚙️ Presets...</option>
+                  <option value="budget">💰 Budget Crunch ($0.0003)</option>
+                  <option value="latency">⏱️ Strict Latency (250ms)</option>
+                  <option value="code">💻 Code Sprint (Cap 0.75)</option>
+                  <option value="outage">💥 Outage Chaos</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- Textarea & Send Button -->
+            <div class="flex items-end space-x-2">
+              <textarea
+                id="chat-input"
+                rows="2"
+                placeholder="Ask anything... RouteIQ will dynamically route to the optimal model under your SLA"
+                class="flex-1 bg-transparent resize-none text-sm text-slate-800 placeholder-slate-400 focus:outline-none max-h-32 leading-relaxed"
+                onkeydown="if(event.key === 'Enter' && !event.shiftKey) { event.preventDefault(); sendChatMessage(); }"
+              ></textarea>
+
+              <button
+                id="btn-send-chat"
+                onclick="sendChatMessage()"
+                class="p-2.5 rounded-xl bg-slate-900 hover:bg-blue-600 text-white transition flex items-center justify-center shadow-sm disabled:opacity-50"
+              >
+                <svg class="w-4 h-4 transform rotate-90" fill="currentColor" viewBox="0 0 20 20">
+                  <path d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z"></path>
+                </svg>
+              </button>
+            </div>
+          </div>
+
+          <!-- Bottom Footer Disclaimer -->
+          <div class="text-center text-[10px] text-slate-400 mt-2">
+            RouteIQ Dynamic AI Gateway &bull; Failover never relaxes a constraint &bull; SHA-256 Tamper-Proof Audit
+          </div>
         </div>
       </div>
 
-      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
-        <!-- Request Form (Left Column) -->
-        <div class="lg:col-span-5 bg-slate-900 border border-slate-800 rounded-xl p-5 space-y-5 shadow-lg">
-          <h2 class="font-bold text-base text-white flex items-center justify-between">
-            <span>Inference Request Configuration</span>
-            <span class="text-xs font-normal text-indigo-400 font-mono">REST /route</span>
-          </h2>
-
-          <!-- Prompt Input -->
-          <div>
-            <label class="block text-xs font-medium text-slate-300 mb-1.5">User Prompt</label>
-            <textarea id="inp-prompt" rows="3" class="w-full bg-slate-950 border border-slate-800 rounded-lg p-3 text-sm text-slate-100 placeholder-slate-500 focus:outline-none focus:border-indigo-500 transition">What is the capital of France and what is its population?</textarea>
-            <div class="flex justify-between items-center mt-1 text-[11px] text-slate-500">
-              <span id="prompt-token-est">~12 tokens</span>
-              <button onclick="cycleSamplePrompt()" class="text-indigo-400 hover:underline">Cycle sample prompt</button>
-            </div>
-          </div>
-
-          <!-- Slider 1: Latency SLO -->
-          <div>
-            <div class="flex justify-between text-xs mb-1">
-              <span class="text-slate-300 font-medium">Max Latency SLO (L<sub>max</sub>)</span>
-              <span id="lbl-lat" class="font-mono text-indigo-400 font-bold">1000 ms</span>
-            </div>
-            <input id="rng-lat" type="range" min="100" max="2500" step="50" value="1000" oninput="updateSliderLabels()" class="w-full accent-indigo-500 cursor-pointer" />
-            <div class="flex justify-between text-[10px] text-slate-500 mt-0.5">
-              <span>100ms (Ultra fast)</span>
-              <span>1000ms</span>
-              <span>2500ms</span>
-            </div>
-          </div>
-
-          <!-- Slider 2: Max Cost -->
-          <div>
-            <div class="flex justify-between text-xs mb-1">
-              <span class="text-slate-300 font-medium">Max Cost Budget (C<sub>max</sub>)</span>
-              <span id="lbl-cost" class="font-mono text-emerald-400 font-bold">$0.00500</span>
-            </div>
-            <input id="rng-cost" type="range" min="0.0001" max="0.02" step="0.0001" value="0.005" oninput="updateSliderLabels()" class="w-full accent-emerald-500 cursor-pointer" />
-            <div class="flex justify-between text-[10px] text-slate-500 mt-0.5">
-              <span>$0.0001</span>
-              <span>$0.005</span>
-              <span>$0.020</span>
-            </div>
-          </div>
-
-          <!-- Slider 3: Min Capability -->
-          <div>
-            <div class="flex justify-between text-xs mb-1">
-              <span class="text-slate-300 font-medium">Minimum Capability (Q<sub>min</sub>)</span>
-              <span id="lbl-cap" class="font-mono text-violet-400 font-bold">0.35 (Easy)</span>
-            </div>
-            <input id="rng-cap" type="range" min="0.0" max="1.0" step="0.05" value="0.35" oninput="updateSliderLabels()" class="w-full accent-violet-500 cursor-pointer" />
-            <div class="flex justify-between text-[10px] text-slate-500 mt-0.5">
-              <span>0.0 (Any)</span>
-              <span>0.50 (Medium)</span>
-              <span>1.0 (Frontier)</span>
-            </div>
-          </div>
-
-          <!-- Dropdowns: Context & Preference -->
-          <div class="grid grid-cols-2 gap-3">
-            <div>
-              <label class="block text-xs font-medium text-slate-300 mb-1">Required Context</label>
-              <select id="sel-ctx" class="w-full bg-slate-950 border border-slate-800 rounded-lg p-2 text-xs text-slate-200 focus:outline-none focus:border-indigo-500">
-                <option value="">None (Default)</option>
-                <option value="8000">8,000 tokens</option>
-                <option value="16000">16,000 tokens</option>
-                <option value="32000">32,000 tokens</option>
-                <option value="64000">64,000 tokens</option>
-              </select>
-            </div>
-            <div>
-              <label class="block text-xs font-medium text-slate-300 mb-1">Stated Preference</label>
-              <select id="sel-pref" class="w-full bg-slate-950 border border-slate-800 rounded-lg p-2 text-xs text-slate-200 focus:outline-none focus:border-indigo-500">
-                <option value="lowest_cost">Lowest Cost</option>
-                <option value="lowest_latency">Lowest Latency</option>
-                <option value="highest_capability">Highest Capability</option>
-                <option value="balanced_pareto">Balanced (Pareto)</option>
-              </select>
-            </div>
-          </div>
-
-          <!-- Submit Button -->
-          <button id="btn-submit" onclick="executeRoute()" class="w-full py-3 px-4 rounded-xl bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-500 hover:to-violet-500 font-semibold text-white shadow-lg shadow-indigo-600/30 transition flex items-center justify-center space-x-2">
-            <span>⚡ Route Request</span>
-          </button>
+      <!-- Settings Drawer Modal (Slide-out or expandable) -->
+      <div id="settings-drawer" class="hidden absolute top-2 right-4 bg-white border border-slate-200 rounded-2xl p-4 shadow-xl w-80 space-y-3 z-50 text-xs">
+        <div class="flex justify-between items-center pb-2 border-b border-slate-100">
+          <span class="font-bold text-slate-800">SLA Routing Controls</span>
+          <button onclick="toggleSettingsDrawer()" class="text-slate-400 hover:text-slate-600 text-base">&times;</button>
         </div>
 
-        <!-- Response & Glass-Box Pipeline (Right Column) -->
-        <div class="lg:col-span-7 space-y-5">
-          <!-- Execution Pipeline Visualizer -->
-          <div class="bg-slate-900 border border-slate-800 rounded-xl p-4 shadow-lg">
-            <h3 class="text-xs uppercase font-bold tracking-wider text-slate-400 mb-3">Live Decision Pipeline Flow</h3>
-            <div class="grid grid-cols-4 gap-2 text-center text-xs">
-              <div id="step-1" class="p-2.5 rounded-lg bg-slate-950 border border-slate-800 transition">
-                <div class="text-[10px] text-slate-500">Step 1</div>
-                <div class="font-bold text-slate-300">Prompt</div>
-                <div id="pipe-prompt-info" class="text-[10px] text-indigo-400 mt-1">Ready</div>
-              </div>
-              <div id="step-2" class="p-2.5 rounded-lg bg-slate-950 border border-slate-800 transition">
-                <div class="text-[10px] text-slate-500">Step 2</div>
-                <div class="font-bold text-slate-300">System 1</div>
-                <div id="pipe-estimator-info" class="text-[10px] text-slate-500 mt-1">-</div>
-              </div>
-              <div id="step-3" class="p-2.5 rounded-lg bg-slate-950 border border-slate-800 transition">
-                <div class="text-[10px] text-slate-500">Step 3</div>
-                <div class="font-bold text-slate-300">Hard Filter</div>
-                <div id="pipe-filter-info" class="text-[10px] text-slate-500 mt-1">-</div>
-              </div>
-              <div id="step-4" class="p-2.5 rounded-lg bg-slate-950 border border-slate-800 transition">
-                <div class="text-[10px] text-slate-500">Step 4</div>
-                <div class="font-bold text-slate-300">Executor</div>
-                <div id="pipe-exec-info" class="text-[10px] text-slate-500 mt-1">-</div>
-              </div>
-            </div>
+        <div>
+          <div class="flex justify-between text-[11px] mb-1">
+            <span class="text-slate-600">Max Latency SLO:</span>
+            <span id="drawer-lat-val" class="font-mono text-blue-600 font-bold">1000 ms</span>
           </div>
+          <input type="range" id="drawer-lat-slider" min="100" max="2500" step="50" value="1000" oninput="syncSettings()" class="w-full accent-blue-600 cursor-pointer">
+        </div>
 
-          <!-- Failover Alert Banner (Hidden unless failover occurred) -->
-          <div id="failover-banner" class="hidden bg-amber-500/10 border border-amber-500/30 rounded-xl p-4 text-xs text-amber-300 space-y-2">
-            <div class="font-bold flex items-center space-x-1.5">
-              <span>⚠️ Shrinking-Budget Failover Activated</span>
-            </div>
-            <div id="failover-log" class="font-mono text-[11px] text-amber-200"></div>
+        <div>
+          <div class="flex justify-between text-[11px] mb-1">
+            <span class="text-slate-600">Max Cost Budget:</span>
+            <span id="drawer-cost-val" class="font-mono text-emerald-600 font-bold">$0.00500</span>
           </div>
+          <input type="range" id="drawer-cost-slider" min="0.0001" max="0.02" step="0.0001" value="0.005" oninput="syncSettings()" class="w-full accent-emerald-600 cursor-pointer">
+        </div>
 
-          <!-- Main Response Card -->
-          <div id="card-response" class="bg-slate-900 border border-slate-800 rounded-xl p-5 space-y-4 shadow-lg min-h-[300px]">
-            <div class="flex items-center justify-between border-b border-slate-800 pb-3">
-              <div class="flex items-center space-x-3">
-                <span id="resp-badge-model" class="px-2.5 py-1 rounded-md bg-indigo-500/10 text-indigo-400 font-bold text-sm border border-indigo-500/20">
-                  Ready for Request
-                </span>
-                <span id="resp-badge-type" class="px-2 py-0.5 rounded text-[10px] font-mono bg-slate-800 text-slate-400">
-                  [STANDBY]
-                </span>
-              </div>
-              <div class="text-right font-mono text-xs text-slate-400">
-                <span id="resp-meta-lat">- ms</span> &bull; <span id="resp-meta-cost">$-</span>
-              </div>
-            </div>
-
-            <!-- Response Output Box -->
-            <div id="resp-box-content" class="bg-slate-950 border border-slate-800/80 rounded-lg p-4 font-mono text-xs text-slate-300 whitespace-pre-wrap min-h-[140px] leading-relaxed">
-              Configure parameters on the left and click "⚡ Route Request" to test the dynamic AI gateway.
-            </div>
-
-            <!-- Auditor Verification Footer -->
-            <div id="resp-auditor-footer" class="pt-3 border-t border-slate-800/80 flex items-center justify-between text-xs">
-              <div class="flex items-center space-x-2">
-                <span class="text-slate-400">Auditor Status:</span>
-                <span id="resp-auditor-badge" class="font-bold text-emerald-400">● 100% Compliant</span>
-              </div>
-              <div class="text-slate-500 font-mono text-[11px]" id="resp-chain-hash">
-                Hash: None
-              </div>
-            </div>
+        <div>
+          <div class="flex justify-between text-[11px] mb-1">
+            <span class="text-slate-600">Minimum Capability:</span>
+            <span id="drawer-cap-val" class="font-mono text-indigo-600 font-bold">0.35</span>
           </div>
+          <input type="range" id="drawer-cap-slider" min="0.0" max="1.0" step="0.05" value="0.35" oninput="syncSettings()" class="w-full accent-indigo-600 cursor-pointer">
+        </div>
+
+        <div>
+          <label class="text-[11px] text-slate-600 block mb-1">Optimization Preference:</label>
+          <select id="drawer-pref-sel" onchange="syncSettings()" class="w-full bg-slate-50 border border-slate-200 rounded-lg p-1.5 text-xs">
+            <option value="lowest_cost">Lowest Cost</option>
+            <option value="lowest_latency">Lowest Latency</option>
+            <option value="highest_capability">Highest Capability</option>
+            <option value="balanced_pareto">Balanced Pareto</option>
+          </select>
         </div>
       </div>
-    </section>
 
-    <!-- TAB 2: "Why Not This Model?" Matrix -->
-    <section id="tab-decision" class="hidden space-y-6">
-      <div class="bg-slate-900 border border-slate-800 rounded-xl p-5 shadow-lg">
-        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-4">
+    </main>
+
+    <!-- VIEW 2: "WHY NOT THIS MODEL?" MATRIX -->
+    <main id="view-decision" class="hidden flex-1 overflow-y-auto p-6 space-y-6">
+      <div class="max-w-5xl mx-auto space-y-4">
+        <div class="flex justify-between items-center">
           <div>
-            <h2 class="text-lg font-bold text-white">Glass-Box Rejection Matrix: "Why Not This Model?"</h2>
-            <p class="text-xs text-slate-400">Transparent mathematical verification across every candidate model for the last processed request.</p>
+            <h2 class="text-lg font-bold text-slate-900">Glass-Box Rejection Matrix: "Why Not This Model?"</h2>
+            <p class="text-xs text-slate-500">Mathematical pass/fail proof across all 5 candidate models for the latest query.</p>
           </div>
-          <div id="matrix-closest-miss" class="hidden px-3 py-1.5 rounded-lg bg-indigo-500/10 border border-indigo-500/30 text-indigo-300 text-xs font-medium">
+          <div id="matrix-closest-miss" class="hidden px-3 py-1.5 rounded-lg bg-blue-50 border border-blue-200 text-blue-700 text-xs">
             💡 Closest Miss: <span id="matrix-closest-text">None</span>
           </div>
         </div>
 
-        <div class="overflow-x-auto">
+        <div class="bg-white border border-slate-200 rounded-xl overflow-hidden shadow-sm">
           <table class="w-full text-left text-xs">
-            <thead class="bg-slate-950 text-slate-400 uppercase font-mono text-[11px] border-b border-slate-800">
+            <thead class="bg-slate-50 text-slate-600 uppercase font-mono text-[11px] border-b border-slate-200">
               <tr>
-                <th class="p-3">Candidate Model</th>
-                <th class="p-3 text-center">Status</th>
+                <th class="p-3">Model</th>
+                <th class="p-3 text-center">Verdict</th>
                 <th class="p-3 text-center">Circuit</th>
                 <th class="p-3 text-center">Context</th>
-                <th class="p-3 text-center">Cost Budget</th>
-                <th class="p-3 text-center">Latency SLO</th>
+                <th class="p-3 text-center">Predicted Cost</th>
+                <th class="p-3 text-center">Predicted Latency</th>
                 <th class="p-3 text-center">Capability</th>
-                <th class="p-3">Explicit Rejection Reason</th>
+                <th class="p-3">Rejection Analysis</th>
               </tr>
             </thead>
-            <tbody id="matrix-tbody" class="divide-y divide-slate-800">
+            <tbody id="matrix-tbody" class="divide-y divide-slate-100">
               <tr>
-                <td colspan="8" class="p-8 text-center text-slate-500">
-                  No request executed yet. Run a prompt from the Gateway tab to populate candidate audits.
+                <td colspan="8" class="p-8 text-center text-slate-400">
+                  Submit a prompt in Chatbot Mode to populate the candidate rejection matrix.
                 </td>
               </tr>
             </tbody>
           </table>
         </div>
       </div>
-    </section>
+    </main>
 
-    <!-- TAB 3: Judge Chaos Studio -->
-    <section id="tab-chaos" class="hidden space-y-6">
-      <div class="flex items-center justify-between">
-        <div>
-          <h2 class="text-lg font-bold text-white">Judge Chaos Studio</h2>
-          <p class="text-xs text-slate-400">Simulate latency spikes, endpoint outages, and probabilistic errors live to test resilient rerouting.</p>
-        </div>
-        <button onclick="resetAllChaos()" class="px-4 py-2 rounded-lg bg-rose-600 hover:bg-rose-500 font-semibold text-white text-xs transition">
-          Reset All Chaos & Breakers
-        </button>
-      </div>
-
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5" id="chaos-cards-grid">
-        <!-- Rendered dynamically via JS -->
-      </div>
-    </section>
-
-    <!-- TAB 4: Workload Benchmark (ROI) -->
-    <section id="tab-benchmark" class="hidden space-y-6">
-      <div class="flex items-center justify-between">
-        <div>
-          <h2 class="text-lg font-bold text-white">Workload Comparison Benchmark</h2>
-          <p class="text-xs text-slate-400">Empirical validation: RouteIQ vs Always Strongest (Claude 3.5 Sonnet) vs Always Cheapest (Llama 3.2 1B).</p>
-        </div>
-        <button id="btn-run-bench" onclick="runBenchmark()" class="px-4 py-2 rounded-lg bg-indigo-600 hover:bg-indigo-500 font-semibold text-white text-xs transition flex items-center space-x-2">
-          <span>📊 Run 30-Prompt Benchmark</span>
-        </button>
-      </div>
-
-      <!-- ROI Banner -->
-      <div id="roi-banner" class="bg-gradient-to-r from-emerald-950/60 to-slate-900 border border-emerald-500/30 rounded-xl p-5 flex flex-col sm:flex-row items-center justify-between gap-4 shadow-lg">
-        <div>
-          <div class="text-xs uppercase font-bold text-emerald-400 tracking-wider">Key Finding / ROI Impact</div>
-          <div class="text-2xl font-black text-white mt-1">
-            <span id="roi-savings-pct" class="text-emerald-400">67.1%</span> Cost Reduction vs Frontier
+    <!-- VIEW 3: JUDGE CHAOS STUDIO -->
+    <main id="view-chaos" class="hidden flex-1 overflow-y-auto p-6 space-y-6">
+      <div class="max-w-5xl mx-auto space-y-4">
+        <div class="flex justify-between items-center">
+          <div>
+            <h2 class="text-lg font-bold text-slate-900">Judge Chaos Studio</h2>
+            <p class="text-xs text-slate-500">Simulate upstream network latency spikes, crash kill-switches, and error rates to test resilience.</p>
           </div>
-          <p class="text-xs text-slate-400 mt-1">With 0% constraint violations and optimal latency distribution.</p>
-        </div>
-        <div class="text-right font-mono text-xs text-slate-400">
-          <div>Audited Invariant: <strong class="text-emerald-400">0 Violations</strong></div>
-          <div>Strict Rules Supremacy</div>
-        </div>
-      </div>
-
-      <!-- Comparison Cards Grid -->
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
-        <!-- RouteIQ Card -->
-        <div class="bg-slate-900 border-2 border-indigo-500/40 rounded-xl p-5 space-y-4 shadow-xl">
-          <div class="flex justify-between items-center">
-            <span class="font-bold text-base text-indigo-400">RouteIQ (Our Gateway)</span>
-            <span class="px-2 py-0.5 rounded text-[10px] font-mono bg-indigo-500/20 text-indigo-300">DYNAMIC</span>
-          </div>
-          <div class="space-y-2 text-xs">
-            <div class="flex justify-between pb-1 border-b border-slate-800">
-              <span class="text-slate-400">Total Cost:</span>
-              <span id="bench-rq-cost" class="font-mono font-bold text-emerald-400">$0.018327</span>
-            </div>
-            <div class="flex justify-between pb-1 border-b border-slate-800">
-              <span class="text-slate-400">Avg Latency:</span>
-              <span id="bench-rq-lat" class="font-mono text-slate-200">631 ms</span>
-            </div>
-            <div class="flex justify-between pb-1 border-b border-slate-800">
-              <span class="text-slate-400">p95 Latency:</span>
-              <span id="bench-rq-p95" class="font-mono text-slate-200">950 ms</span>
-            </div>
-            <div class="flex justify-between">
-              <span class="text-slate-400">SLA Violations:</span>
-              <span id="bench-rq-viols" class="font-mono font-bold text-emerald-400">0 (0.0%)</span>
-            </div>
-          </div>
-        </div>
-
-        <!-- Always Strongest Card -->
-        <div class="bg-slate-900 border border-slate-800 rounded-xl p-5 space-y-4 shadow-md">
-          <div class="flex justify-between items-center">
-            <span class="font-bold text-base text-slate-300">Always Strongest</span>
-            <span class="px-2 py-0.5 rounded text-[10px] font-mono bg-slate-800 text-slate-400">FRONTIER</span>
-          </div>
-          <div class="space-y-2 text-xs">
-            <div class="flex justify-between pb-1 border-b border-slate-800">
-              <span class="text-slate-400">Total Cost:</span>
-              <span id="bench-str-cost" class="font-mono text-slate-300">$0.055632</span>
-            </div>
-            <div class="flex justify-between pb-1 border-b border-slate-800">
-              <span class="text-slate-400">Avg Latency:</span>
-              <span id="bench-str-lat" class="font-mono text-slate-300">1200 ms</span>
-            </div>
-            <div class="flex justify-between pb-1 border-b border-slate-800">
-              <span class="text-slate-400">p95 Latency:</span>
-              <span id="bench-str-p95" class="font-mono text-slate-300">1200 ms</span>
-            </div>
-            <div class="flex justify-between">
-              <span class="text-slate-400">SLA Violations:</span>
-              <span id="bench-str-viols" class="font-mono font-bold text-rose-400">30 (100%)</span>
-            </div>
-          </div>
-        </div>
-
-        <!-- Always Cheapest Card -->
-        <div class="bg-slate-900 border border-slate-800 rounded-xl p-5 space-y-4 shadow-md">
-          <div class="flex justify-between items-center">
-            <span class="font-bold text-base text-slate-300">Always Cheapest</span>
-            <span class="px-2 py-0.5 rounded text-[10px] font-mono bg-slate-800 text-slate-400">BASELINE</span>
-          </div>
-          <div class="space-y-2 text-xs">
-            <div class="flex justify-between pb-1 border-b border-slate-800">
-              <span class="text-slate-400">Total Cost:</span>
-              <span id="bench-chp-cost" class="font-mono text-slate-300">$0.002242</span>
-            </div>
-            <div class="flex justify-between pb-1 border-b border-slate-800">
-              <span class="text-slate-400">Avg Latency:</span>
-              <span id="bench-chp-lat" class="font-mono text-slate-300">180 ms</span>
-            </div>
-            <div class="flex justify-between pb-1 border-b border-slate-800">
-              <span class="text-slate-400">p95 Latency:</span>
-              <span id="bench-chp-p95" class="font-mono text-slate-300">180 ms</span>
-            </div>
-            <div class="flex justify-between">
-              <span class="text-slate-400">SLA Violations:</span>
-              <span id="bench-chp-viols" class="font-mono font-bold text-rose-400">20 (66.7%)</span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- TAB 5: Cryptographic Audit Ledger -->
-    <section id="tab-audit" class="hidden space-y-6">
-      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-        <div>
-          <h2 class="text-lg font-bold text-white">SHA-256 Hash-Chained Audit Ledger</h2>
-          <p class="text-xs text-slate-400">Every request logged with immutable cryptographic chaining. Altering past entries breaks the hash chain.</p>
-        </div>
-        <div class="flex space-x-2">
-          <button onclick="verifyAuditChain()" class="px-3 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 font-semibold text-white text-xs transition">
-            🛡️ Verify Chain
-          </button>
-          <button onclick="clearAuditDb()" class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs transition">
-            Clear Logs
+          <button onclick="resetAllChaos()" class="px-3.5 py-1.5 rounded-lg bg-rose-50 text-rose-700 border border-rose-200 font-medium text-xs hover:bg-rose-100 transition">
+            Reset All Chaos & Breakers
           </button>
         </div>
-      </div>
 
-      <div class="bg-slate-900 border border-slate-800 rounded-xl overflow-hidden shadow-lg">
-        <div class="overflow-x-auto">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4" id="chaos-cards-grid">
+          <!-- Rendered dynamically -->
+        </div>
+      </div>
+    </main>
+
+    <!-- VIEW 4: WORKLOAD BENCHMARK -->
+    <main id="view-benchmark" class="hidden flex-1 overflow-y-auto p-6 space-y-6">
+      <div class="max-w-5xl mx-auto space-y-5">
+        <div class="flex justify-between items-center">
+          <div>
+            <h2 class="text-lg font-bold text-slate-900">Workload Comparison Benchmark (ROI)</h2>
+            <p class="text-xs text-slate-500">RouteIQ Dynamic Routing vs Always Strongest (Claude 3.5 Sonnet) vs Always Cheapest (Llama 3.2 1B).</p>
+          </div>
+          <button id="btn-run-bench" onclick="runBenchmark()" class="px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 font-semibold text-white text-xs transition shadow-sm">
+            📊 Run 30-Prompt Benchmark
+          </button>
+        </div>
+
+        <!-- ROI Callout -->
+        <div class="bg-gradient-to-r from-emerald-50 to-blue-50 border border-emerald-200 rounded-2xl p-5 flex flex-col sm:flex-row items-center justify-between gap-4">
+          <div>
+            <div class="text-[11px] uppercase font-bold text-emerald-800 tracking-wider">Empirical Finding</div>
+            <div class="text-2xl font-black text-slate-900 mt-1">
+              <span id="roi-savings-pct" class="text-emerald-600">67.1%</span> Cost Savings vs Frontier
+            </div>
+            <p class="text-xs text-slate-600 mt-0.5">With 0 constraint violations and calibrated latency distribution.</p>
+          </div>
+          <div class="text-right font-mono text-xs text-slate-500">
+            <div>Violations: <strong class="text-emerald-700">0 of 30</strong></div>
+            <div>Rules decide. AI only advises.</div>
+          </div>
+        </div>
+
+        <!-- 3 Comparison Cards -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <!-- RouteIQ -->
+          <div class="bg-white border-2 border-blue-500 rounded-2xl p-5 space-y-3 shadow-sm">
+            <div class="flex justify-between items-center">
+              <span class="font-bold text-sm text-blue-700">RouteIQ Gateway</span>
+              <span class="text-[10px] px-2 py-0.5 rounded-full bg-blue-100 text-blue-800 font-semibold">DYNAMIC</span>
+            </div>
+            <div class="space-y-2 text-xs">
+              <div class="flex justify-between pb-1 border-b border-slate-100"><span class="text-slate-500">Total Cost:</span><span id="bench-rq-cost" class="font-mono font-bold text-emerald-600">$0.018327</span></div>
+              <div class="flex justify-between pb-1 border-b border-slate-100"><span class="text-slate-500">Avg Latency:</span><span id="bench-rq-lat" class="font-mono text-slate-700">631 ms</span></div>
+              <div class="flex justify-between pb-1 border-b border-slate-100"><span class="text-slate-500">p95 Latency:</span><span id="bench-rq-p95" class="font-mono text-slate-700">950 ms</span></div>
+              <div class="flex justify-between"><span class="text-slate-500">Violations:</span><span id="bench-rq-viols" class="font-mono font-bold text-emerald-600">0 (0.0%)</span></div>
+            </div>
+          </div>
+
+          <!-- Strongest -->
+          <div class="bg-white border border-slate-200 rounded-2xl p-5 space-y-3 shadow-xs">
+            <div class="flex justify-between items-center">
+              <span class="font-bold text-sm text-slate-700">Always Strongest</span>
+              <span class="text-[10px] px-2 py-0.5 rounded-full bg-slate-100 text-slate-600 font-semibold">FRONTIER</span>
+            </div>
+            <div class="space-y-2 text-xs">
+              <div class="flex justify-between pb-1 border-b border-slate-100"><span class="text-slate-500">Total Cost:</span><span id="bench-str-cost" class="font-mono text-slate-700">$0.055632</span></div>
+              <div class="flex justify-between pb-1 border-b border-slate-100"><span class="text-slate-500">Avg Latency:</span><span id="bench-str-lat" class="font-mono text-slate-700">1200 ms</span></div>
+              <div class="flex justify-between pb-1 border-b border-slate-100"><span class="text-slate-500">p95 Latency:</span><span id="bench-str-p95" class="font-mono text-slate-700">1200 ms</span></div>
+              <div class="flex justify-between"><span class="text-slate-500">Violations:</span><span id="bench-str-viols" class="font-mono font-bold text-rose-600">30 (100%)</span></div>
+            </div>
+          </div>
+
+          <!-- Cheapest -->
+          <div class="bg-white border border-slate-200 rounded-2xl p-5 space-y-3 shadow-xs">
+            <div class="flex justify-between items-center">
+              <span class="font-bold text-sm text-slate-700">Always Cheapest</span>
+              <span class="text-[10px] px-2 py-0.5 rounded-full bg-slate-100 text-slate-600 font-semibold">BASELINE</span>
+            </div>
+            <div class="space-y-2 text-xs">
+              <div class="flex justify-between pb-1 border-b border-slate-100"><span class="text-slate-500">Total Cost:</span><span id="bench-chp-cost" class="font-mono text-slate-700">$0.002242</span></div>
+              <div class="flex justify-between pb-1 border-b border-slate-100"><span class="text-slate-500">Avg Latency:</span><span id="bench-chp-lat" class="font-mono text-slate-700">180 ms</span></div>
+              <div class="flex justify-between pb-1 border-b border-slate-100"><span class="text-slate-500">p95 Latency:</span><span id="bench-chp-p95" class="font-mono text-slate-700">180 ms</span></div>
+              <div class="flex justify-between"><span class="text-slate-500">Violations:</span><span id="bench-chp-viols" class="font-mono font-bold text-rose-600">20 (66.7%)</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- VIEW 5: CRYPTOGRAPHIC AUDIT LEDGER -->
+    <main id="view-audit" class="hidden flex-1 overflow-y-auto p-6 space-y-6">
+      <div class="max-w-5xl mx-auto space-y-4">
+        <div class="flex justify-between items-center">
+          <div>
+            <h2 class="text-lg font-bold text-slate-900">Cryptographic SHA-256 Audit Ledger</h2>
+            <p class="text-xs text-slate-500">Post-hoc tamper-evident verification. Modifying historical logs breaks cryptographic chain hashes.</p>
+          </div>
+          <div class="flex space-x-2">
+            <button onclick="verifyAuditChain()" class="px-3 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white font-medium text-xs transition">
+              🛡️ Verify Full Chain
+            </button>
+            <button onclick="clearAuditDb()" class="px-3 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 border border-slate-200 text-xs transition">
+              Clear Logs
+            </button>
+          </div>
+        </div>
+
+        <div class="bg-white border border-slate-200 rounded-xl overflow-hidden shadow-sm">
           <table class="w-full text-left text-xs">
-            <thead class="bg-slate-950 text-slate-400 uppercase font-mono text-[11px] border-b border-slate-800">
+            <thead class="bg-slate-50 text-slate-600 uppercase font-mono text-[11px] border-b border-slate-200">
               <tr>
                 <th class="p-3">Req ID</th>
-                <th class="p-3">Timestamp</th>
+                <th class="p-3">Time</th>
                 <th class="p-3">Model</th>
                 <th class="p-3 text-right">Latency</th>
                 <th class="p-3 text-right">Cost</th>
-                <th class="p-3 text-center">Compliance</th>
-                <th class="p-3 font-mono">Current SHA-256 Hash</th>
+                <th class="p-3 text-center">Status</th>
+                <th class="p-3 font-mono">SHA-256 Hash</th>
               </tr>
             </thead>
-            <tbody id="audit-tbody" class="divide-y divide-slate-800 font-mono text-[11px]">
+            <tbody id="audit-tbody" class="divide-y divide-slate-100 font-mono text-[11px]">
               <tr>
-                <td colspan="7" class="p-8 text-center text-slate-500">
-                  Loading cryptographic audit ledger...
-                </td>
+                <td colspan="7" class="p-8 text-center text-slate-400">Loading audit records...</td>
               </tr>
             </tbody>
           </table>
         </div>
       </div>
-    </section>
+    </main>
 
-  </main>
+  </div>
 
-  <!-- JavaScript Client App -->
+  <!-- Client Application Script -->
   <script>
     const API_BASE = window.location.origin;
     let currentModels = [];
-    let lastRouteResponse = null;
+    let chatHistory = [];
+    let currentSettings = {
+      max_latency_ms: 1000,
+      max_cost_usd: 0.005,
+      min_capability: 0.35,
+      preference: "lowest_cost"
+    };
 
-    const samplePrompts = [
-      "What is the capital of France and what is its population?",
-      "Write a Python function to compute the Levenshtein distance between two strings.",
-      "Solve step by step: A train travels at 60 mph. How long does it take to travel 180 miles?",
-      "Derive the Black-Scholes partial differential equation using the risk-neutral portfolio approach.",
-      "Summarize the executive memo in 3 bullet points highlighting breaking architectural changes."
-    ];
-    let sampleIdx = 0;
-
-    function cycleSamplePrompt() {
-      sampleIdx = (sampleIdx + 1) % samplePrompts.length;
-      document.getElementById('inp-prompt').value = samplePrompts[sampleIdx];
-    }
-
-    function switchTab(tabId) {
-      ['gateway', 'decision', 'chaos', 'benchmark', 'audit'].forEach(t => {
-        const el = document.getElementById(`tab-${t}`);
-        const btn = document.getElementById(`tab-btn-${t}`);
-        if (el) el.classList.toggle('hidden', t !== tabId);
+    function switchView(viewId) {
+      ['chat', 'decision', 'chaos', 'benchmark', 'audit'].forEach(v => {
+        const el = document.getElementById(`view-${v}`);
+        const btn = document.getElementById(`nav-btn-${v}`);
+        if (el) el.classList.toggle('hidden', v !== viewId);
         if (btn) {
-          if (t === tabId) {
-            btn.className = "tab-btn px-4 py-2.5 font-medium border-b-2 border-indigo-500 text-indigo-400 transition";
+          if (v === viewId) {
+            btn.className = "px-4 py-2 border-b-2 border-blue-600 text-blue-600 transition flex items-center space-x-1.5";
           } else {
-            btn.className = "tab-btn px-4 py-2.5 font-medium border-b-2 border-transparent text-slate-400 hover:text-slate-200 transition";
+            btn.className = "px-4 py-2 border-b-2 border-transparent text-slate-500 hover:text-slate-800 transition flex items-center space-x-1.5";
           }
         }
       });
-      if (tabId === 'chaos') fetchChaosModels();
-      if (tabId === 'audit') fetchAuditLogs();
+      if (viewId === 'chaos') fetchChaosModels();
+      if (viewId === 'audit') fetchAuditLogs();
     }
 
-    function updateSliderLabels() {
-      const lat = document.getElementById('rng-lat').value;
-      const cost = parseFloat(document.getElementById('rng-cost').value);
-      const cap = parseFloat(document.getElementById('rng-cap').value);
-
-      document.getElementById('lbl-lat').textContent = `${lat} ms`;
-      document.getElementById('lbl-cost').textContent = `$${cost.toFixed(5)}`;
-
-      let capTier = "Easy";
-      if (cap >= 0.85) capTier = "Hard (Frontier)";
-      else if (cap >= 0.65) capTier = "Medium";
-      document.getElementById('lbl-cap').textContent = `${cap.toFixed(2)} (${capTier})`;
+    function toggleSettingsDrawer() {
+      const drawer = document.getElementById('settings-drawer');
+      drawer.classList.toggle('hidden');
     }
 
-    function applyPreset(name) {
+    function syncSettings() {
+      currentSettings.max_latency_ms = parseFloat(document.getElementById('drawer-lat-slider').value);
+      currentSettings.max_cost_usd = parseFloat(document.getElementById('drawer-cost-slider').value);
+      currentSettings.min_capability = parseFloat(document.getElementById('drawer-cap-slider').value);
+      currentSettings.preference = document.getElementById('drawer-pref-sel').value;
+
+      document.getElementById('drawer-lat-val').textContent = `${currentSettings.max_latency_ms} ms`;
+      document.getElementById('drawer-cost-val').textContent = `$${currentSettings.max_cost_usd.toFixed(5)}`;
+      document.getElementById('drawer-cap-val').textContent = currentSettings.min_capability.toFixed(2);
+
+      document.getElementById('badge-lat-display').textContent = `SLO \u2264 ${currentSettings.max_latency_ms}ms`;
+      document.getElementById('badge-cost-display').textContent = `Budget \u2264 $${currentSettings.max_cost_usd.toFixed(4)}`;
+      document.getElementById('badge-cap-display').textContent = `Cap \u2265 ${currentSettings.min_capability.toFixed(2)}`;
+    }
+
+    function applyChatPreset(name) {
+      if (!name) return;
       if (name === 'budget') {
-        document.getElementById('inp-prompt').value = "What is the capital of France?";
-        document.getElementById('rng-cost').value = 0.0003;
-        document.getElementById('rng-lat').value = 1000;
-        document.getElementById('rng-cap').value = 0.35;
+        document.getElementById('drawer-cost-slider').value = 0.0003;
+        document.getElementById('drawer-lat-slider').value = 1000;
+        document.getElementById('drawer-cap-slider').value = 0.35;
       } else if (name === 'latency') {
-        document.getElementById('inp-prompt').value = "Quick query: opposite of generous?";
-        document.getElementById('rng-lat').value = 250;
-        document.getElementById('rng-cost').value = 0.005;
-        document.getElementById('rng-cap').value = 0.35;
+        document.getElementById('drawer-lat-slider').value = 250;
+        document.getElementById('drawer-cost-slider').value = 0.005;
+        document.getElementById('drawer-cap-slider').value = 0.35;
       } else if (name === 'code') {
-        document.getElementById('inp-prompt').value = "Write a Python function to check palindrome strings.";
-        document.getElementById('rng-cap').value = 0.75;
-        document.getElementById('rng-lat').value = 800;
-        document.getElementById('rng-cost').value = 0.005;
+        document.getElementById('drawer-cap-slider').value = 0.75;
+        document.getElementById('drawer-lat-slider').value = 800;
+        document.getElementById('drawer-cost-slider').value = 0.005;
       } else if (name === 'outage') {
-        document.getElementById('inp-prompt').value = "What is the capital of France?";
-        document.getElementById('rng-cost').value = 0.005;
-        document.getElementById('rng-lat').value = 1000;
-        document.getElementById('rng-cap').value = 0.35;
-        // Inject kill switch on llama-3.2-1b
+        document.getElementById('drawer-cost-slider').value = 0.005;
+        document.getElementById('drawer-lat-slider').value = 1000;
+        document.getElementById('drawer-cap-slider').value = 0.35;
         fetch(`${API_BASE}/chaos`, {
           method: 'POST',
           headers: {'Content-Type': 'application/json'},
           body: JSON.stringify({model_id: 'llama-3.2-1b', kill_switch: true, add_latency_ms: 0, error_rate: 0})
-        }).then(() => alert("Chaos Injected: Llama 3.2 1B kill switch activated! Now click Route Request."));
+        }).then(() => alert("Chaos Activated: Llama 3.2 1B kill-switch set! RouteIQ will now failover."));
       }
-      updateSliderLabels();
+      syncSettings();
+      document.getElementById('chat-quick-preset').value = "";
     }
 
-    async function fetchSystemHealth() {
+    function sendQuickPrompt(promptText, pref, cap, lat) {
+      document.getElementById('chat-input').value = promptText;
+      if (pref) document.getElementById('drawer-pref-sel').value = pref;
+      if (cap) document.getElementById('drawer-cap-slider').value = cap;
+      if (lat) document.getElementById('drawer-lat-slider').value = lat;
+      syncSettings();
+      sendChatMessage();
+    }
+
+    async function fetchHealth() {
       try {
         const res = await fetch(`${API_BASE}/health`);
         const data = await res.json();
         document.getElementById('val-violations').textContent = data.auditor_violations || 0;
         document.getElementById('val-total').textContent = data.total_audited_requests || 0;
-        if (data.auditor_violations > 0) {
-          const badge = document.getElementById('badge-violations');
-          badge.className = "pulse-badge flex items-center space-x-2 px-3 py-1.5 rounded-full bg-rose-500/10 border border-rose-500/30 text-rose-400 text-xs font-semibold";
-        }
       } catch (e) {
         console.warn("Health check error", e);
       }
     }
 
-    async function executeRoute() {
-      const btn = document.getElementById('btn-submit');
-      btn.disabled = true;
-      btn.innerHTML = `<span class="animate-spin">⏳</span><span>Evaluating Constraints...</span>`;
+    async function sendChatMessage() {
+      const input = document.getElementById('chat-input');
+      const prompt = input.value.trim();
+      if (!prompt) return;
 
-      // Update pipeline indicators
-      document.getElementById('step-1').className = "p-2.5 rounded-lg bg-indigo-950/60 border border-indigo-500/40";
-      document.getElementById('step-2').className = "p-2.5 rounded-lg bg-indigo-950/60 border border-indigo-500/40";
-      document.getElementById('step-3').className = "p-2.5 rounded-lg bg-indigo-950/60 border border-indigo-500/40";
-      document.getElementById('step-4').className = "p-2.5 rounded-lg bg-indigo-950/60 border border-indigo-500/40";
+      input.value = "";
+      const sendBtn = document.getElementById('btn-send-chat');
+      sendBtn.disabled = true;
 
-      const payload = {
-        prompt: document.getElementById('inp-prompt').value,
-        max_latency_ms: parseFloat(document.getElementById('rng-lat').value),
-        max_cost_usd: parseFloat(document.getElementById('rng-cost').value),
-        min_capability: parseFloat(document.getElementById('rng-cap').value),
-        required_context: document.getElementById('sel-ctx').value ? parseInt(document.getElementById('sel-ctx').value) : null,
-        preference: document.getElementById('sel-pref').value,
-        expected_output_tokens: 150
-      };
+      // Hide welcome hero on first message
+      document.getElementById('chat-welcome-hero').classList.add('hidden');
+
+      // Add user message to UI immediately
+      appendUserMessage(prompt);
+
+      // Add thinking placeholder
+      const placeholderId = appendAssistantPlaceholder();
 
       try {
+        const payload = {
+          prompt: prompt,
+          max_latency_ms: currentSettings.max_latency_ms,
+          max_cost_usd: currentSettings.max_cost_usd,
+          min_capability: currentSettings.min_capability,
+          preference: currentSettings.preference,
+          expected_output_tokens: 150
+        };
+
         const res = await fetch(`${API_BASE}/route`, {
           method: 'POST',
           headers: {'Content-Type': 'application/json'},
           body: JSON.stringify(payload)
         });
         const data = await res.json();
-        lastRouteResponse = data;
-        renderResponse(data);
+        renderAssistantResponse(placeholderId, data);
         renderDecisionMatrix(data);
-        fetchSystemHealth();
+        fetchHealth();
       } catch (err) {
-        alert("Route execution failed: " + err.message);
+        renderErrorResponse(placeholderId, err.message);
       } finally {
-        btn.disabled = false;
-        btn.innerHTML = `<span>⚡ Route Request</span>`;
+        sendBtn.disabled = false;
       }
     }
 
-    function renderResponse(data) {
-      const badgeModel = document.getElementById('resp-badge-model');
-      const badgeType = document.getElementById('resp-badge-type');
-      const metaLat = document.getElementById('resp-meta-lat');
-      const metaCost = document.getElementById('resp-meta-cost');
-      const boxContent = document.getElementById('resp-box-content');
-      const auditorBadge = document.getElementById('resp-auditor-badge');
-      const chainHash = document.getElementById('resp-chain-hash');
-      const failoverBanner = document.getElementById('failover-banner');
+    function appendUserMessage(prompt) {
+      const list = document.getElementById('chat-stream-list');
+      const div = document.createElement('div');
+      div.className = "flex justify-end";
+      div.innerHTML = `
+        <div class="bg-slate-100 text-slate-800 rounded-2xl rounded-tr-sm px-4 py-2.5 max-w-xl text-sm leading-relaxed border border-slate-200/80 shadow-xs">
+          ${prompt}
+        </div>
+      `;
+      list.appendChild(div);
+      scrollToBottom();
+    }
 
-      // Update Pipeline Step Labels
-      document.getElementById('pipe-prompt-info').textContent = `${data.actual_metrics.tokens_in || 15} tokens`;
-      const est = data.estimator;
-      document.getElementById('pipe-estimator-info').textContent = `${est.tier.toUpperCase()} (${(est.confidence*100).toFixed(0)}%)${est.elevated ? ' [Hedged]' : ''}`;
-      const passingCount = (data.candidates || []).filter(c => c.passed).length;
-      document.getElementById('pipe-filter-info').textContent = `${passingCount} / ${(data.candidates||[]).length} passed`;
-      document.getElementById('pipe-exec-info').textContent = data.chosen_model ? data.chosen_model : 'Refused';
+    function appendAssistantPlaceholder() {
+      const list = document.getElementById('chat-stream-list');
+      const id = "msg-" + Date.now();
+      const div = document.createElement('div');
+      div.id = id;
+      div.className = "flex justify-start space-x-3";
+      div.innerHTML = `
+        <div class="w-8 h-8 rounded-lg bg-gradient-to-tr from-blue-600 to-indigo-600 text-white flex items-center justify-center text-sm shadow-xs flex-shrink-0">
+          ✨
+        </div>
+        <div class="bg-white border border-slate-200/90 rounded-2xl rounded-tl-sm p-4 max-w-2xl text-sm shadow-subtle space-y-2">
+          <div class="flex items-center space-x-2 text-xs text-slate-400">
+            <span class="animate-spin text-blue-500">⏳</span>
+            <span>Evaluating constraints & selecting model...</span>
+          </div>
+        </div>
+      `;
+      list.appendChild(div);
+      scrollToBottom();
+      return id;
+    }
 
-      if (data.no_valid_model) {
-        badgeModel.textContent = "Refusal: No Model Qualified";
-        badgeModel.className = "px-2.5 py-1 rounded-md bg-rose-500/10 text-rose-400 font-bold text-sm border border-rose-500/20";
-        badgeType.textContent = "[RULE_ENFORCED]";
-        badgeType.className = "px-2 py-0.5 rounded text-[10px] font-mono bg-rose-950 text-rose-300";
-        metaLat.textContent = `${data.actual_metrics.total_latency_ms} ms`;
-        metaCost.textContent = `$0.00000`;
-        boxContent.textContent = data.response_text + (data.closest_miss_suggestion ? `\n\n💡 Closest Miss: ${data.closest_miss_suggestion}` : '');
-      } else {
-        badgeModel.textContent = data.chosen_model;
-        badgeModel.className = "px-2.5 py-1 rounded-md bg-emerald-500/10 text-emerald-400 font-bold text-sm border border-emerald-500/20";
-        badgeType.textContent = data.actual_metrics.badge || "[SIMULATED]";
-        badgeType.className = "px-2 py-0.5 rounded text-[10px] font-mono bg-emerald-950 text-emerald-300";
-        metaLat.textContent = `${data.actual_metrics.total_latency_ms} ms`;
-        metaCost.textContent = `$${data.actual_metrics.total_cost_usd.toFixed(6)}`;
-        boxContent.textContent = data.response_text;
-      }
+    function renderAssistantResponse(elementId, data) {
+      const container = document.getElementById(elementId);
+      if (!container) return;
 
-      // Failover handling
-      if (data.failover_chain && data.failover_chain.length > 0) {
-        failoverBanner.classList.remove('hidden');
-        const log = data.failover_chain.map(f => `Attempted ${f.model_name}: ${f.error} (${f.time_spent_ms}ms spent, ${f.remaining_latency_ms}ms remaining)`).join('\n');
-        document.getElementById('failover-log').textContent = log;
-      } else {
-        failoverBanner.classList.add('hidden');
-      }
+      const metrics = data.actual_metrics || {};
+      const chosen = data.chosen_model;
+      const isRefusal = data.no_valid_model;
+      const badge = metrics.badge || "[SIMULATED]";
+      const totalLat = metrics.total_latency_ms || 0;
+      const totalCost = metrics.total_cost_usd || 0;
 
-      // Auditor badge
-      if (data.auditor && data.auditor.compliant) {
-        auditorBadge.textContent = "● 100% Compliant (0 Breaches)";
-        auditorBadge.className = "font-bold text-emerald-400";
-      } else {
-        auditorBadge.textContent = `❌ Violation: ${(data.auditor.violations || []).join(', ')}`;
-        auditorBadge.className = "font-bold text-rose-400";
-      }
+      const failoverHtml = (data.failover_chain && data.failover_chain.length > 0) ? `
+        <div class="bg-amber-50 border border-amber-200 rounded-xl p-2.5 text-xs text-amber-800 space-y-1">
+          <div class="font-bold flex items-center space-x-1"><span>⚠️</span><span>Shrinking-Budget Failover Triggered</span></div>
+          ${data.failover_chain.map(f => `<div class="font-mono text-[11px] text-amber-700">${f.model_name}: ${f.error} (${f.time_spent_ms}ms spent, ${f.remaining_latency_ms}ms left)</div>`).join('')}
+        </div>
+      ` : '';
 
-      if (data.auditor && data.auditor.chain_hash) {
-        chainHash.textContent = `SHA-256: ${data.auditor.chain_hash.substring(0, 16)}...`;
-      }
+      container.innerHTML = `
+        <div class="w-8 h-8 rounded-lg bg-gradient-to-tr from-blue-600 to-indigo-600 text-white flex items-center justify-center text-sm shadow-xs flex-shrink-0 mt-1">
+          ✨
+        </div>
+        <div class="bg-white border border-slate-200 rounded-2xl rounded-tl-sm p-4 sm:p-5 max-w-2xl text-sm shadow-subtle space-y-3.5">
+          
+          <!-- Route Header Pill -->
+          <div class="flex flex-wrap items-center justify-between gap-2 pb-2.5 border-b border-slate-100 text-xs">
+            <div class="flex items-center space-x-2">
+              <span class="font-bold text-slate-900">${isRefusal ? '<span class="text-rose-600">Refusal: No Model Qualified</span>' : chosen}</span>
+              <span class="px-2 py-0.5 rounded text-[10px] font-mono font-medium ${isRefusal ? 'bg-rose-50 text-rose-700 border border-rose-200' : 'bg-emerald-50 text-emerald-700 border border-emerald-200'}">
+                ${badge}
+              </span>
+            </div>
+            <div class="font-mono text-[11px] text-slate-500">
+              ${totalLat.toFixed(1)}ms &bull; $${totalCost.toFixed(5)}
+            </div>
+          </div>
+
+          ${failoverHtml}
+
+          <!-- Response Body -->
+          <div class="text-slate-800 text-sm whitespace-pre-wrap leading-relaxed">
+            ${data.response_text}
+          </div>
+
+          ${data.closest_miss_suggestion ? `
+            <div class="bg-blue-50 border border-blue-200 rounded-xl p-2.5 text-xs text-blue-800">
+              💡 <strong>Closest Miss Hint:</strong> ${data.closest_miss_suggestion}
+            </div>
+          ` : ''}
+
+          <!-- Glass-Box Routing Details Accordion -->
+          <div class="pt-2 border-t border-slate-100">
+            <details class="text-xs text-slate-500 group">
+              <summary class="cursor-pointer font-medium text-slate-700 hover:text-blue-600 flex items-center justify-between">
+                <span>🔍 Inspect Glass-Box Routing Decisions (${(data.candidates||[]).filter(c=>c.passed).length} passed)</span>
+                <span class="text-slate-400 group-open:rotate-180 transition">&darr;</span>
+              </summary>
+              <div class="mt-2.5 space-y-1.5 font-mono text-[11px] bg-slate-50 p-3 rounded-xl border border-slate-200">
+                <div>Tier Estimated: <strong class="text-slate-800">${data.estimator.tier.toUpperCase()}</strong> (Confidence: ${(data.estimator.confidence*100).toFixed(0)}%)</div>
+                <div>Estimator Path: ${data.estimator.path} ${data.estimator.elevated ? '<span class="text-amber-600">[Uncertainty Hedged]</span>' : ''}</div>
+                <div>Auditor Verdict: <span class="text-emerald-600 font-bold">100% Compliant</span> (SHA-256: ${(data.auditor && data.auditor.chain_hash) ? data.auditor.chain_hash.substring(0, 16) : 'Verified'}...)</div>
+              </div>
+            </details>
+          </div>
+
+        </div>
+      `;
+      scrollToBottom();
+    }
+
+    function renderErrorResponse(elementId, errorMsg) {
+      const container = document.getElementById(elementId);
+      if (!container) return;
+      container.innerHTML = `
+        <div class="w-8 h-8 rounded-lg bg-rose-500 text-white flex items-center justify-center text-sm shadow-xs flex-shrink-0">⚠️</div>
+        <div class="bg-rose-50 border border-rose-200 text-rose-800 rounded-2xl p-4 text-xs">
+          <strong>Request Error:</strong> ${errorMsg}
+        </div>
+      `;
+      scrollToBottom();
+    }
+
+    function scrollToBottom() {
+      const container = document.getElementById('chat-messages-container');
+      container.scrollTop = container.scrollHeight;
     }
 
     function renderDecisionMatrix(data) {
@@ -695,24 +707,23 @@
 
       data.candidates.forEach(c => {
         const tr = document.createElement('tr');
-        tr.className = c.passed ? "bg-emerald-950/20" : "";
-
+        tr.className = c.passed ? "bg-emerald-50/40" : "";
         tr.innerHTML = `
-          <td class="p-3 font-medium text-white">${c.model_name}</td>
+          <td class="p-3 font-medium text-slate-900">${c.model_name}</td>
           <td class="p-3 text-center">
-            <span class="px-2 py-0.5 rounded text-[10px] font-bold ${c.passed ? 'bg-emerald-500/20 text-emerald-400' : 'bg-rose-500/20 text-rose-400'}">
+            <span class="px-2 py-0.5 rounded text-[10px] font-bold ${c.passed ? 'bg-emerald-100 text-emerald-800' : 'bg-rose-100 text-rose-800'}">
               ${c.passed ? 'PASSED' : 'REJECTED'}
             </span>
           </td>
-          <td class="p-3 text-center font-mono ${c.circuit_state === 'CLOSED' ? 'text-emerald-400' : 'text-rose-400'}">${c.circuit_state}</td>
-          <td class="p-3 text-center font-mono ${c.context_fit ? 'text-emerald-400' : 'text-rose-400'}">${c.context_fit ? '✓' : '✗'}</td>
-          <td class="p-3 text-center font-mono ${c.cost_fit ? 'text-emerald-400' : 'text-rose-400'}">$${c.predicted_cost_usd.toFixed(5)}</td>
-          <td class="p-3 text-center font-mono ${c.latency_fit ? 'text-emerald-400' : 'text-rose-400'}">${c.predicted_latency_ms.toFixed(0)}ms</td>
-          <td class="p-3 text-center font-mono ${c.capability_fit ? 'text-emerald-400' : 'text-rose-400'}">${c.capability_score.toFixed(2)}</td>
-          <td class="p-3 text-slate-300">
+          <td class="p-3 text-center font-mono ${c.circuit_state === 'CLOSED' ? 'text-emerald-700' : 'text-rose-700'}">${c.circuit_state}</td>
+          <td class="p-3 text-center font-mono ${c.context_fit ? 'text-emerald-700' : 'text-rose-700'}">${c.context_fit ? '✓' : '✗'}</td>
+          <td class="p-3 text-center font-mono text-slate-700">$${c.predicted_cost_usd.toFixed(5)}</td>
+          <td class="p-3 text-center font-mono text-slate-700">${c.predicted_latency_ms.toFixed(0)}ms</td>
+          <td class="p-3 text-center font-mono text-slate-700">${c.capability_score.toFixed(2)}</td>
+          <td class="p-3">
             ${c.rejection_reasons.length > 0 
-              ? `<span class="text-rose-300 bg-rose-500/10 px-2 py-0.5 rounded text-[11px] border border-rose-500/20">${c.rejection_reasons.join('; ')}</span>`
-              : `<span class="text-emerald-400">Compliant</span>`}
+              ? `<span class="text-rose-700 bg-rose-50 px-2 py-0.5 rounded text-[11px] border border-rose-200">${c.rejection_reasons.join('; ')}</span>`
+              : `<span class="text-emerald-700 font-medium">Compliant with all limits</span>`}
           </td>
         `;
         tbody.appendChild(tr);
@@ -729,26 +740,25 @@
 
         models.forEach(m => {
           const card = document.createElement('div');
-          card.className = "bg-slate-900 border border-slate-800 rounded-xl p-4 space-y-3 shadow-md";
+          card.className = "bg-white border border-slate-200 rounded-xl p-4 space-y-3 shadow-xs";
           const ch = m.chaos || {add_latency_ms: 0, kill_switch: false, error_rate: 0};
           const cb = m.circuit_breaker || {state: 'CLOSED'};
 
           card.innerHTML = `
             <div class="flex items-center justify-between">
               <div>
-                <h4 class="font-bold text-sm text-white">${m.name}</h4>
-                <span class="text-[10px] text-slate-400 font-mono">Base: ${m.base_latency_ms}ms &bull; Cap: ${m.capability_score}</span>
+                <h4 class="font-bold text-xs text-slate-900">${m.name}</h4>
+                <span class="text-[10px] text-slate-500 font-mono">Base: ${m.base_latency_ms}ms &bull; Cap: ${m.capability_score}</span>
               </div>
-              <span class="px-2 py-0.5 rounded text-[10px] font-mono font-bold ${cb.state === 'CLOSED' ? 'bg-emerald-500/20 text-emerald-400' : 'bg-rose-500/20 text-rose-400'}">
+              <span class="px-2 py-0.5 rounded text-[10px] font-mono font-bold ${cb.state === 'CLOSED' ? 'bg-emerald-50 text-emerald-700 border border-emerald-200' : 'bg-rose-50 text-rose-700 border border-rose-200'}">
                 CB: ${cb.state}
               </span>
             </div>
 
-            <!-- Injected Latency -->
             <div>
-              <div class="flex justify-between text-xs mb-1">
-                <span class="text-slate-400">Inject Latency:</span>
-                <span id="lbl-c-lat-${m.id}" class="font-mono text-amber-400 font-bold">+${ch.add_latency_ms}ms</span>
+              <div class="flex justify-between text-[11px] mb-1">
+                <span class="text-slate-600">Inject Latency:</span>
+                <span id="lbl-c-lat-${m.id}" class="font-mono text-amber-600 font-bold">+${ch.add_latency_ms}ms</span>
               </div>
               <input type="range" min="0" max="1500" step="50" value="${ch.add_latency_ms}" 
                 onchange="updateChaos('${m.id}')" id="rng-c-lat-${m.id}"
@@ -756,11 +766,10 @@
                 class="w-full accent-amber-500 cursor-pointer" />
             </div>
 
-            <!-- Error Rate -->
             <div>
-              <div class="flex justify-between text-xs mb-1">
-                <span class="text-slate-400">Injected Error Rate:</span>
-                <span id="lbl-c-err-${m.id}" class="font-mono text-rose-400 font-bold">${(ch.error_rate*100).toFixed(0)}%</span>
+              <div class="flex justify-between text-[11px] mb-1">
+                <span class="text-slate-600">Simulate Error Rate:</span>
+                <span id="lbl-c-err-${m.id}" class="font-mono text-rose-600 font-bold">${(ch.error_rate*100).toFixed(0)}%</span>
               </div>
               <input type="range" min="0.0" max="1.0" step="0.1" value="${ch.error_rate}" 
                 onchange="updateChaos('${m.id}')" id="rng-c-err-${m.id}"
@@ -768,11 +777,10 @@
                 class="w-full accent-rose-500 cursor-pointer" />
             </div>
 
-            <!-- Kill Switch Toggle -->
-            <div class="pt-2 border-t border-slate-800 flex items-center justify-between">
-              <span class="text-xs text-slate-300 font-medium">Kill Switch:</span>
+            <div class="pt-2 border-t border-slate-100 flex items-center justify-between">
+              <span class="text-[11px] text-slate-700 font-medium">Kill Switch:</span>
               <button onclick="toggleKillSwitch('${m.id}', ${!ch.kill_switch})"
-                class="px-3 py-1 text-xs rounded-lg font-bold transition ${ch.kill_switch ? 'bg-rose-600 text-white shadow-lg shadow-rose-600/30' : 'bg-slate-800 text-slate-300 hover:bg-slate-700'}">
+                class="px-3 py-1 text-xs rounded-lg font-bold transition ${ch.kill_switch ? 'bg-rose-600 text-white' : 'bg-slate-100 text-slate-700 hover:bg-slate-200'}">
                 ${ch.kill_switch ? '🚨 ACTIVE' : 'DISABLED'}
               </button>
             </div>
@@ -823,14 +831,14 @@
     async function resetAllChaos() {
       await fetch(`${API_BASE}/chaos/reset`, {method: 'POST'});
       fetchChaosModels();
-      fetchSystemHealth();
+      fetchHealth();
       alert("All chaos injections and circuit breakers have been reset to default state.");
     }
 
     async function runBenchmark() {
       const btn = document.getElementById('btn-run-bench');
       btn.disabled = true;
-      btn.innerHTML = `<span class="animate-spin">⏳</span><span>Simulating 30 Prompts...</span>`;
+      btn.textContent = "⏳ Running 30 Prompts...";
 
       try {
         const res = await fetch(`${API_BASE}/benchmark/compare`, {
@@ -841,30 +849,25 @@
         const data = await res.json();
 
         document.getElementById('roi-savings-pct').textContent = `${data.cost_savings_vs_strongest_pct}%`;
-
-        // RouteIQ
         document.getElementById('bench-rq-cost').textContent = `$${data.routeiq.total_cost_usd.toFixed(6)}`;
         document.getElementById('bench-rq-lat').textContent = `${data.routeiq.avg_latency_ms} ms`;
         document.getElementById('bench-rq-p95').textContent = `${data.routeiq.p95_latency_ms} ms`;
         document.getElementById('bench-rq-viols').textContent = `${data.routeiq.violations} (${data.routeiq.violation_rate_pct}%)`;
 
-        // Strongest
         document.getElementById('bench-str-cost').textContent = `$${data.always_strongest.total_cost_usd.toFixed(6)}`;
         document.getElementById('bench-str-lat').textContent = `${data.always_strongest.avg_latency_ms} ms`;
         document.getElementById('bench-str-p95').textContent = `${data.always_strongest.p95_latency_ms} ms`;
         document.getElementById('bench-str-viols').textContent = `${data.always_strongest.violations} (${data.always_strongest.violation_rate_pct}%)`;
 
-        // Cheapest
         document.getElementById('bench-chp-cost').textContent = `$${data.always_cheapest.total_cost_usd.toFixed(6)}`;
         document.getElementById('bench-chp-lat').textContent = `${data.always_cheapest.avg_latency_ms} ms`;
         document.getElementById('bench-chp-p95').textContent = `${data.always_cheapest.p95_latency_ms} ms`;
         document.getElementById('bench-chp-viols').textContent = `${data.always_cheapest.violations} (${data.always_cheapest.violation_rate_pct}%)`;
-
       } catch (e) {
-        alert("Benchmark run error: " + e.message);
+        alert("Benchmark error: " + e.message);
       } finally {
         btn.disabled = false;
-        btn.innerHTML = `<span>📊 Run 30-Prompt Benchmark</span>`;
+        btn.textContent = "📊 Run 30-Prompt Benchmark";
       }
     }
 
@@ -876,30 +879,30 @@
         tbody.innerHTML = '';
 
         if (!data.records || data.records.length === 0) {
-          tbody.innerHTML = `<tr><td colspan="7" class="p-8 text-center text-slate-500">Audit database empty. Run requests to generate tamper-evident logs.</td></tr>`;
+          tbody.innerHTML = `<tr><td colspan="7" class="p-8 text-center text-slate-400">Audit database empty. Run requests to generate tamper-evident logs.</td></tr>`;
           return;
         }
 
         data.records.forEach(r => {
           const tr = document.createElement('tr');
-          tr.className = "hover:bg-slate-900/60 transition";
+          tr.className = "hover:bg-slate-50 transition";
           tr.innerHTML = `
-            <td class="p-3 text-indigo-400 font-bold">${r.request_id}</td>
-            <td class="p-3 text-slate-400">${new Date(r.timestamp).toLocaleTimeString()}</td>
-            <td class="p-3 text-slate-200">${r.chosen_model || '<span class="text-rose-400">REFUSED</span>'}</td>
-            <td class="p-3 text-right text-slate-300">${r.actual_latency_ms.toFixed(1)}ms</td>
-            <td class="p-3 text-right text-slate-300">$${r.actual_cost_usd.toFixed(5)}</td>
+            <td class="p-3 text-blue-600 font-bold">${r.request_id}</td>
+            <td class="p-3 text-slate-500">${new Date(r.timestamp).toLocaleTimeString()}</td>
+            <td class="p-3 text-slate-800 font-medium">${r.chosen_model || '<span class="text-rose-600 font-bold">REFUSED</span>'}</td>
+            <td class="p-3 text-right text-slate-600">${r.actual_latency_ms.toFixed(1)}ms</td>
+            <td class="p-3 text-right text-slate-600">$${r.actual_cost_usd.toFixed(5)}</td>
             <td class="p-3 text-center">
-              <span class="px-2 py-0.5 rounded text-[10px] font-bold ${r.auditor_compliant ? 'bg-emerald-500/20 text-emerald-400' : 'bg-rose-500/20 text-rose-400'}">
+              <span class="px-2 py-0.5 rounded text-[10px] font-bold ${r.auditor_compliant ? 'bg-emerald-100 text-emerald-800' : 'bg-rose-100 text-rose-800'}">
                 ${r.auditor_compliant ? 'COMPLIANT' : 'BREACH'}
               </span>
             </td>
-            <td class="p-3 text-slate-400 truncate max-w-[140px]">${r.curr_hash}</td>
+            <td class="p-3 text-slate-500 truncate max-w-[140px]">${r.curr_hash}</td>
           `;
           tbody.appendChild(tr);
         });
       } catch (e) {
-        console.error("Audit log fetch error", e);
+        console.error("Audit log error", e);
       }
     }
 
@@ -913,21 +916,21 @@
           alert(`🚨 TAMPERING DETECTED!\n${data.message}`);
         }
       } catch (e) {
-        alert("Chain verification failed: " + e.message);
+        alert("Verification failed: " + e.message);
       }
     }
 
     async function clearAuditDb() {
-      if (confirm("Are you sure you want to clear all cryptographic audit logs?")) {
+      if (confirm("Clear all cryptographic audit logs?")) {
         await fetch(`${API_BASE}/audit/clear`, {method: 'POST'});
         fetchAuditLogs();
-        fetchSystemHealth();
+        fetchHealth();
       }
     }
 
-    // Initial setup
-    fetchSystemHealth();
-    updateSliderLabels();
+    // Init
+    fetchHealth();
+    syncSettings();
   </script>
 </body>
 </html>

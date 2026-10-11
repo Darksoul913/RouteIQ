@@ -1,3 +1,4 @@
+import os
 import time
 import json
 import uuid
@@ -69,6 +70,42 @@ class ResilientExecutor:
             eval_count = data.get("eval_count", 50)
             prompt_eval_count = data.get("prompt_eval_count", len(prompt.split()) * 2)
             return text, prompt_eval_count, eval_count
+
+    def _call_external_api(self, model_id: str, prompt: str, timeout_sec: float) -> Optional[Tuple[str, int, int]]:
+        """
+        Calls live OpenAI/Groq/OpenRouter if API keys are configured in environment.
+        """
+        api_key = os.environ.get("OPENAI_API_KEY") or os.environ.get("GROQ_API_KEY") or os.environ.get("OPENROUTER_API_KEY")
+        if not api_key:
+            return None
+
+        base_url = "https://api.openai.com/v1"
+        if os.environ.get("GROQ_API_KEY"):
+            base_url = "https://api.groq.com/openai/v1"
+        elif os.environ.get("OPENROUTER_API_KEY"):
+            base_url = "https://openrouter.ai/api/v1"
+
+        try:
+            req_data = json.dumps({
+                "model": model_id,
+                "messages": [{"role": "user", "content": prompt}],
+                "max_tokens": 250
+            }).encode("utf-8")
+            req = urllib.request.Request(
+                f"{base_url}/chat/completions",
+                data=req_data,
+                headers={"Content-Type": "application/json", "Authorization": f"Bearer {api_key}"},
+                method="POST"
+            )
+            with urllib.request.urlopen(req, timeout=timeout_sec) as resp:
+                data = json.loads(resp.read().decode("utf-8"))
+                choice = data["choices"][0]["message"]["content"]
+                usage = data.get("usage", {})
+                tokens_in = usage.get("prompt_tokens", max(10, len(prompt.split()) * 2))
+                tokens_out = usage.get("completion_tokens", max(10, len(choice.split()) * 2))
+                return choice, tokens_in, tokens_out
+        except Exception:
+            return None
 
     def _simulate_model_call(
         self,
@@ -192,23 +229,31 @@ class ResilientExecutor:
                 if chaos_failed:
                     raise RuntimeError(chaos_reason)
 
-                # Attempt Live Ollama if available
+                # 1. Attempt Live Ollama if available locally
                 ollama_name = m_config.get("ollama_name")
                 if self._is_ollama_available(ollama_name):
                     is_live_ollama = True
                     resp_text, tokens_in, tokens_out = self._call_ollama(
                         ollama_name, request.prompt, allocated_timeout_sec
                     )
-                    badge = "[MEASURED]"
+                    badge = "[MEASURED: OLLAMA]"
                     call_elapsed_ms = (time.perf_counter() - call_start) * 1000.0
                 else:
-                    # Deterministic offline model simulator
-                    resp_text, tokens_in, tokens_out, sim_lat_ms, badge = self._simulate_model_call(
-                        m_config, request.prompt, allocated_timeout_sec, injected_lat,
-                        simulate_delay=simulate_delay,
-                        expected_output_tokens=expected_output_tokens
-                    )
-                    call_elapsed_ms = sim_lat_ms
+                    # 2. Attempt Live External Cloud API (Groq / OpenAI / OpenRouter)
+                    ext_res = self._call_external_api(m_id, request.prompt, allocated_timeout_sec)
+                    if ext_res is not None:
+                        is_live_ollama = True
+                        resp_text, tokens_in, tokens_out = ext_res
+                        badge = "[MEASURED: API]"
+                        call_elapsed_ms = (time.perf_counter() - call_start) * 1000.0
+                    else:
+                        # 3. Deterministic calibrated offline simulator fallback
+                        resp_text, tokens_in, tokens_out, sim_lat_ms, badge = self._simulate_model_call(
+                            m_config, request.prompt, allocated_timeout_sec, injected_lat,
+                            simulate_delay=simulate_delay,
+                            expected_output_tokens=expected_output_tokens
+                        )
+                        call_elapsed_ms = sim_lat_ms
 
                 actual_cost_usd = (tokens_in / 1000.0 * m_config["input_cost_per_1k"]) + \
                                   (tokens_out / 1000.0 * m_config["output_cost_per_1k"])
