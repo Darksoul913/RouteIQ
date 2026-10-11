@@ -65,3 +65,6 @@ Thumbs.db
 # Local submission proposals
 RouteIQ_Submission_Proposal.*
 generate_submission_pdf.py
+
+# The Python lib/ rule above must not swallow the frontend source folder
+!frontend/src/lib/
