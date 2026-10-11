@@ -28,3 +28,8 @@ TIER_CAPABILITY_MAP = {
     "medium": 0.65,
     "hard": 0.85
 }
+
+# Free / Low-Cost Online API Providers (Optional Zero-Cost Cloud Routing)
+GROQ_BASE_URL = os.environ.get("GROQ_BASE_URL", "https://api.groq.com/openai/v1")
+OPENROUTER_BASE_URL = os.environ.get("OPENROUTER_BASE_URL", "https://openrouter.ai/api/v1")
+GEMINI_BASE_URL = os.environ.get("GEMINI_BASE_URL", "https://generativelanguage.googleapis.com/v1beta/openai")

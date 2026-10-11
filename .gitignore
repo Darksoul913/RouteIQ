@@ -61,3 +61,7 @@ Thumbs.db
 .vscode/
 *.swp
 *.swo
+
+# Local submission proposals
+RouteIQ_Submission_Proposal.*
+generate_submission_pdf.py

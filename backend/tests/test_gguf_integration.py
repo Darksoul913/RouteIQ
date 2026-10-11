@@ -96,5 +96,34 @@ class TestGGUFIntegration(unittest.TestCase):
         self.assertTrue(verdict["compliant"])
         self.assertEqual(len(verdict["violations"]), 0)
 
+    def test_gguf_layer_and_embedding_metadata(self):
+        catalog = self.gguf_engine.get_catalog()
+        r1_meta = catalog["DeepSeek-R1-Distill-Qwen-14B-Q4_K_M.gguf"]
+        self.assertEqual(r1_meta["block_count"], 48)
+        self.assertEqual(r1_meta["embedding_length"], 5120)
+        self.assertEqual(r1_meta["context_length"], 131072)
+
+        qwen_meta = catalog["qwen2.5-coder-7b-instruct-q4_k_m.gguf"]
+        self.assertGreater(qwen_meta["block_count"], 20)
+        self.assertEqual(qwen_meta["context_length"], 131072)
+
+    def test_failover_shrinking_budget_with_gguf(self):
+        # Kill cheapest model (llama-3.2-1b)
+        self.chaos_manager.set_chaos("llama-3.2-1b", kill_switch=True)
+        req = RouteRequest(
+            prompt="What is the capital of France?",
+            max_latency_ms=1500.0,
+            max_cost_usd=0.01,
+            min_capability=0.35,
+            preference="lowest_cost"
+        )
+        resp = self.executor.execute_request(req, simulate_delay=True)
+        self.assertFalse(resp.no_valid_model)
+        self.assertNotEqual(resp.chosen_model, "llama-3.2-1b")
+        self.assertGreater(len(resp.failover_chain), 0)
+        self.assertEqual(resp.failover_chain[0]["model_id"], "llama-3.2-1b")
+        # Ensure remaining latency was preserved and shrinking
+        self.assertLess(resp.failover_chain[0]["remaining_latency_ms"], 1500.0)
+
 if __name__ == "__main__":
     unittest.main()

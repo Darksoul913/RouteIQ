@@ -76,21 +76,43 @@ class ResilientExecutor:
 
     def _call_external_api(self, model_id: str, prompt: str, timeout_sec: float) -> Optional[Tuple[str, int, int]]:
         """
-        Calls live OpenAI/Groq/OpenRouter if API keys are configured in environment.
+        Calls live free/low-cost OpenAI/Groq/OpenRouter/Gemini endpoints if API keys are configured.
         """
-        api_key = os.environ.get("OPENAI_API_KEY") or os.environ.get("GROQ_API_KEY") or os.environ.get("OPENROUTER_API_KEY")
+        api_key = os.environ.get("OPENAI_API_KEY") or os.environ.get("GROQ_API_KEY") or os.environ.get("OPENROUTER_API_KEY") or os.environ.get("GEMINI_API_KEY")
         if not api_key:
             return None
 
         base_url = "https://api.openai.com/v1"
+        target_model = model_id
+
         if os.environ.get("GROQ_API_KEY"):
             base_url = "https://api.groq.com/openai/v1"
+            groq_map = {
+                "llama-3.2-1b": "llama-3.1-8b-instant",
+                "mistral-7b-instruct": "mixtral-8x7b-32768",
+                "qwen-2.5-coder-7b": "qwen-2.5-coder-32b",
+                "deepseek-r1-distill-14b": "deepseek-r1-distill-llama-70b"
+            }
+            target_model = groq_map.get(model_id, "llama-3.1-8b-instant")
+            api_key = os.environ.get("GROQ_API_KEY")
         elif os.environ.get("OPENROUTER_API_KEY"):
             base_url = "https://openrouter.ai/api/v1"
+            or_map = {
+                "llama-3.2-1b": "meta-llama/llama-3.1-8b-instruct:free",
+                "mistral-7b-instruct": "mistralai/mistral-7b-instruct:free",
+                "qwen-2.5-coder-7b": "qwen/qwen-2.5-coder-32b-instruct:free",
+                "deepseek-r1-distill-14b": "deepseek/deepseek-r1:free"
+            }
+            target_model = or_map.get(model_id, "meta-llama/llama-3.1-8b-instruct:free")
+            api_key = os.environ.get("OPENROUTER_API_KEY")
+        elif os.environ.get("GEMINI_API_KEY"):
+            base_url = "https://generativelanguage.googleapis.com/v1beta/openai"
+            target_model = "gemini-1.5-flash"
+            api_key = os.environ.get("GEMINI_API_KEY")
 
         try:
             req_data = json.dumps({
-                "model": model_id,
+                "model": target_model,
                 "messages": [{"role": "user", "content": prompt}],
                 "max_tokens": 250
             }).encode("utf-8")
