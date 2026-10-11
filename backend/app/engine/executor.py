@@ -75,7 +75,8 @@ class ResilientExecutor:
         model: Dict[str, Any],
         prompt: str,
         timeout_sec: float,
-        injected_lat_ms: float = 0.0
+        injected_lat_ms: float = 0.0,
+        simulate_delay: bool = True
     ) -> Tuple[str, int, int, float, str]:
         """
         Deterministic offline model simulator with calibrated latencies.
@@ -86,11 +87,13 @@ class ResilientExecutor:
 
         if target_sleep_sec > timeout_sec:
             # Emulate timeout
-            time.sleep(timeout_sec)
+            if simulate_delay:
+                time.sleep(min(timeout_sec, 0.02))
             raise TimeoutError(f"Model call exceeded allocated timeout ({timeout_sec*1000:.0f}ms)")
 
-        # Normal execution simulation
-        time.sleep(target_sleep_sec)
+        # Normal execution simulation - brief sleep for realism
+        if simulate_delay:
+            time.sleep(min(target_sleep_sec * 0.05, 0.02))
 
         tokens_in = max(10, len(prompt.split()) * 2)
         tokens_out = min(model["context_window"] - tokens_in, 120)
@@ -122,7 +125,7 @@ class ResilientExecutor:
         badge = "[INJECTED]" if injected_lat_ms > 0 else "[SIMULATED]"
         return resp_text, tokens_in, tokens_out, target_lat_ms, badge
 
-    def execute_request(self, request: RouteRequest) -> RouteResponse:
+    def execute_request(self, request: RouteRequest, simulate_delay: bool = True) -> RouteResponse:
         t_global_start = time.perf_counter()
         request_id = f"req_{uuid.uuid4().hex[:10]}"
         timestamp_str = datetime.datetime.now(datetime.timezone.utc).isoformat()
@@ -179,6 +182,7 @@ class ResilientExecutor:
             call_start = time.perf_counter()
             injected_lat = self.chaos_manager.get_injected_latency(m_id)
             allocated_timeout_sec = remaining_latency_ms / 1000.0
+            is_live_ollama = False
 
             try:
                 # Check chaos kill-switch or error rate first
@@ -189,6 +193,7 @@ class ResilientExecutor:
                 # Attempt Live Ollama if available
                 ollama_name = m_config.get("ollama_name")
                 if self._is_ollama_available(ollama_name):
+                    is_live_ollama = True
                     resp_text, tokens_in, tokens_out = self._call_ollama(
                         ollama_name, request.prompt, allocated_timeout_sec
                     )
@@ -196,10 +201,10 @@ class ResilientExecutor:
                     call_elapsed_ms = (time.perf_counter() - call_start) * 1000.0
                 else:
                     # Deterministic offline model simulator
-                    resp_text, tokens_in, tokens_out, _, badge = self._simulate_model_call(
-                        m_config, request.prompt, allocated_timeout_sec, injected_lat
+                    resp_text, tokens_in, tokens_out, sim_lat_ms, badge = self._simulate_model_call(
+                        m_config, request.prompt, allocated_timeout_sec, injected_lat, simulate_delay=simulate_delay
                     )
-                    call_elapsed_ms = (time.perf_counter() - call_start) * 1000.0
+                    call_elapsed_ms = sim_lat_ms
 
                 actual_cost_usd = (tokens_in / 1000.0 * m_config["input_cost_per_1k"]) + \
                                   (tokens_out / 1000.0 * m_config["output_cost_per_1k"])
@@ -210,7 +215,8 @@ class ResilientExecutor:
                     cb.record_success()
                 self.telemetry.record_call(m_id, call_elapsed_ms, success=True, tokens_in=tokens_in, tokens_out=tokens_out)
 
-                total_elapsed_ms = (time.perf_counter() - t_global_start) * 1000.0
+                prior_failover_ms = sum(attempt["time_spent_ms"] for attempt in failover_chain)
+                total_elapsed_ms = prior_failover_ms + call_elapsed_ms + est_result["latency_ms"]
 
                 actual_metrics = {
                     "total_latency_ms": round(total_elapsed_ms, 2),
@@ -253,7 +259,11 @@ class ResilientExecutor:
                 )
 
             except Exception as exc:
-                call_elapsed_ms = (time.perf_counter() - call_start) * 1000.0
+                if is_live_ollama:
+                    call_elapsed_ms = (time.perf_counter() - call_start) * 1000.0
+                else:
+                    call_elapsed_ms = float(m_config["base_latency_ms"] + injected_lat)
+
                 cb = self.circuit_breakers.get(m_id)
                 if cb:
                     cb.record_failure()
