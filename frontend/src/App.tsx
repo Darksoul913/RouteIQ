@@ -1,5 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import { ModelInfo, RouteResponse, CandidateAudit, AuditRecord, BenchmarkComparison } from './types';
+import { ModelInfo, RouteResponse, AuditRecord, BenchmarkComparison } from './types';
+import { api } from './services/api';
+import { Header } from './components/Header';
+import { GatewayPlayground } from './components/GatewayPlayground';
+import { DecisionMatrix } from './components/DecisionMatrix';
+import { ChaosPanel } from './components/ChaosPanel';
+import { WorkloadComparison } from './components/WorkloadComparison';
+import { AuditorLiveFeed } from './components/AuditorLiveFeed';
+import { ModelCards } from './components/ModelCards';
+import { EstimatorMetrics } from './components/EstimatorMetrics';
 
 export default function App() {
   const [activeTab, setActiveTab] = useState<'gateway' | 'decision' | 'chaos' | 'benchmark' | 'audit'>('gateway');
@@ -11,40 +20,41 @@ export default function App() {
   const [preference, setPreference] = useState('lowest_cost');
 
   const [loading, setLoading] = useState(false);
+  const [benchLoading, setBenchLoading] = useState(false);
   const [response, setResponse] = useState<RouteResponse | null>(null);
   const [models, setModels] = useState<ModelInfo[]>([]);
   const [auditRecords, setAuditRecords] = useState<AuditRecord[]>([]);
+  const [benchmarkData, setBenchmarkData] = useState<BenchmarkComparison | null>(null);
   const [violations, setViolations] = useState(0);
   const [totalAudits, setTotalAudits] = useState(0);
 
   const fetchHealth = async () => {
     try {
-      const res = await fetch('/health');
-      const data = await res.json();
+      const data = await api.getHealth();
       setViolations(data.auditor_violations || 0);
       setTotalAudits(data.total_audited_requests || 0);
     } catch (e) {
-      console.error(e);
+      console.warn('Failed to fetch health status', e);
     }
   };
 
   const fetchModels = async () => {
     try {
-      const res = await fetch('/models');
-      const data = await res.json();
+      const data = await api.getModels();
       setModels(data);
     } catch (e) {
-      console.error(e);
+      console.warn('Failed to fetch models', e);
     }
   };
 
   const fetchAudit = async () => {
     try {
-      const res = await fetch('/audit');
-      const data = await res.json();
+      const data = await api.getAudit();
       setAuditRecords(data.records || []);
+      setViolations(data.violations_count || 0);
+      setTotalAudits(data.total_records || 0);
     } catch (e) {
-      console.error(e);
+      console.warn('Failed to fetch audit records', e);
     }
   };
 
@@ -56,154 +66,187 @@ export default function App() {
   const handleRoute = async () => {
     setLoading(true);
     try {
-      const res = await fetch('/route', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          prompt,
-          max_latency_ms: maxLatency,
-          max_cost_usd: maxCost,
-          min_capability: minCapability,
-          required_context: requiredContext || null,
-          preference,
-          expected_output_tokens: 150
-        })
+      const data = await api.route({
+        prompt,
+        max_latency_ms: maxLatency,
+        max_cost_usd: maxCost,
+        min_capability: minCapability,
+        required_context: requiredContext || null,
+        preference,
+        expected_output_tokens: 150,
       });
-      const data: RouteResponse = await res.json();
       setResponse(data);
       fetchHealth();
-    } catch (err) {
-      console.error(err);
+      fetchModels();
+    } catch (err: any) {
+      alert(`Route execution failed: ${err.message}`);
     } finally {
       setLoading(false);
     }
   };
 
+  const handleApplyPreset = async (name: 'budget' | 'latency' | 'code' | 'outage') => {
+    if (name === 'budget') {
+      setPrompt('What is the capital of France?');
+      setMaxCost(0.0003);
+      setMaxLatency(1000);
+      setMinCapability(0.35);
+    } else if (name === 'latency') {
+      setPrompt('Quick query: opposite of generous?');
+      setMaxLatency(250);
+      setMaxCost(0.005);
+      setMinCapability(0.35);
+    } else if (name === 'code') {
+      setPrompt('Write a Python function to check palindrome strings.');
+      setMinCapability(0.75);
+      setMaxLatency(800);
+      setMaxCost(0.005);
+    } else if (name === 'outage') {
+      setPrompt('What is the capital of France?');
+      setMaxCost(0.005);
+      setMaxLatency(1000);
+      setMinCapability(0.35);
+      try {
+        await api.setChaos({ model_id: 'llama-3.2-1b', kill_switch: true });
+        await fetchModels();
+        alert('Chaos Injected: Llama 3.2 1B kill switch activated! Now click Route Request.');
+      } catch (e: any) {
+        console.error(e);
+      }
+    }
+  };
+
+  const handleUpdateChaos = async (modelId: string, addLatency: number, errorRate: number, killSwitch: boolean) => {
+    try {
+      await api.setChaos({
+        model_id: modelId,
+        add_latency_ms: addLatency,
+        error_rate: errorRate,
+        kill_switch: killSwitch,
+      });
+      await fetchModels();
+    } catch (e: any) {
+      alert(`Update chaos failed: ${e.message}`);
+    }
+  };
+
+  const handleResetChaos = async () => {
+    try {
+      await api.resetChaos();
+      await fetchModels();
+      await fetchHealth();
+      alert('All chaos injections and circuit breakers have been reset to default state.');
+    } catch (e: any) {
+      alert(`Reset chaos failed: ${e.message}`);
+    }
+  };
+
+  const handleRunBenchmark = async () => {
+    setBenchLoading(true);
+    try {
+      const data = await api.runBenchmarkComparison(30);
+      setBenchmarkData(data);
+    } catch (e: any) {
+      alert(`Benchmark error: ${e.message}`);
+    } finally {
+      setBenchLoading(false);
+    }
+  };
+
+  const handleVerifyChain = async () => {
+    try {
+      const data = await api.verifyChain();
+      if (data.valid) {
+        alert(`✅ SHA-256 HASH CHAIN VERIFIED!\n${data.message}`);
+      } else {
+        alert(`🚨 TAMPERING DETECTED!\n${data.message}`);
+      }
+    } catch (e: any) {
+      alert(`Chain verification failed: ${e.message}`);
+    }
+  };
+
+  const handleClearDb = async () => {
+    if (confirm('Are you sure you want to clear all cryptographic audit logs?')) {
+      try {
+        await api.clearAudit();
+        await fetchAudit();
+        await fetchHealth();
+      } catch (e: any) {
+        alert(`Clear DB failed: ${e.message}`);
+      }
+    }
+  };
+
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-100">
-      {/* Header */}
-      <header className="border-b border-slate-800 bg-slate-900/80 backdrop-blur sticky top-0 z-50">
-        <div className="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
-          <div className="flex items-center space-x-3">
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-indigo-600 to-violet-500 flex items-center justify-center font-black text-xl shadow-lg">
-              RQ
-            </div>
-            <div>
-              <div className="flex items-center space-x-2">
-                <span className="font-bold text-lg text-white">RouteIQ</span>
-                <span className="text-xs px-2 py-0.5 rounded-full bg-indigo-500/10 text-indigo-400 border border-indigo-500/20 font-mono">
-                  v1.0 (VORTEXA 3.0)
-                </span>
-              </div>
-              <p className="text-xs text-slate-400">Rules decide. AI only advises.</p>
-            </div>
-          </div>
+    <div className="min-h-screen bg-slate-950 text-slate-100 font-sans selection:bg-indigo-500 selection:text-white">
+      <Header
+        activeTab={activeTab}
+        setActiveTab={(tab) => {
+          setActiveTab(tab);
+          if (tab === 'chaos') fetchModels();
+          if (tab === 'audit') fetchAudit();
+        }}
+        violations={violations}
+        totalAudits={totalAudits}
+        onResetChaos={handleResetChaos}
+      />
 
-          <div className="flex items-center space-x-3">
-            <div className="flex items-center space-x-2 px-3 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-xs font-semibold">
-              <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
-              <span>Violations: {violations} of {totalAudits}</span>
-            </div>
-          </div>
-        </div>
-
-        {/* Tabs */}
-        <div className="max-w-7xl mx-auto px-4 flex space-x-1 border-t border-slate-800/60 text-sm">
-          {(['gateway', 'decision', 'chaos', 'benchmark', 'audit'] as const).map(tab => (
-            <button
-              key={tab}
-              onClick={() => {
-                setActiveTab(tab);
-                if (tab === 'chaos') fetchModels();
-                if (tab === 'audit') fetchAudit();
-              }}
-              className={`px-4 py-2.5 font-medium border-b-2 transition ${
-                activeTab === tab
-                  ? 'border-indigo-500 text-indigo-400'
-                  : 'border-transparent text-slate-400 hover:text-slate-200'
-              }`}
-            >
-              {tab === 'gateway' && '⚡ Live Gateway'}
-              {tab === 'decision' && '🔍 "Why Not This Model?"'}
-              {tab === 'chaos' && '💥 Judge Chaos Studio'}
-              {tab === 'benchmark' && '📊 Workload Benchmark'}
-              {tab === 'audit' && '🛡️ Cryptographic Ledger'}
-            </button>
-          ))}
-        </div>
-      </header>
-
-      {/* Main Body */}
-      <main className="max-w-7xl mx-auto px-4 py-6">
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-6">
         {activeTab === 'gateway' && (
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-            <div className="lg:col-span-5 bg-slate-900 border border-slate-800 rounded-xl p-5 space-y-4">
-              <h2 className="font-bold text-white">Route Request</h2>
-              <textarea
-                rows={3}
-                value={prompt}
-                onChange={e => setPrompt(e.target.value)}
-                className="w-full bg-slate-950 border border-slate-800 rounded-lg p-3 text-sm focus:outline-none focus:border-indigo-500"
-              />
-              <div>
-                <label className="text-xs text-slate-400">Max Latency: {maxLatency}ms</label>
-                <input
-                  type="range"
-                  min="100"
-                  max="2500"
-                  step="50"
-                  value={maxLatency}
-                  onChange={e => setMaxLatency(Number(e.target.value))}
-                  className="w-full accent-indigo-500"
-                />
-              </div>
-              <div>
-                <label className="text-xs text-slate-400">Max Cost: ${maxCost.toFixed(5)}</label>
-                <input
-                  type="range"
-                  min="0.0001"
-                  max="0.02"
-                  step="0.0001"
-                  value={maxCost}
-                  onChange={e => setMaxCost(Number(e.target.value))}
-                  className="w-full accent-emerald-500"
-                />
-              </div>
-              <div>
-                <label className="text-xs text-slate-400">Min Capability: {minCapability.toFixed(2)}</label>
-                <input
-                  type="range"
-                  min="0.0"
-                  max="1.0"
-                  step="0.05"
-                  value={minCapability}
-                  onChange={e => setMinCapability(Number(e.target.value))}
-                  className="w-full accent-violet-500"
-                />
-              </div>
-              <button
-                onClick={handleRoute}
-                disabled={loading}
-                className="w-full py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 font-semibold text-white shadow-lg transition"
-              >
-                {loading ? 'Evaluating...' : 'Route Request'}
-              </button>
+          <>
+            <GatewayPlayground
+              prompt={prompt}
+              setPrompt={setPrompt}
+              maxLatency={maxLatency}
+              setMaxLatency={setMaxLatency}
+              maxCost={maxCost}
+              setMaxCost={setMaxCost}
+              minCapability={minCapability}
+              setMinCapability={setMinCapability}
+              requiredContext={requiredContext}
+              setRequiredContext={setRequiredContext}
+              preference={preference}
+              setPreference={setPreference}
+              loading={loading}
+              response={response}
+              onRoute={handleRoute}
+              onApplyPreset={handleApplyPreset}
+            />
+            {response && <EstimatorMetrics response={response} />}
+            <div className="pt-4 border-t border-slate-800">
+              <h3 className="text-xs uppercase font-bold tracking-wider text-slate-400 mb-3">
+                Registered Inference Models
+              </h3>
+              <ModelCards models={models} />
             </div>
+          </>
+        )}
 
-            <div className="lg:col-span-7 bg-slate-900 border border-slate-800 rounded-xl p-5 space-y-4">
-              <div className="flex justify-between items-center border-b border-slate-800 pb-3">
-                <span className="font-bold text-indigo-400">
-                  {response?.chosen_model || (response?.no_valid_model ? 'REFUSED (No Valid Model)' : 'Standby')}
-                </span>
-                <span className="text-xs font-mono text-slate-400">
-                  {response ? `${response.actual_metrics.total_latency_ms}ms • $${response.actual_metrics.total_cost_usd.toFixed(6)}` : ''}
-                </span>
-              </div>
-              <div className="bg-slate-950 border border-slate-800/80 rounded-lg p-4 font-mono text-xs whitespace-pre-wrap min-h-[140px]">
-                {response ? response.response_text : 'Configure constraints and run a route test.'}
-              </div>
-            </div>
-          </div>
+        {activeTab === 'decision' && <DecisionMatrix response={response} />}
+
+        {activeTab === 'chaos' && (
+          <ChaosPanel
+            models={models}
+            onUpdateChaos={handleUpdateChaos}
+            onResetChaos={handleResetChaos}
+          />
+        )}
+
+        {activeTab === 'benchmark' && (
+          <WorkloadComparison
+            data={benchmarkData}
+            loading={benchLoading}
+            onRunBenchmark={handleRunBenchmark}
+          />
+        )}
+
+        {activeTab === 'audit' && (
+          <AuditorLiveFeed
+            records={auditRecords}
+            onVerifyChain={handleVerifyChain}
+            onClearDb={handleClearDb}
+          />
         )}
       </main>
     </div>
