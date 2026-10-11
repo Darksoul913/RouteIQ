@@ -14,7 +14,7 @@ class IndependentAuditor:
         now_str = datetime.datetime.now(datetime.timezone.utc).isoformat()
 
         # If system returned structured refusal, check if it's compliant
-        if actuals.get("no_valid_model", False):
+        if actuals.get("no_valid_model", False) or actuals.get("status") == "REFUSED_NO_VALID_MODEL":
             return {
                 "compliant": True,
                 "violations": [],

@@ -2,6 +2,7 @@ import json
 import time
 import os
 import sys
+import datetime
 from pathlib import Path
 from http.server import HTTPServer, BaseHTTPRequestHandler
 from socketserver import ThreadingMixIn
@@ -74,7 +75,10 @@ def handle_route_request(req_data: Dict[str, Any]) -> Dict[str, Any]:
     req_dict = route_req.model_dump() if hasattr(route_req, "model_dump") else route_req.dict()
     resp_dict = response.model_dump() if hasattr(response, "model_dump") else response.dict()
 
-    audit_verdict = IndependentAuditor.audit_record(req_dict, resp_dict.get("actual_metrics", {}))
+    actuals_for_audit = dict(resp_dict.get("actual_metrics", {}))
+    actuals_for_audit["no_valid_model"] = resp_dict.get("no_valid_model", False)
+
+    audit_verdict = IndependentAuditor.audit_record(req_dict, actuals_for_audit)
     response.auditor = audit_verdict
     resp_dict["auditor"] = audit_verdict
 
@@ -336,8 +340,9 @@ class RouteIQHandler(BaseHTTPRequestHandler):
         if path == "/route":
             try:
                 resp = handle_route_request(req_data)
-                status_code = 200
-                self._send_json(status_code, resp)
+                self._send_json(200, resp)
+            except ValueError as ve:
+                self._send_json(400, {"error": str(ve)})
             except Exception as e:
                 self._send_json(500, {"error": str(e)})
 
@@ -375,6 +380,100 @@ class RouteIQHandler(BaseHTTPRequestHandler):
     def log_message(self, format, *args):
         # Concise logging
         sys.stderr.write(f"[{self.log_date_time_string()}] {self.address_string()} {format % args}\n")
+
+try:
+    from fastapi import FastAPI, Request
+    from fastapi.responses import JSONResponse, HTMLResponse
+    from fastapi.middleware.cors import CORSMiddleware
+
+    app = FastAPI(title="RouteIQ Gateway", version="1.0.0")
+    app.add_middleware(
+        CORSMiddleware,
+        allow_origins=["*"],
+        allow_credentials=True,
+        allow_methods=["*"],
+        allow_headers=["*"],
+    )
+
+    @app.post("/route")
+    async def api_route(req: Dict[str, Any]):
+        return handle_route_request(req)
+
+    @app.get("/health")
+    async def api_health():
+        violations, total = AUDIT_DB.get_violation_counts()
+        return {
+            "status": "ok",
+            "service": "RouteIQ AI Gateway",
+            "version": "1.0.0",
+            "models_registered": len(MODELS_REGISTRY),
+            "auditor_violations": violations,
+            "total_audited_requests": total,
+            "genesis_hash": AUDIT_DB.verify_chain_integrity().get("valid", True)
+        }
+
+    @app.get("/models")
+    async def api_models():
+        models_list = []
+        for m in MODELS_REGISTRY:
+            m_id = m["id"]
+            cb = CIRCUIT_BREAKERS.get(m_id)
+            ch = CHAOS_MANAGER.get_chaos(m_id)
+            stats = TELEMETRY_STORE.get_stats(m_id)
+            models_list.append({
+                **m,
+                "circuit_breaker": cb.get_info() if cb else {},
+                "chaos": ch,
+                "telemetry": stats
+            })
+        return models_list
+
+    @app.post("/chaos")
+    async def api_chaos(data: Dict[str, Any]):
+        model_id = data.get("model_id")
+        CHAOS_MANAGER.set_chaos(
+            model_id=model_id,
+            add_latency_ms=data.get("add_latency_ms", 0.0),
+            kill_switch=data.get("kill_switch", False),
+            error_rate=data.get("error_rate", 0.0)
+        )
+        return {"status": "updated", "chaos": CHAOS_MANAGER.get_chaos(model_id)}
+
+    @app.post("/chaos/reset")
+    async def api_chaos_reset():
+        CHAOS_MANAGER.reset_all()
+        for cb in CIRCUIT_BREAKERS.values():
+            cb.reset()
+        return {"status": "all chaos and circuit breakers reset"}
+
+    @app.get("/audit")
+    async def api_audit():
+        records = AUDIT_DB.get_audit_records(limit=100)
+        violations, total = AUDIT_DB.get_violation_counts()
+        chain_status = AUDIT_DB.verify_chain_integrity()
+        return {
+            "total_records": total,
+            "violations_count": violations,
+            "chain_valid": chain_status["valid"],
+            "chain_status": chain_status,
+            "records": records
+        }
+
+    @app.get("/audit/verify")
+    async def api_audit_verify():
+        return AUDIT_DB.verify_chain_integrity()
+
+    @app.post("/audit/clear")
+    async def api_audit_clear():
+        AUDIT_DB.clear()
+        return {"status": "audit database cleared"}
+
+    @app.post("/benchmark/compare")
+    async def api_benchmark(data: Dict[str, Any] = None):
+        count = int((data or {}).get("count", 30))
+        return run_workload_comparison(num_requests=count)
+except ImportError:
+    app = None
 
 def run_server(host: str = "0.0.0.0", port: int = 8000):
     server = ThreadedHTTPServer((host, port), RouteIQHandler)

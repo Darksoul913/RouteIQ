@@ -76,7 +76,8 @@ class ResilientExecutor:
         prompt: str,
         timeout_sec: float,
         injected_lat_ms: float = 0.0,
-        simulate_delay: bool = True
+        simulate_delay: bool = True,
+        expected_output_tokens: int = 150
     ) -> Tuple[str, int, int, float, str]:
         """
         Deterministic offline model simulator with calibrated latencies.
@@ -96,7 +97,8 @@ class ResilientExecutor:
             time.sleep(min(target_sleep_sec * 0.05, 0.02))
 
         tokens_in = max(10, len(prompt.split()) * 2)
-        tokens_out = min(model["context_window"] - tokens_in, 120)
+        max_allowed_by_ctx = max(5, model["context_window"] - tokens_in)
+        tokens_out = min(max_allowed_by_ctx, max(5, int(expected_output_tokens)))
 
         # Content generation reflecting model capability
         cap = model["capability_score"]
@@ -202,7 +204,9 @@ class ResilientExecutor:
                 else:
                     # Deterministic offline model simulator
                     resp_text, tokens_in, tokens_out, sim_lat_ms, badge = self._simulate_model_call(
-                        m_config, request.prompt, allocated_timeout_sec, injected_lat, simulate_delay=simulate_delay
+                        m_config, request.prompt, allocated_timeout_sec, injected_lat,
+                        simulate_delay=simulate_delay,
+                        expected_output_tokens=expected_output_tokens
                     )
                     call_elapsed_ms = sim_lat_ms
 
@@ -227,7 +231,8 @@ class ResilientExecutor:
                     "model_capability": m_config["capability_score"],
                     "model_context": m_config["context_window"],
                     "badge": badge,
-                    "status": "SUCCESS"
+                    "status": "SUCCESS",
+                    "no_valid_model": False
                 }
 
                 # Evaluate all models for the full decision audit table
@@ -259,10 +264,12 @@ class ResilientExecutor:
                 )
 
             except Exception as exc:
-                if is_live_ollama:
+                if isinstance(exc, TimeoutError):
+                    call_elapsed_ms = min(float(m_config["base_latency_ms"] + injected_lat), allocated_timeout_sec * 1000.0)
+                elif is_live_ollama:
                     call_elapsed_ms = (time.perf_counter() - call_start) * 1000.0
                 else:
-                    call_elapsed_ms = float(m_config["base_latency_ms"] + injected_lat)
+                    call_elapsed_ms = min(float(m_config["base_latency_ms"] + injected_lat), max(allocated_timeout_sec * 1000.0, 10.0))
 
                 cb = self.circuit_breakers.get(m_id)
                 if cb:
@@ -312,7 +319,8 @@ class ResilientExecutor:
                 "model_capability": 0.0,
                 "model_context": 0,
                 "badge": "[RULE_ENFORCED]",
-                "status": "REFUSED_NO_VALID_MODEL"
+                "status": "REFUSED_NO_VALID_MODEL",
+                "no_valid_model": True
             },
             auditor={},
             timestamp=timestamp_str

@@ -2,6 +2,7 @@ import json
 import sqlite3
 import hashlib
 import threading
+from contextlib import contextmanager
 from pathlib import Path
 from typing import Dict, Any, List, Optional, Tuple
 
@@ -20,10 +21,14 @@ class AuditDatabase:
         self.db_path.parent.mkdir(parents=True, exist_ok=True)
         self._init_db()
 
-    def _get_connection(self) -> sqlite3.Connection:
+    @contextmanager
+    def _get_connection(self):
         conn = sqlite3.connect(str(self.db_path), check_same_thread=False)
         conn.row_factory = sqlite3.Row
-        return conn
+        try:
+            yield conn
+        finally:
+            conn.close()
 
     def _init_db(self):
         with self._lock, self._get_connection() as conn:
@@ -192,4 +197,8 @@ class AuditDatabase:
     def clear(self):
         with self._lock, self._get_connection() as conn:
             conn.execute("DELETE FROM audit_logs")
+            try:
+                conn.execute("DELETE FROM sqlite_sequence WHERE name = 'audit_logs'")
+            except sqlite3.OperationalError:
+                pass
             conn.commit()
